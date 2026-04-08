@@ -1707,8 +1707,153 @@ form: uppercase;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   FREUNDE — Samuel & Mitja photo
+   ADDRESS LOCK / LOCATIONS
 ══════════════════════════════════════════════════════════ */
+
+.hidden {
+  display: none !important;
+}
+
+.location-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(57, 255, 20, 0.1);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  transition: all 0.3s var(--ease);
+}
+
+.location-card:hover {
+  border-color: var(--acid);
+  box-shadow: 0 0 25px var(--acid-soft);
+}
+
+.location-name {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--acid);
+  margin-bottom: var(--space-xs);
+}
+
+.location-address {
+  font-size: 0.9rem;
+  color: var(--text-bright);
+  margin-bottom: 4px;
+}
+
+.location-address.locked {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.addr-locked-msg {
+  opacity: 0.7;
+}
+
+.location-detail {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+  font-style: italic;
+}
+
+.location-detail.locked-detail {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+  font-style: italic;
+}
+
+.addr-reveal-btn {
+  margin-top: var(--space-xs);
+}
+
+/* ─── ADDRESS GATE ─── */
+
+.addr-gate {
+  margin-top: var(--space-lg);
+  padding: var(--space-lg);
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 149, 0, 0.2);
+  border-radius: var(--radius-md);
+  text-align: center;
+  max-width: 460px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.addr-gate.unlocked {
+  border-color: rgba(57, 255, 20, 0.3);
+}
+
+.addr-gate.unlocked .addr-gate-label {
+  color: var(--acid);
+}
+
+.addr-gate-label {
+  font-family: var(--font-head);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.addr-gate-input-row {
+  display: flex;
+  gap: var(--space-xs);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.addr-password-input {
+  background: var(--bg-surface);
+  border: 1px solid rgba(255, 149, 0, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 1rem;
+  color: var(--text-bright);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  min-width: 200px;
+}
+
+.addr-password-input:focus {
+  border-color: var(--amber);
+  box-shadow: 0 0 10px rgba(255, 149, 0, 0.15);
+}
+
+.addr-unlock-btn {
+  flex-shrink: 0;
+}
+
+.addr-gate-error {
+  color: #ff4444;
+  font-size: 0.82rem;
+  margin-top: var(--space-xs);
+}
+
+.addr-gate-hint {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: var(--space-sm);
+  margin-bottom: 0;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX(8px); }
+  60%       { transform: translateX(-5px); }
+  80%       { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.4s ease;
+}
 
 .freunde {
   background: transparent;
