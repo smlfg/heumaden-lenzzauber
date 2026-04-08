@@ -1,0 +1,49 @@
+AUE WEBSITE für [PROJEKT-NAME]
+
+   ## Konzept
+   Persönliche Projekt-Website im Stil eines hochwertigen Print-Magazins — nicht Portfolio, nicht Dashboard.
+   Eher wie ein privates Journal das man gefunden hat.
+
+   ## Design-Referenz (EXAKT diesen Stil nehmen)
+   Lies und analysiere DIESE Dateien als Referenz:
+   - /home/smlflg/.agent/diagrams/analyses/chatgpt-nutzung-samuel.html (PRIMÄRE REFERENZ)
+   - /home/smlflg/.agent/diagrams/architecture/agent-swarm-live.html
+   - /home/smlflg/Projekte/AgentArena/docs/architecture.html
+
+   Aber vom Style her diesmal eher wie GOA BASE RE DESIGN (da hatte ich mal ein Projekt) findest du sicher, PATH kenne ich nicht!
+
+   Wichtig am Referenz-Stil:
+   - Warme, persönliche Atmosphäre
+   - Instrument Serif für Headlines, JetBrains Mono für Code, DM Sans für Body
+   - Keine dunklen Dashboard-Farben — warmer Hintergrund (#faf8f5 oder ähnlich)
+   - Quotes als elegante Subheadlines, NICHT als schwere Boxen
+   - Soft Shadows, keine harten Border
+   - fadeUp Animationen auf Karten
+   - Radiale Gradient-Atmosphäre im Background
+
+   ## Design Tokens (SELBST EXTRAHIEREN aus der Referenz)
+   Die Referenz-Website definiert Farben, Fonts, Spacing. EXTRAHIERE diese Werte und WENDE SIE AN — kopiere
+   nicht einfach die CSS-Datei.
+
+   ## Content-Arbeit (WICHTIG)
+   1. LIES zuerst alle Projekt-Dokumente (.md, .txt, README etc.)
+   2. FINDE die philosophischen Sätze — nicht Features, nicht Tech-Specs, sondern Sätze die zeigen WIE der
+   Projektersteller über das Projekt denkt
+   3. Verwende DIESE echten Zitate, nicht generisches Gelaber
+
+   ## Ton
+   - Persönlich, ehrlich, manchmal selbstkritisch
+   - KEIN Marketing-Sprech: nicht "innovative", "cutting-edge", "powerful"
+   - Direkt wie jemand der sein eigenes Zeug dokumentiert
+
+   ## Workflow
+   1. Lies alle Projekt-Dokumente
+   2. Extrahiere Design Tokens aus der Referenz
+   3. Erstelle index.html MITTLERWEILE du die echten Zitate und Content verwendest
+   4. Baue nichts was du nicht aus den Docs belegen kannst
+
+   ## Was ich erwarte
+   - Eine Website die sich anfühlt wie ein privates Dokument, nicht wie ein Product-Launch
+   - Echte Zitate aus dem Projekt, nicht ausgedachte
+   - Design das der Referenz folgt aber nicht kopiert
+   ```
