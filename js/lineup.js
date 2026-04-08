@@ -49,6 +49,47 @@ if (sectionJump) {
   });
 }
 
+// ─── Support CTA helpers ───
+const paypalCopyBtn = document.getElementById('paypal-copy-btn');
+
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const helper = document.createElement('textarea');
+  helper.value = text;
+  helper.setAttribute('readonly', '');
+  helper.style.position = 'absolute';
+  helper.style.left = '-9999px';
+  document.body.appendChild(helper);
+  helper.select();
+  document.execCommand('copy');
+  helper.remove();
+}
+
+if (paypalCopyBtn) {
+  paypalCopyBtn.addEventListener('click', async () => {
+    const paypalEmail = paypalCopyBtn.dataset.paypalEmail;
+    const defaultLabel = paypalCopyBtn.dataset.defaultLabel || 'PayPal-Adresse kopieren';
+    const successLabel = paypalCopyBtn.dataset.successLabel || 'Adresse kopiert';
+
+    if (!paypalEmail) return;
+
+    try {
+      await copyText(paypalEmail);
+      paypalCopyBtn.textContent = successLabel;
+    } catch (error) {
+      paypalCopyBtn.textContent = paypalEmail;
+    }
+
+    window.setTimeout(() => {
+      paypalCopyBtn.textContent = defaultLabel;
+    }, 1800);
+  });
+}
+
 // ─── Address Gate ───
 // Password: Mitja Ziegler (full name, case-insensitive)
 const CORRECT_PASSWORD = 'mitja ziegler';
