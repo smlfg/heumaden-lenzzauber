@@ -34,6 +34,13 @@
   --amber: #ff9500;
   --amber-glow: rgba(255, 149, 0, 0.25);
 
+  /* Psychedelic overlay tuning */
+  --psy-spiral-opacity: 0.18;
+  --psy-spiral-blur: 7px;
+  --psy-spiral-saturation: 1.24;
+  --psy-spiral-scale: 0.98;
+  --psy-spiral-blend: screen;
+
   /* Text */
   --text-bright: #f0fff0;
   --text-body: #c8e6c8;
@@ -85,15 +92,39 @@ body {
   overflow-x: hidden;
 }
 
-/* Noise grain overlay */
+/* Atmospheric spiral overlay */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    radial-gradient(ellipse 80% 60% at 20% 10%, var(--acid-soft) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 80% 90%, var(--violet-soft) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 50% at 50% 50%, var(--cyan-soft) 0%, transparent 60%);
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.13) 0 4.8%, transparent 22%),
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      transparent 0 3.4%,
+      rgba(255, 255, 255, 0.11) 3.4% 4.55%,
+      transparent 4.55% 7.3%
+    ),
+    conic-gradient(
+      from 210deg at 50% 50%,
+      rgba(255, 82, 173, 0.72) 0deg,
+      rgba(255, 167, 55, 0.52) 58deg,
+      rgba(215, 255, 92, 0.44) 112deg,
+      rgba(56, 246, 150, 0.46) 168deg,
+      rgba(0, 245, 255, 0.58) 224deg,
+      rgba(133, 120, 255, 0.54) 286deg,
+      rgba(255, 82, 173, 0.72) 360deg
+    ),
+    radial-gradient(ellipse 78% 62% at 18% 12%, rgba(57, 255, 20, 0.11) 0%, transparent 55%),
+    radial-gradient(ellipse 62% 84% at 82% 88%, rgba(191, 0, 255, 0.11) 0%, transparent 58%),
+    radial-gradient(ellipse 58% 58% at 50% 50%, rgba(0, 245, 255, 0.1) 0%, transparent 62%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: calc(100vmax * var(--psy-spiral-scale)) calc(100vmax * var(--psy-spiral-scale));
+  opacity: var(--psy-spiral-opacity);
+  filter: blur(var(--psy-spiral-blur)) saturate(var(--psy-spiral-saturation));
+  mix-blend-mode: var(--psy-spiral-blend);
+  transform: translateZ(0) scale(1.02);
   pointer-events: none;
   z-index: 0;
 }
@@ -3489,7 +3520,6 @@ section h2,
 #infos h2,
 #community h2,
 #orte h2,
-#faq h2,
 #reviews h2,
 #einkauf h2 {
   background: linear-gradient(
@@ -3505,6 +3535,38 @@ section h2,
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: section-grad-shift 12s linear infinite;
+}
+
+/* FAQ — soft warm amber, gentle shimmer, no sync with the rest */
+#faq h2 {
+  background: linear-gradient(
+    90deg,
+    #c8a878 0%,
+    #e8c98a 35%,
+    #f0d9a8 50%,
+    #c8a878 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: faq-soft-shimmer 20s ease-in-out infinite;
+}
+
+@keyframes faq-soft-shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* FAQ item questions — soft warm, no aggressive cycling */
+.faq-item h3 {
+  background: linear-gradient(90deg, #d4b483 0%, #f0d9a8 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: faq-soft-shimmer 20s ease-in-out infinite;
 }
 
 @keyframes section-grad-shift {
