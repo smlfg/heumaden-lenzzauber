@@ -608,13 +608,42 @@ p {
   transition: opacity 0.3s;
 }
 
+/* animated gradient border on hover */
+.whatis-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    90deg,
+    var(--acid) 0%,
+    var(--cyan) 35%,
+    var(--violet) 65%,
+    var(--acid) 100%
+  );
+  background-size: 300% 100%;
+  opacity: 0;
+  z-index: -1;
+  animation: border-trip 4s linear infinite;
+  transition: opacity 0.3s;
+}
+
+@keyframes border-trip {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
 .whatis-card:hover {
-  border-color: var(--acid);
-  box-shadow: 0 0 20px var(--acid-glow), inset 0 0 20px var(--acid-soft);
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(57,255,20,0.2), 0 0 48px rgba(0,245,255,0.1);
   transform: translateY(-2px);
 }
 
 .whatis-card:hover::before {
+  opacity: 1;
+}
+
+.whatis-card:hover::after {
   opacity: 1;
 }
 
@@ -954,12 +983,36 @@ p {
   border-radius: var(--radius-md);
   padding: var(--space-sm);
   transition: all 0.3s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    90deg,
+    var(--amber) 0%,
+    var(--violet) 50%,
+    var(--amber) 100%
+  );
+  background-size: 300% 100%;
+  opacity: 0;
+  z-index: -1;
+  animation: border-trip 7s ease infinite;
+  transition: opacity 0.3s;
 }
 
 .info-card:hover {
-  border-color: rgba(255, 149, 0, 0.3);
-  box-shadow: 0 0 12px rgba(255, 149, 0, 0.08);
+  border-color: transparent;
+  box-shadow: 0 0 16px rgba(255,149,0,0.15);
   transform: none;
+}
+
+.info-card:hover::after {
+  opacity: 0.8;
 }
 
 .info-header {
@@ -1597,6 +1650,30 @@ p {
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   overflow: hidden;
+  position: relative;
+}
+
+.community-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    135deg,
+    var(--violet) 0%,
+    var(--cyan) 33%,
+    var(--acid) 66%,
+    var(--violet) 100%
+  );
+  background-size: 400% 400%;
+  opacity: 0;
+  z-index: -1;
+  animation: border-trip 8s ease infinite;
+  transition: opacity 0.4s;
+}
+
+.community-card:hover::after {
+  opacity: 0.6;
 }
 
 @media (min-width: 640px) {
@@ -2132,11 +2209,36 @@ section {
   border-radius: var(--radius-md);
   margin-bottom: 0.45rem;
   transition: all 0.2s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.act-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    90deg,
+    var(--amber) 0%,
+    var(--acid) 40%,
+    var(--cyan) 70%,
+    var(--amber) 100%
+  );
+  background-size: 400% 100%;
+  opacity: 0;
+  z-index: -1;
+  animation: border-trip 6s linear infinite;
+  transition: opacity 0.25s;
 }
 
 .act-card:hover {
-  border-color: rgba(255, 149, 0, 0.2);
+  border-color: transparent;
   background: var(--bg-card-hover);
+}
+
+.act-card:hover::after {
+  opacity: 0.7;
 }
 
 .act-card--interactive {
@@ -2146,7 +2248,7 @@ section {
 .act-card--interactive:hover,
 .act-card--interactive:focus-visible,
 .act-card.is-open {
-  border-color: rgba(255, 149, 0, 0.32);
+  border-color: transparent;
   background: linear-gradient(180deg, rgba(255, 149, 0, 0.07), rgba(16, 24, 32, 0.92));
   box-shadow: 0 0 18px rgba(255, 149, 0, 0.08);
 }
@@ -2459,6 +2561,36 @@ section {
   border-radius: var(--radius-md);
   padding: var(--space-sm);
   padding-top: calc(var(--space-sm) - 0.15rem);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.faq-item::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    90deg,
+    var(--cyan) 0%,
+    var(--violet) 40%,
+    var(--acid) 70%,
+    var(--cyan) 100%
+  );
+  background-size: 400% 100%;
+  opacity: 0;
+  z-index: -1;
+  animation: border-trip 9s ease infinite;
+  transition: opacity 0.3s;
+}
+
+.faq-item:hover::after {
+  opacity: 0.5;
+}
+
+.faq-item:hover {
+  border-color: transparent;
 }
 
 .faq-item h3 {
