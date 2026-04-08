@@ -15,20 +15,61 @@ programmTabs.forEach(tab => {
   });
 });
 
-// ─── Line-up sub-tabs (Fr / Sa) ───
-const lineupSubTabs = document.querySelectorAll('.lineup-sub-tab');
-const lineupDays = document.querySelectorAll('.lineup-day');
+// ─── Weather bar (Friday only, Open-Meteo) ───
+const HEUMADEN_LAT = 48.74;
+const HEUMADEN_LON = 9.19;
+const EVENT_FRIDAY = '2026-04-24';
 
-lineupSubTabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    lineupSubTabs.forEach(t => t.classList.remove('active'));
-    lineupDays.forEach(d => d.classList.add('hidden'));
-    tab.classList.add('active');
-    const day = tab.dataset.day;
-    const target = document.getElementById(day);
-    if (target) target.classList.remove('hidden');
-  });
-});
+const weatherBar = document.getElementById('weather-bar');
+
+async function loadFridayWeather() {
+  if (!weatherBar) return;
+  try {
+    const url =
+      'https://api.open-meteo.com/v1/forecast' +
+      '?latitude=' + HEUMADEN_LAT +
+      '&longitude=' + HEUMADEN_LON +
+      '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum' +
+      '&timezone=Europe%2FBerlin&forecast_days=17';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Weather API error');
+    const data = await res.json();
+
+    const idx = data.daily.time.indexOf(EVENT_FRIDAY);
+    if (idx === -1) return; // event date not in forecast range
+
+    const code = data.daily.weather_code[idx];
+    const max = Math.round(data.daily.temperature_2m_max[idx]);
+    const min = Math.round(data.daily.temperature_2m_min[idx]);
+    const precip = data.daily.precipitation_sum[idx];
+
+    const icons = { clear: '☀️', partly: '⛅', cloudy: '☁️', fog: '🌫️', drizzle: '🌦️', rain: '🌧️', snow: '❄️', thunder: '⛈️', unknown: '?' };
+    const descs = {
+      0: ['Klar', 'clear'], 1: ['Leicht bewölkt', 'partly'], 2: ['Bewölkt', 'cloudy'],
+      3: ['Bedeckt', 'cloudly'], 45: ['Nebel', 'fog'], 48: ['Reifnebel', 'fog'],
+      51: ['Leichter Niesel', 'drizzle'], 53: ['Niesel', 'drizzle'], 55: ['Starker Niesel', 'drizzle'],
+      61: ['Leichter Regen', 'rain'], 63: ['Regen', 'rain'], 65: ['Starker Regen', 'rain'],
+      71: ['Leichter Schnee', 'snow'], 73: ['Schnee', 'snow'], 75: ['Starker Schnee', 'snow'],
+      95: ['Gewitter', 'thunder'], 96: ['Gewitter + Hagel', 'thunder'], 99: ['Gewitter + Hagel', 'thunder']
+    };
+    const [desc, key] = (descs[code] || ['???', 'unknown']);
+    const icon = icons[key] || '?';
+    const precipLine = precip > 0 ? ` · ${precip}mm Regen` : ' · kein Regen';
+
+    weatherBar.innerHTML =
+      '<span class="weather-bar-day">Fr · 24. Apr</span>' +
+      '<span class="weather-bar-icon">' + icon + '</span>' +
+      '<span class="weather-bar-temp">' + min + '–' + max + '°C</span>' +
+      '<span class="weather-bar-sep">·</span>' +
+      '<span class="weather-bar-desc">' + desc + precipLine + '</span>';
+    weatherBar.classList.remove('hidden');
+  } catch (e) {
+    // API failed — stay hidden
+  }
+}
+
+// Load weather after page is interactive
+window.setTimeout(loadFridayWeather, 1200);
 
 // ─── Quick section jump (mobile-friendly) ───
 const sectionJump = document.getElementById('section-jump');

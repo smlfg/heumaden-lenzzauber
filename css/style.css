@@ -1167,13 +1167,26 @@ p {
 ══════════════════════════════════════════════════════════ */
 
 .weather-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
   position: relative;
   z-index: 1;
   text-align: center;
-  padding: 0.75rem var(--space-md);
-  background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.05), transparent);
-  border-top: 1px solid rgba(0, 245, 255, 0.1);
-  border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+  padding: 0.6rem var(--space-md);
+  background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.06), transparent);
+  border-top: 1px solid rgba(0, 245, 255, 0.12);
+  border-bottom: 1px solid rgba(0, 245, 255, 0.12);
+  margin-bottom: 0.5rem;
+  border-radius: var(--radius-md);
+}
+
+.weather-bar-desc {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
 }
 
 .weather-bar-link {
@@ -2264,6 +2277,11 @@ section {
   padding: 0.8rem;
 }
 
+.wm-card--slushy {
+  border-color: rgba(0, 245, 255, 0.18);
+  background: linear-gradient(135deg, rgba(0, 245, 255, 0.05), rgba(255, 149, 0, 0.05));
+}
+
 .wm-icon {
   font-size: 1.4rem;
   flex-shrink: 0;
@@ -2321,6 +2339,47 @@ section {
   border-radius: var(--radius-md);
   padding: var(--space-md);
   margin-bottom: var(--space-md);
+}
+
+.help-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 149, 0, 0.18);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.help-callout--slushy {
+  background: linear-gradient(135deg, rgba(255, 149, 0, 0.08), rgba(0, 245, 255, 0.04));
+}
+
+.help-callout-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.help-callout-copy {
+  flex: 1;
+}
+
+.help-callout-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--amber);
+  margin-bottom: 0.22rem;
+}
+
+.help-callout-text {
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+  margin: 0;
 }
 
 .whatsapp-icon {
