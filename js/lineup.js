@@ -453,95 +453,34 @@ function updateDrinkCalculator() {
     `<p class="tool-result-note">${noteText}</p>`;
 }
 
-if (drinkResult) {
-  [drinkTypeSelect, drinkCustomInput, drinkThirstInput, drinkDurationInput, drinkShareInput].forEach(input => {
-    if (!input) return;
-    input.addEventListener('input', updateDrinkCalculator);
-    input.addEventListener('change', updateDrinkCalculator);
-  });
-  updateDrinkCalculator();
-}
-
-const bacWeightInput = document.getElementById('bac-weight');
-const bacFactorInput = document.getElementById('bac-factor');
-const bacDrinkTypeInput = document.getElementById('bac-drink-type');
-const bacCountInput = document.getElementById('bac-count');
-const bacHoursInput = document.getElementById('bac-hours');
-const bacResult = document.getElementById('bac-result');
-
-function updateBacCalculator() {
-  if (
-    !bacResult ||
-    !bacWeightInput ||
-    !bacFactorInput ||
-    !bacDrinkTypeInput ||
-    !bacCountInput ||
-    !bacHoursInput
-  ) {
-    return;
-  }
-
-  const weight = Number.parseFloat(bacWeightInput.value);
-  const factor = Number.parseFloat(bacFactorInput.value);
-  const count = Number.parseFloat(bacCountInput.value);
-  const hours = Number.parseFloat(bacHoursInput.value);
-
-  if (!Number.isFinite(weight) || !Number.isFinite(factor) || !Number.isFinite(count) || !Number.isFinite(hours)) {
-    return;
-  }
-
-  const gramsPerDrink = {
-    beer: 20,
-    wine: 19,
-    longdrink: 16,
-    shot: 13
-  };
-
-  const gramsAlcohol = count * (gramsPerDrink[bacDrinkTypeInput.value] || 16);
-  const rawPromille = gramsAlcohol / (weight * factor);
-  const reducedPromille = Math.max(0, rawPromille - (0.15 * hours));
-  const uncertainty = Math.max(0.08, reducedPromille * 0.15 + 0.05);
-  const low = Math.max(0, reducedPromille - uncertainty);
-  const high = reducedPromille + uncertainty;
-
-  let mainText = `Sehr grob geschätzt: etwa ${formatNumberRange(low)}–${formatNumberRange(high)} ‰.`;
-
-  if (reducedPromille < 0.05) {
-    mainText = 'Sehr grob geschätzt: irgendwo um 0,0 ‰ herum.';
-  }
-
-  bacResult.innerHTML =
-    `<p class="tool-result-main">${mainText}</p>` +
-    '<p class="tool-result-note">Bitte nur als Näherung lesen. Schlaf, Essen, Tempo, Tagesform und Ausschankrealität machen die Lage notorisch komplizierter.</p>';
-}
-
 if (bacResult) {
   [bacWeightInput, bacFactorInput, bacDrinkTypeInput, bacCountInput, bacHoursInput].forEach(input => {
     if (!input) return;
     input.addEventListener('input', updateBacCalculator);
     input.addEventListener('change', updateBacCalculator);
   });
-  updateBacCalculator();
+}
+
+if (document.querySelector('.act-card[data-sc-url]')) {
+  window.setTimeout(loadSoundCloudArtists, 500);
 }
 
 // ═══════════════════════════════════════════════════════════
-// COUNTDOWN OVERLAY
+// HERO COUNTDOWN
 // ═══════════════════════════════════════════════════════════
 const EVENT_START = new Date('2026-04-24T18:00:00+02:00');
-const overlay = document.getElementById('c-overlay');
-const enterBtn = document.getElementById('c-enter');
-const timerEl = document.getElementById('c-timer');
-const subEl = document.getElementById('c-sub');
+const hcDigits = document.getElementById('hc-digits');
 
 function pad(n) { return String(n).padStart(2, '0'); }
 
-function updateCountdown() {
+function updateHeroCountdown() {
   const now = new Date();
   const diff = EVENT_START - now;
 
+  if (!hcDigits) return;
+
   if (diff <= 0) {
-    timerEl.innerHTML = '<span class="c-time-val">00</span><span class="c-time-unit">Tag</span> <span class="c-time-val">00</span><span class="c-time-unit">Std</span> <span class="c-time-val">00</span><span class="c-time-unit">Min</span>';
-    subEl.textContent = 'Es ist soweit. Komm zu Hauf.';
+    hcDigits.textContent = '00 Tage 00 Std 00 Min';
     return;
   }
 
@@ -551,50 +490,14 @@ function updateCountdown() {
   const minutes = Math.floor((totalSec % 3600) / 60);
   const seconds = totalSec % 60;
 
-  // Show days only if ≥ 1
   if (days > 0) {
-    timerEl.innerHTML =
-      '<span class="c-time-val">' + pad(days) + '</span><span class="c-time-unit">Tag' + (days !== 1 ? 'e' : '') + '</span> ' +
-      '<span class="c-time-val">' + pad(hours) + '</span><span class="c-time-unit">Std</span> ' +
-      '<span class="c-time-val">' + pad(minutes) + '</span><span class="c-time-unit">Min</span>';
-    subEl.textContent = 'Noch ' + days + ' Tag' + (days !== 1 ? 'e' : '') + ' bis zum Lenzzauber.';
+    hcDigits.textContent = days + ' Tag' + (days !== 1 ? 'e' : '') + ' ' + pad(hours) + ' Std ' + pad(minutes) + ' Min';
   } else {
-    timerEl.innerHTML =
-      '<span class="c-time-val">' + pad(hours) + '</span><span class="c-time-unit">Std</span> ' +
-      '<span class="c-time-val">' + pad(minutes) + '</span><span class="c-time-unit">Min</span> ' +
-      '<span class="c-time-val">' + pad(seconds) + '</span><span class="c-time-unit">Sek</span>';
-    subEl.textContent = 'Der Countdown läuft. Bald bricht er los.';
+    hcDigits.textContent = pad(hours) + ' Std ' + pad(minutes) + ' Min ' + pad(seconds) + ' Sek';
   }
 }
 
-if (overlay && enterBtn) {
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
-  // already entered this session → skip overlay entirely
-  if (sessionStorage.getItem('lenzzauber-entert')) {
-    overlay.classList.add('faded');
-    overlay.setAttribute('aria-hidden', 'true');
-  } else {
-    // auto-fade: wait for page + images to load, max 3 s
-    let faded = false;
-    const doFade = () => {
-      if (faded) return;
-      faded = true;
-      overlay.classList.add('faded');
-      overlay.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
-      sessionStorage.setItem('lenzzauber-entert', '1');
-    };
-
-    if (document.readyState === 'complete') {
-      setTimeout(doFade, 1000);
-    } else {
-      window.addEventListener('load', () => setTimeout(doFade, 1000));
-      setTimeout(doFade, 3000); // safety max 3 s
-    }
-
-    enterBtn.addEventListener('click', () => { doFade(); });
-  }
+if (hcDigits) {
+  updateHeroCountdown();
+  setInterval(updateHeroCountdown, 1000);
 }

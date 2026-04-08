@@ -9,21 +9,17 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 </head>
 <body>
+  <!-- SVG noise filter for psychedelic grain effect -->
+  <svg class="svg-noise-filter" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noiseOut"/>
+      <feColorMatrix type="saturate" values="0" in="noiseOut" result="grayNoise"/>
+      <feBlend in="SourceGraphic" in2="grayNoise" mode="overlay" result="blend"/>
+      <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </svg>
 
   <!-- ═══════════════════════════════════ COUNTDOWN OVERLAY ═══════════════════════════════════ -->
-  <div class="c-overlay" id="c-overlay" aria-hidden="true">
-    <div class="c-center">
-      <div class="c-ritual-ring" aria-hidden="true">
-        <div class="c-ring-inner"></div>
-      </div>
-      <h1 class="c-title">Heumaden<br><span class="c-title-accent">Lenzzauber</span></h1>
-      <p class="c-prompt">Bist du bereit, den Lenzzauber zu betreten?</p>
-      <div class="c-timer" id="c-timer" aria-live="polite"></div>
-      <div class="c-sub" id="c-sub">Bald ist es soweit.</div>
-    </div>
-    <button class="c-enter" id="c-enter" type="button">Betreten</button>
-  </div>
-
   <!-- ═══════════════════════════════════ HERO ═══════════════════════════════════ -->
   <section class="hero" id="hero">
     <div class="hero-bg hero-bg--ritual" aria-hidden="true"></div>
@@ -35,6 +31,11 @@
       <a href="#was-ist-das" class="btn btn-violet">Was ist das?</a>
       <a href="#programm" class="btn">Programm</a>
       <a href="#orte" class="btn btn-amber">Wo?</a>
+    </div>
+    <div class="hero-countdown" id="hero-countdown" aria-live="polite">
+      <span class="hc-label">Noch</span>
+      <span class="hc-digits" id="hc-digits"></span>
+      <span class="hc-label">bis zum Lenzzauber</span>
     </div>
     <div class="scroll-indicator" aria-hidden="true">↓</div>
   </section>
@@ -415,7 +416,7 @@
               <span class="wm-time">17:00</span>
             </div>
             <p class="wm-desc">Mit anpacken — vom Anzünden bis zum Wendemanöver.</p>
-            <p class="wm-material">💡 <strong>Was mitbringen:</strong> Grillgut, Kohle, Anzünder</p>
+            <p class="wm-material">💡 <strong>Was mitbringen:</strong> Grillgut, Soßen, Brot, Salat, </p>
           </div>
         </div>
 
@@ -794,8 +795,9 @@
     <div class="tools-suite">
       <div class="tools-intro">
         <h3>Kleine Tools für die Selbstversorgung</h3>
-        <p>Kein Dashboard, keine Wissenschaft, nur zwei charmante Hilfen für alle, die ihren Vorrat halbwegs elegant planen wollen.</p>
+        <p>Kein Dashboard, keine Wissenschaft, nur eine charmante Hilfe für alle, die ihren Vorrat halbwegs elegant planen wollen.</p>
         <p class="tools-nonalc">Auch alkoholfrei lässt sich der Lenzzauber sehr würdig bestreiten.</p>
+        <p>Ich stehe bei Fragen rund um safer-use auch wieder gerne zur verfügung.</p>
       </div>
 
       <section class="tool-card tool-card--primary" aria-labelledby="drink-tool-title">
@@ -857,60 +859,6 @@
           <p class="tool-result-note">Charmante Näherung. Wenn der Kofferraum es hergibt, lieber einen Tick zu freundlich planen.</p>
         </div>
       </section>
-
-      <details class="tool-card tool-card--secondary promille-tool">
-        <summary>
-          <span>Promillerechner</span>
-          <span class="tool-summary-note">sehr grob</span>
-        </summary>
-
-        <div class="tool-secondary-body">
-          <p class="tool-copy">Kleine Näherung aus Neugier, nicht für heldenhafte Entscheidungen.</p>
-
-          <form class="tool-form tool-form--compact" id="bac-calculator" novalidate>
-            <label class="tool-field">
-              <span>Körpergewicht</span>
-              <input type="number" id="bac-weight" name="weight" min="35" max="250" step="1" value="75" inputmode="decimal">
-            </label>
-
-            <label class="tool-field">
-              <span>Biologische Kategorie / Faktor</span>
-              <select id="bac-factor" name="factor">
-                <option value="0.68" selected>eher maskulin · 0,68</option>
-                <option value="0.55">eher feminin · 0,55</option>
-                <option value="0.62">dazwischen / unklar · 0,62</option>
-              </select>
-            </label>
-
-            <label class="tool-field">
-              <span>Getränkeart</span>
-              <select id="bac-drink-type" name="bac-drink-type">
-                <option value="beer" selected>0,5 l Bier</option>
-                <option value="wine">0,2 l Wein</option>
-                <option value="longdrink">1 Longdrink</option>
-                <option value="shot">4 cl Shot</option>
-              </select>
-            </label>
-
-            <label class="tool-field">
-              <span>Anzahl</span>
-              <input type="number" id="bac-count" name="count" min="1" max="20" step="1" value="4" inputmode="numeric">
-            </label>
-
-            <label class="tool-field">
-              <span>Zeitraum in Stunden</span>
-              <input type="number" id="bac-hours" name="hours" min="0.5" max="24" step="0.5" value="4" inputmode="decimal">
-            </label>
-          </form>
-
-          <div class="tool-result tool-result--secondary" id="bac-result" aria-live="polite">
-            <p class="tool-result-main">Sehr grob geschätzt: etwa 0,5–0,7 ‰.</p>
-            <p class="tool-result-note">Bitte nur als Näherung lesen. Schlaf, Essen, Tempo und Tagesform machen die Realität notorisch komplizierter.</p>
-          </div>
-
-          <p class="tool-warning">Nicht als Grundlage fürs Fahren oder andere Risikoentscheidungen verwenden.</p>
-        </div>
-      </details>
     </div>
 
   </section>
