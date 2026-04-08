@@ -338,6 +338,7 @@ const drinkCustomInput = document.getElementById('drink-custom');
 const drinkThirstInput = document.getElementById('drink-thirst');
 const drinkDurationInput = document.getElementById('drink-duration');
 const drinkShareInput = document.getElementById('drink-share');
+const drinkCalcBtn = document.getElementById('drink-calc-btn');
 const drinkResult = document.getElementById('drink-result');
 
 function formatNumberRange(value) {
@@ -379,16 +380,17 @@ function describeDrinkRange(type, low, high, customText) {
 
 function getWaterRange(duration, thirst, shares) {
   const baseRanges = {
-    friday: [1.5, 2.2],
-    saturday: [1.5, 2.2],
-    both: [2.4, 3.6],
-    overnight: [3, 4.6]
+    friday: [2.2, 3.1],
+    saturday: [2, 2.9],
+    both: [2.7, 3.9],
+    overnight: [3.4, 4.8]
   };
   const thirstBoost = {
     leicht: 0,
-    normal: 0.25,
-    stabil: 0.6,
-    eskalativ: 1
+    normal: 0.45,
+    stabil: 0.85,
+    eskalativ: 1.35,
+    alkoholiker: 2
   };
 
   const range = baseRanges[duration] || baseRanges.both;
@@ -417,19 +419,20 @@ function updateDrinkCalculator() {
   }
 
   const thirstBase = {
-    leicht: 3,
-    normal: 5,
-    stabil: 7,
-    eskalativ: 9
+    leicht: 4,
+    normal: 7,
+    stabil: 10,
+    eskalativ: 13,
+    alkoholiker: 18
   };
   const durationMultiplier = {
-    friday: 1,
-    saturday: 0.95,
-    both: 1.8,
-    overnight: 2.15
+    friday: 1.15,
+    saturday: 1.05,
+    both: 2.1,
+    overnight: 2.45
   };
 
-  const shareMultiplier = shares ? 1.18 : 1;
+  const shareMultiplier = shares ? 1.28 : 1;
   const base = (thirstBase[thirst] || 5) * (durationMultiplier[duration] || 1.8) * shareMultiplier;
   const low = formatIntegerRange(base);
   const high = Math.max(low + 1, formatIntegerRange(base * 1.25));
@@ -448,17 +451,27 @@ function updateDrinkCalculator() {
     noteText = `Grobe Schätzung für ${customText}. Die genaue Wahrheit kennt wie immer nur die Nacht.`;
   }
 
+  if (thirst === 'alkoholiker') {
+    noteText = 'Sehr großzügig geplant. Wenn das bei dir nicht nur Selbstironie ist, schau bitte auch auf die Hilfelinks direkt über dem Rechner.';
+  }
+
   drinkResult.innerHTML =
     `<p class="tool-result-main">${mainText}</p>` +
     `<p class="tool-result-note">${noteText}</p>`;
 }
 
-if (bacResult) {
-  [bacWeightInput, bacFactorInput, bacDrinkTypeInput, bacCountInput, bacHoursInput].forEach(input => {
+if (drinkResult) {
+  [drinkTypeSelect, drinkThirstInput, drinkDurationInput, drinkShareInput].forEach(input => {
     if (!input) return;
-    input.addEventListener('input', updateBacCalculator);
-    input.addEventListener('change', updateBacCalculator);
+    input.addEventListener('change', updateDrinkCalculator);
   });
+  if (drinkCustomInput) {
+    drinkCustomInput.addEventListener('input', updateDrinkCalculator);
+  }
+  if (drinkCalcBtn) {
+    drinkCalcBtn.addEventListener('click', updateDrinkCalculator);
+  }
+  updateDrinkCalculator();
 }
 
 if (document.querySelector('.act-card[data-sc-url]')) {
