@@ -2963,6 +2963,48 @@ section {
   line-height: 1.4;
 }
 
+.community-rule--checkbox {
+  cursor: pointer;
+  user-select: none;
+}
+
+.community-rule--checkbox input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--acid);
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+  position: relative;
+  transition: background 0.15s;
+}
+
+.community-rule--checkbox input[type="checkbox"]:checked {
+  background: var(--acid);
+}
+
+.community-rule--checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 6px;
+  height: 10px;
+  border: 2px solid var(--bg);
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.community-rule--checkbox input[type="checkbox"]:checked ~ span:last-child {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
 /* ═══════════════════════════════════════════════════════════
    FREUNDE — Samuel & Mitja photo
 ══════════════════════════════════════════════════════════ */
