@@ -598,6 +598,21 @@ p {
   font-style: italic;
 }
 
+.slot-note .slot-link,
+.slot-link {
+  color: var(--violet);
+  font-style: normal;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+.slot-note .slot-link:hover,
+.slot-link:hover {
+  color: var(--text-bright);
+}
+
 .slot-tba {
   font-size: 0.85rem;
   color: var(--text-muted);
@@ -1419,6 +1434,90 @@ p {
   color: var(--text-muted);
   line-height: 1.6;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   SCHICHTPLAN / HELPING HANDS
+══════════════════════════════════════════════════════════ */
+
+.schichtplan {
+  background: transparent;
+}
+
+.schichtplan-intro {
+  max-width: 520px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--text-dim);
+  margin-bottom: var(--space-lg);
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.shift-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-sm);
+}
+
+@media (min-width: 580px) {
+  .shift-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.shift-day {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 149, 0, 0.1);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.shift-day-title {
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--amber);
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid rgba(255, 149, 0, 0.15);
+}
+
+.shift-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--space-sm);
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.shift-row:last-child {
+  border-bottom: none;
+}
+
+.shift-time {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--amber);
+  padding-top: 2px;
+}
+
+.shift-task {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.schichtplan-note {
+  margin-top: var(--space-md);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+}
   font-style: italic;
   color: var(--text-dim);
   line-height: 1.8;
@@ -1518,4 +1617,8 @@ section {
 
 .weather-section {
   animation-delay: 0.05s;
+}
+
+.schichtplan {
+  animation-delay: 0.22s;
 }
