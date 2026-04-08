@@ -120,100 +120,92 @@
 
     <div class="programm-tabs">
       <button class="programm-tab active" data-view="ablauf">Ablauf</button>
-      <button class="programm-tab" data-view="lineup">Line-up</button>
+      <button class="programm-tab" data-view="lineup-fr">Line-up Fr</button>
+      <button class="programm-tab" data-view="lineup-sa">Line-up Sa</button>
       <button class="programm-tab" data-view="workshops">Workshops</button>
       <button class="programm-tab" data-view="helfen">Helfen</button>
     </div>
 
     <!-- ── Ablauf (default) ── -->
     <div id="prog-ablauf" class="prog-view active-view">
+      <div class="programm-overview">
+        <div class="day-card day-card--friday">
+          <div class="day-card-header">
+            <span class="day-title">Freitag</span>
+            <span class="day-subtitle">Waldpfad · Outdoor</span>
+          </div>
+          <div class="slot">
+            <span class="slot-time">Mittags</span>
+            <div class="slot-content">
+              <span class="slot-event">Ankunft</span>
+            </div>
+          </div>
+          <div class="slot">
+            <span class="slot-time">Nachmittags</span>
+            <div class="slot-content">
+              <span class="slot-event">Grillen · Workshops · Spiele</span>
+            </div>
+          </div>
+          <div class="slot">
+            <span class="slot-time">Gegen Abend</span>
+            <div class="slot-content">
+              <span class="slot-event">Floor öffnet</span>
+            </div>
+          </div>
+          <div class="slot">
+            <span class="slot-time">Nacht</span>
+            <div class="slot-content">
+              <span class="slot-event">Der Wald ruft</span>
+              <span class="slot-detail">15 min Fußweg vom Haus</span>
+            </div>
+          </div>
+          <div class="slot">
+            <span class="slot-time">Bis Sonnenaufgang</span>
+            <div class="slot-content">
+              <span class="slot-event">Dunkel-psychedelische Klänge</span>
+            </div>
+          </div>
+        </div>
 
-      <div class="day-card">
-        <div class="day-card-header">
-          <span class="day-title">Freitag</span>
-          <span class="day-subtitle">Waldpfad · Outdoor</span>
-        </div>
-        <div class="slot">
-          <span class="slot-time">Mittags</span>
-          <div class="slot-content">
-            <span class="slot-event">Ankunft</span>
+        <div class="day-card day-card--saturday">
+          <div class="day-card-header">
+            <span class="day-title">Samstag</span>
+            <span class="day-subtitle">Haus &amp; Bunker · Indoor</span>
           </div>
-        </div>
-        <div class="slot">
-          <span class="slot-time">Nachmittags</span>
-          <div class="slot-content">
-            <span class="slot-event">Grillen · Workshops · Spiele</span>
+          <div class="slot">
+            <span class="slot-time">Morgen</span>
+            <div class="slot-content">
+              <span class="slot-event">Erholungspause</span>
+              <span class="slot-detail">Slushys, Essen, Abchillen</span>
+            </div>
           </div>
-        </div>
-        <div class="slot">
-          <span class="slot-time">Gegen Abend</span>
-          <div class="slot-content">
-            <span class="slot-event">Floor öffnet</span>
+          <div class="slot">
+            <span class="slot-time">Tagsüber</span>
+            <div class="slot-content">
+              <span class="slot-event">Schlafen im Haus</span>
+            </div>
           </div>
-        </div>
-        <div class="slot">
-          <span class="slot-time">Nacht</span>
-          <div class="slot-content">
-            <span class="slot-event">Der Wald ruft</span>
-            <span class="slot-detail">15 min Fußweg vom Haus</span>
+          <div class="slot">
+            <span class="slot-time">Abends</span>
+            <div class="slot-content">
+              <span class="slot-event">Weiter im bekannten Terrain</span>
+              <span class="slot-detail">Karaoke · Bierpong · Bunker</span>
+            </div>
           </div>
-        </div>
-        <div class="slot">
-          <span class="slot-time">Bis Sonnenaufgang</span>
-          <div class="slot-content">
-            <span class="slot-event">Dunkel-psychedelische Klänge</span>
+          <div class="slot">
+            <span class="slot-time">Nacht</span>
+            <div class="slot-content">
+              <span class="slot-event">Bounce-fetzige Klänge</span>
+              <span class="slot-detail">Tanz bis in die Puppen</span>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="day-card">
-        <div class="day-card-header">
-          <span class="day-title">Samstag</span>
-          <span class="day-subtitle">Haus &amp; Bunker · Indoor</span>
-        </div>
-        <div class="slot">
-          <span class="slot-time">Morgen</span>
-          <div class="slot-content">
-            <span class="slot-event">Erholungspause</span>
-            <span class="slot-detail">Slushys, Essen, Abchillen</span>
-          </div>
-        </div>
-        <div class="slot">
-          <span class="slot-time">Tagsüber</span>
-          <div class="slot-content">
-            <span class="slot-event">Schlafen im Haus</span>
-          </div>
-        </div>
-        <div class="slot">
-          <span class="slot-time">Abends</span>
-          <div class="slot-content">
-            <span class="slot-event">Weiter im bekannten Terrain</span>
-            <span class="slot-detail">Karaoke · Bierpong · Bunker</span>
-          </div>
-        </div>
-        <div class="slot">
-          <span class="slot-time">Nacht</span>
-          <div class="slot-content">
-            <span class="slot-event">Bounce-fetzige Klänge</span>
-            <span class="slot-detail">Tanz bis in die Puppen</span>
-          </div>
-        </div>
-        <div class="timeline-img-grid">
-          <img src="assets/img/IMG-20250316-WA0067.jpg" alt="Gewölbe-Party im Bunker" class="timeline-img timeline-img--wide">
-          <img src="assets/img/IMG_20250516_213640185.jpg" alt="Bunker Bounce" class="timeline-img">
-        </div>
-      </div>
-
     </div>
 
     <!-- ── Line-up ── -->
-    <div id="prog-lineup" class="prog-view">
-
-      <div class="lineup-sub-tabs">
-        <button class="lineup-sub-tab active" data-day="friday">Fr · 24. Apr</button>
-        <button class="lineup-sub-tab" data-day="saturday">Sa · 25. Apr</button>
-      </div>
-
+    <!-- ── Line-up Freitag ── -->
+    <div id="prog-lineup-fr" class="prog-view">
       <div class="lineup-day" id="friday">
         <div class="act-card" data-sc-url="https://soundcloud.com/niklas-staude">
           <div class="act-avatar-placeholder">🎵</div>
