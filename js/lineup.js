@@ -30,6 +30,25 @@ lineupSubTabs.forEach(tab => {
   });
 });
 
+// ─── Quick section jump (mobile-friendly) ───
+const sectionJump = document.getElementById('section-jump');
+
+if (sectionJump) {
+  sectionJump.addEventListener('change', () => {
+    const selector = sectionJump.value;
+    if (!selector) return;
+
+    const target = document.querySelector(selector);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    window.setTimeout(() => {
+      sectionJump.value = '';
+    }, 250);
+  });
+}
+
 // ─── Address Gate ───
 // Password: Mitja Ziegler (full name, case-insensitive)
 const CORRECT_PASSWORD = 'mitja ziegler';

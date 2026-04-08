@@ -73,6 +73,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
 }
 
 body {
@@ -148,6 +149,7 @@ section {
   padding: var(--space-lg) var(--space-md);
   max-width: 960px;
   margin: 0 auto;
+  scroll-margin-top: 5.5rem;
 }
 
 h1, h2, h3 {
@@ -206,7 +208,7 @@ p {
 ══════════════════════════════════════════════════════════ */
 
 .hero {
-  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -313,9 +315,11 @@ p {
 
 .hero-ctas {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: var(--space-sm);
   justify-content: center;
+  width: min(100%, 22rem);
 }
 
 /* ─── BUTTONS ─── */
@@ -323,6 +327,7 @@ p {
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   background: transparent;
@@ -339,6 +344,11 @@ p {
   text-decoration: none;
   position: relative;
   overflow: hidden;
+}
+
+.hero-ctas .btn {
+  width: 100%;
+  min-height: 3rem;
 }
 
 .btn::before {
@@ -409,6 +419,50 @@ p {
   60% { transform: translateX(-50%) translateY(-6px); }
 }
 
+.quick-nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding: 0 var(--space-md) var(--space-sm);
+  background: linear-gradient(180deg, rgba(3, 5, 7, 0.92), rgba(3, 5, 7, 0.72));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.quick-nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.85rem 0 0.25rem;
+}
+
+.quick-nav-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--acid);
+}
+
+.quick-nav-select {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  border-radius: var(--radius-md);
+  background: rgba(12, 18, 24, 0.95);
+  color: var(--text-bright);
+  font: inherit;
+  box-shadow: inset 0 0 0 1px rgba(57, 255, 20, 0.04);
+}
+
+.quick-nav-select:focus {
+  outline: none;
+  border-color: var(--acid);
+  box-shadow: 0 0 0 3px rgba(57, 255, 20, 0.12);
+}
+
 /* ═══════════════════════════════════════════════════════════
    LORE / ORIENTATION SECTION
 ══════════════════════════════════════════════════════════ */
@@ -454,10 +508,20 @@ p {
 }
 
 @media (min-width: 540px) {
+  .hero-ctas {
+    flex-direction: row;
+    width: auto;
+  }
+
+  .hero-ctas .btn {
+    width: auto;
+  }
+
   .whatis-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-sm);
   }
+}
 
 @media (min-width: 860px) {
   .whatis-grid {
@@ -1660,11 +1724,6 @@ p {
   color: var(--text-muted);
   text-align: center;
 }
-  font-style: italic;
-  color: var(--text-dim);
-  line-height: 1.8;
-}
-
 .support-hint {
   margin-top: var(--space-sm);
   font-family: var(--font-mono);
@@ -2145,6 +2204,54 @@ section {
   margin: 0;
 }
 
+.reviews {
+  background: transparent;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-sm);
+}
+
+@media (min-width: 820px) {
+  .reviews-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.review-card {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 149, 0, 0.08), rgba(0, 0, 0, 0.18));
+  border: 1px solid rgba(255, 149, 0, 0.16);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  overflow: hidden;
+}
+
+.review-card::before {
+  content: "“";
+  position: absolute;
+  top: 0.2rem;
+  right: 0.9rem;
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  line-height: 1;
+  color: rgba(204, 255, 0, 0.15);
+}
+
+.review-card p {
+  position: relative;
+  margin: 0 0 0.85rem;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--text-dim);
+}
+
+.review-card p:last-child {
+  margin-bottom: 0;
+}
+
 .info-link {
   color: var(--acid);
   text-decoration: underline;
@@ -2183,17 +2290,15 @@ section {
   line-height: 1.5;
 }
 
-.support-hint {
-  margin-top: var(--space-xs);
+.support-paypal {
+  margin-top: var(--space-sm);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
+  font-size: 0.78rem;
+  color: var(--text);
 }
 
-.paypal-placeholder {
-  opacity: 0.6;
-  cursor: default;
-  pointer-events: none;
+.support-paypal span {
+  color: var(--acid);
 }
 
 /* ═══════════════════════════════════════════════════════════
