@@ -328,3 +328,70 @@ async function loadSoundCloudArtists() {
 if (document.querySelector('.act-card[data-sc-url]')) {
   window.setTimeout(loadSoundCloudArtists, 500);
 }
+
+// ═══════════════════════════════════════════════════════════
+// COUNTDOWN OVERLAY
+// ═══════════════════════════════════════════════════════════
+const EVENT_START = new Date('2026-04-24T18:00:00+02:00');
+const overlay = document.getElementById('c-overlay');
+const enterBtn = document.getElementById('c-enter');
+const timerEl = document.getElementById('c-timer');
+const subEl = document.getElementById('c-sub');
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = EVENT_START - now;
+
+  if (diff <= 0) {
+    timerEl.innerHTML = '<span class="c-time-val">00</span><span class="c-time-unit">Tag</span> <span class="c-time-val">00</span><span class="c-time-unit">Std</span> <span class="c-time-val">00</span><span class="c-time-unit">Min</span>';
+    subEl.textContent = 'Es ist soweit. Komm zu Hauf.';
+    return;
+  }
+
+  const totalSec = Math.floor(diff / 1000);
+  const days = Math.floor(totalSec / 86400);
+  const hours = Math.floor((totalSec % 86400) / 3600);
+  const minutes = Math.floor((totalSec % 3600) / 60);
+  const seconds = totalSec % 60;
+
+  // Show days only if ≥ 1
+  if (days > 0) {
+    timerEl.innerHTML =
+      '<span class="c-time-val">' + pad(days) + '</span><span class="c-time-unit">Tag' + (days !== 1 ? 'e' : '') + '</span> ' +
+      '<span class="c-time-val">' + pad(hours) + '</span><span class="c-time-unit">Std</span> ' +
+      '<span class="c-time-val">' + pad(minutes) + '</span><span class="c-time-unit">Min</span>';
+    subEl.textContent = 'Noch ' + days + ' Tag' + (days !== 1 ? 'e' : '') + ' bis zum Lenzzauber.';
+  } else {
+    timerEl.innerHTML =
+      '<span class="c-time-val">' + pad(hours) + '</span><span class="c-time-unit">Std</span> ' +
+      '<span class="c-time-val">' + pad(minutes) + '</span><span class="c-time-unit">Min</span> ' +
+      '<span class="c-time-val">' + pad(seconds) + '</span><span class="c-time-unit">Sek</span>';
+    subEl.textContent = 'Der Countdown läuft. Bald bricht er los.';
+  }
+}
+
+if (overlay && enterBtn) {
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Default: overlay hidden (same tab-session rule — remember via sessionStorage)
+  if (!sessionStorage.getItem('lenzzauber-entert')) {
+    overlay.classList.remove('hidden');
+    overlay.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'hidden';
+  } else {
+    overlay.classList.add('hidden');
+    overlay.setAttribute('aria-hidden', 'true');
+  }
+
+  enterBtn.addEventListener('click', () => {
+    sessionStorage.setItem('lenzzauber-entert', '1');
+    overlay.classList.add('hidden');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    // Scroll to hero
+    document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
+  });
+}
