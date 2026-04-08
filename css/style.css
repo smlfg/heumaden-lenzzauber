@@ -257,10 +257,27 @@ p {
 
 .hero > * {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.35;
+  filter: brightness(0.5) contrast(1.1);
+  z-index: 1;
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, var(--bg-void) 85%);
+}
+
+.hero-eyebrow {
   position: absolute;
   inset: 0;
   background-size: cover;
@@ -2652,4 +2669,27 @@ section {
 /* Interactive act cards grid fix */
 .act-card {
   position: relative;
+}
+
+/* ─── IMAGE UTILS ─── */
+
+.lore-img {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  display: block;
+  margin: var(--space-lg) auto 0;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  box-shadow: 0 0 40px var(--cyan-soft);
+}
+
+.timeline-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  margin-top: var(--space-md);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  display: block;
 }
