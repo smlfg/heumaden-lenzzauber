@@ -99,38 +99,150 @@ passwordInput.addEventListener('keydown', e => {
 });
 
 // ═══════════════════════════════════════════════════════════
-// SOUNDCLOUD AVATARS
+// SOUNDCLOUD ARTIST CARDS
 // ═══════════════════════════════════════════════════════════
-async function loadSCAvatars() {
+const soundCloudCache = new Map();
+
+function buildArtistProfile(act, data, scUrl) {
+  const placeholder = act.querySelector('.act-avatar-placeholder');
+  const existingName = act.querySelector('.act-name');
+  const existingNote = act.querySelector('.act-note');
+  const authorName = (data.author_name || '').trim();
+  const title = (data.title || '').trim();
+  const description = (data.description || '').trim();
+  const authorUrl = data.author_url || scUrl;
+
+  if (!existingName && authorName) {
+    const nameEl = document.createElement('span');
+    nameEl.className = 'act-name';
+    nameEl.textContent = authorName;
+    act.querySelector('.act-info')?.prepend(nameEl);
+  }
+
+  if (placeholder && data.thumbnail_url) {
+    const avatarUrl = data.thumbnail_url.replace(/^http:\/\//, 'https://');
+    placeholder.textContent = '';
+
+    const avatar = document.createElement('img');
+    avatar.src = avatarUrl;
+    avatar.alt = authorName ? `${authorName} SoundCloud Profilbild` : 'SoundCloud Profilbild';
+    avatar.loading = 'lazy';
+    placeholder.appendChild(avatar);
+  }
+
+  let profile = act.querySelector('.act-profile');
+  if (!profile) {
+    profile = document.createElement('div');
+    profile.className = 'act-profile';
+    profile.hidden = true;
+    act.appendChild(profile);
+  }
+
+  profile.replaceChildren();
+
+  const kicker = document.createElement('div');
+  kicker.className = 'act-profile-kicker';
+  kicker.textContent = 'SoundCloud Selbstbeschreibung';
+  profile.appendChild(kicker);
+
+  if (title && (!existingNote || !existingNote.textContent.includes(title))) {
+    const titleEl = document.createElement('div');
+    titleEl.className = 'act-profile-title';
+    titleEl.textContent = title;
+    profile.appendChild(titleEl);
+  }
+
+  const bioEl = document.createElement('p');
+  bioEl.className = 'act-profile-text';
+  bioEl.textContent = description || 'Keine Profilbeschreibung auf SoundCloud hinterlegt. Profil direkt auf SoundCloud ansehen.';
+  profile.appendChild(bioEl);
+
+  const linkEl = document.createElement('a');
+  linkEl.className = 'act-profile-link';
+  linkEl.href = authorUrl;
+  linkEl.target = '_blank';
+  linkEl.rel = 'noopener';
+  linkEl.textContent = 'SoundCloud-Profil öffnen';
+  profile.appendChild(linkEl);
+
+  const hintEl = document.createElement('div');
+  hintEl.className = 'act-profile-hint';
+  hintEl.textContent = 'Tippen zum Auf- und Zuklappen';
+  if (!act.querySelector('.act-profile-hint--inline')) {
+    const inlineHint = hintEl.cloneNode(true);
+    inlineHint.classList.add('act-profile-hint--inline');
+    act.querySelector('.act-info')?.appendChild(inlineHint);
+  }
+
+  act.classList.add('act-card--interactive');
+  act.tabIndex = 0;
+  act.setAttribute('role', 'button');
+  act.setAttribute('aria-expanded', 'false');
+  act.title = 'Tippen für SoundCloud-Bio';
+}
+
+function attachArtistToggle(act) {
+  if (act.dataset.toggleBound === 'true') return;
+
+  const toggle = () => {
+    const profile = act.querySelector('.act-profile');
+    if (!profile) return;
+
+    const isOpen = !profile.hidden;
+    profile.hidden = isOpen;
+    act.classList.toggle('is-open', !isOpen);
+    act.setAttribute('aria-expanded', String(!isOpen));
+  };
+
+  act.addEventListener('click', event => {
+    if (event.target.closest('a')) return;
+    toggle();
+  });
+
+  act.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    toggle();
+  });
+
+  act.dataset.toggleBound = 'true';
+}
+
+async function fetchSoundCloudProfile(scUrl) {
+  if (soundCloudCache.has(scUrl)) {
+    return soundCloudCache.get(scUrl);
+  }
+
+  const request = fetch(
+    'https://soundcloud.com/oembed?format=json&maxwidth=160&maxheight=160&url=' + encodeURIComponent(scUrl)
+  ).then(async response => {
+    if (!response.ok) {
+      throw new Error('SoundCloud oEmbed request failed');
+    }
+    return response.json();
+  });
+
+  soundCloudCache.set(scUrl, request);
+  return request;
+}
+
+async function loadSoundCloudArtists() {
   const acts = document.querySelectorAll('.act-card[data-sc-url]');
+
   for (const act of acts) {
     const scUrl = act.dataset.scUrl;
+    if (!scUrl) continue;
+
     try {
-      const res = await fetch(
-        'https://soundcloud.com/oembed?url=' + encodeURIComponent(scUrl) + '&format=json&maxwidth=88&maxheight=88'
-      );
-      if (!res.ok) continue;
-      const data = await res.json();
-      const tmp = document.createElement('div');
-      tmp.innerHTML = data.html;
-      const img = tmp.querySelector('img');
-      if (img) {
-        const placeholder = act.querySelector('.act-avatar-placeholder');
-        placeholder.innerHTML = '';
-        const avatar = img.cloneNode();
-        avatar.className = 'act-avatar';
-        avatar.loading = 'lazy';
-        avatar.style.width = '100%';
-        avatar.style.height = '100%';
-        placeholder.appendChild(avatar);
-      }
-    } catch (e) {
-      // CORS blocked or network error — placeholder emoji stays
+      const data = await fetchSoundCloudProfile(scUrl);
+      buildArtistProfile(act, data, scUrl);
+      attachArtistToggle(act);
+    } catch (error) {
+      // Network/CORS issues keep the default card visible without breaking the lineup.
     }
   }
 }
 
-// Load avatars after a short delay so page renders first
 if (document.querySelector('.act-card[data-sc-url]')) {
-  setTimeout(loadSCAvatars, 800);
+  window.setTimeout(loadSoundCloudArtists, 500);
 }
