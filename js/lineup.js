@@ -330,6 +330,201 @@ if (document.querySelector('.act-card[data-sc-url]')) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// EINKAUF & TOOLS
+// ═══════════════════════════════════════════════════════════
+const drinkTypeSelect = document.getElementById('drink-type');
+const drinkCustomWrap = document.getElementById('drink-custom-wrap');
+const drinkCustomInput = document.getElementById('drink-custom');
+const drinkThirstInput = document.getElementById('drink-thirst');
+const drinkDurationInput = document.getElementById('drink-duration');
+const drinkShareInput = document.getElementById('drink-share');
+const drinkResult = document.getElementById('drink-result');
+
+function formatNumberRange(value) {
+  return value.toFixed(value >= 10 ? 0 : 1).replace('.', ',');
+}
+
+function formatIntegerRange(value) {
+  return Math.max(1, Math.round(value));
+}
+
+function describeDrinkRange(type, low, high, customText) {
+  switch (type) {
+    case 'bier':
+      return `${low}–${high} Bier`;
+    case 'wein': {
+      const lowBottles = Math.max(1, Math.round(low / 3));
+      const highBottles = Math.max(lowBottles, Math.round(high / 3));
+      return `${lowBottles}–${highBottles} Flaschen Wein`;
+    }
+    case 'longdrink': {
+      const lowBottles = Math.max(1, Math.round(low / 5));
+      const highBottles = Math.max(lowBottles, Math.round(high / 4));
+      return `${low}–${high} Longdrinks oder grob ${lowBottles}–${highBottles} Flaschen Basis plus Mixer`;
+    }
+    case 'mate':
+      return high >= 12 ? 'eine halbe bis ganze Kiste Mate' : `${low}–${high} Mate`;
+    case 'wasser':
+      return '';
+    case 'softdrink':
+      return high >= 12 ? 'eine halbe bis ganze Kiste Softdrinks' : `${low}–${high} Softdrinks`;
+    case 'custom': {
+      const label = (customText || 'deines Lieblingsgetränks').trim();
+      return `${low}–${high} Einheiten ${label}`;
+    }
+    default:
+      return `${low}–${high} Getränke`;
+  }
+}
+
+function getWaterRange(duration, thirst, shares) {
+  const baseRanges = {
+    friday: [1.5, 2.2],
+    saturday: [1.5, 2.2],
+    both: [2.4, 3.6],
+    overnight: [3, 4.6]
+  };
+  const thirstBoost = {
+    leicht: 0,
+    normal: 0.25,
+    stabil: 0.6,
+    eskalativ: 1
+  };
+
+  const range = baseRanges[duration] || baseRanges.both;
+  const extra = thirstBoost[thirst] || 0.25;
+  const shareBoost = shares ? 0.5 : 0;
+
+  return [
+    Math.max(1, range[0] + extra + shareBoost),
+    Math.max(1.5, range[1] + extra + shareBoost)
+  ];
+}
+
+function updateDrinkCalculator() {
+  if (!drinkResult || !drinkTypeSelect || !drinkThirstInput || !drinkDurationInput || !drinkShareInput) {
+    return;
+  }
+
+  const thirst = drinkThirstInput.value;
+  const drinkType = drinkTypeSelect.value;
+  const duration = drinkDurationInput.value;
+  const shares = drinkShareInput.checked;
+  const customText = drinkCustomInput?.value.trim();
+
+  if (drinkCustomWrap) {
+    drinkCustomWrap.classList.toggle('hidden', drinkType !== 'custom');
+  }
+
+  const thirstBase = {
+    leicht: 3,
+    normal: 5,
+    stabil: 7,
+    eskalativ: 9
+  };
+  const durationMultiplier = {
+    friday: 1,
+    saturday: 0.95,
+    both: 1.8,
+    overnight: 2.15
+  };
+
+  const shareMultiplier = shares ? 1.18 : 1;
+  const base = (thirstBase[thirst] || 5) * (durationMultiplier[duration] || 1.8) * shareMultiplier;
+  const low = formatIntegerRange(base);
+  const high = Math.max(low + 1, formatIntegerRange(base * 1.25));
+  const [waterLow, waterHigh] = getWaterRange(duration, thirst, shares);
+  const waterText = `${formatNumberRange(waterLow)}–${formatNumberRange(waterHigh)} Liter Wasser`;
+
+  let mainText = `Für deinen Vibe: ${describeDrinkRange(drinkType, low, high, customText)} plus mindestens ${waterText}.`;
+  let noteText = 'Charmante Näherung. Wenn der Kofferraum es hergibt, lieber einen Tick zu freundlich planen.';
+
+  if (drinkType === 'wasser') {
+    mainText = `Für deinen Vibe: ${waterText}. Elegant, hydriert, zukunftsfähig.`;
+    noteText = 'Grobe Schätzung, keine Wissenschaft. Wer Wasser mitbringt, macht selten etwas falsch.';
+  } else if (drinkType === 'mate' || drinkType === 'softdrink') {
+    noteText = 'Grobe Schätzung, keine Wissenschaft. Für Tag zwei ist ein kleines Wasserpolster trotzdem sehr schlau.';
+  } else if (drinkType === 'custom' && customText) {
+    noteText = `Grobe Schätzung für ${customText}. Die genaue Wahrheit kennt wie immer nur die Nacht.`;
+  }
+
+  drinkResult.innerHTML =
+    `<p class="tool-result-main">${mainText}</p>` +
+    `<p class="tool-result-note">${noteText}</p>`;
+}
+
+if (drinkResult) {
+  [drinkTypeSelect, drinkCustomInput, drinkThirstInput, drinkDurationInput, drinkShareInput].forEach(input => {
+    if (!input) return;
+    input.addEventListener('input', updateDrinkCalculator);
+    input.addEventListener('change', updateDrinkCalculator);
+  });
+  updateDrinkCalculator();
+}
+
+const bacWeightInput = document.getElementById('bac-weight');
+const bacFactorInput = document.getElementById('bac-factor');
+const bacDrinkTypeInput = document.getElementById('bac-drink-type');
+const bacCountInput = document.getElementById('bac-count');
+const bacHoursInput = document.getElementById('bac-hours');
+const bacResult = document.getElementById('bac-result');
+
+function updateBacCalculator() {
+  if (
+    !bacResult ||
+    !bacWeightInput ||
+    !bacFactorInput ||
+    !bacDrinkTypeInput ||
+    !bacCountInput ||
+    !bacHoursInput
+  ) {
+    return;
+  }
+
+  const weight = Number.parseFloat(bacWeightInput.value);
+  const factor = Number.parseFloat(bacFactorInput.value);
+  const count = Number.parseFloat(bacCountInput.value);
+  const hours = Number.parseFloat(bacHoursInput.value);
+
+  if (!Number.isFinite(weight) || !Number.isFinite(factor) || !Number.isFinite(count) || !Number.isFinite(hours)) {
+    return;
+  }
+
+  const gramsPerDrink = {
+    beer: 20,
+    wine: 19,
+    longdrink: 16,
+    shot: 13
+  };
+
+  const gramsAlcohol = count * (gramsPerDrink[bacDrinkTypeInput.value] || 16);
+  const rawPromille = gramsAlcohol / (weight * factor);
+  const reducedPromille = Math.max(0, rawPromille - (0.15 * hours));
+  const uncertainty = Math.max(0.08, reducedPromille * 0.15 + 0.05);
+  const low = Math.max(0, reducedPromille - uncertainty);
+  const high = reducedPromille + uncertainty;
+
+  let mainText = `Sehr grob geschätzt: etwa ${formatNumberRange(low)}–${formatNumberRange(high)} ‰.`;
+
+  if (reducedPromille < 0.05) {
+    mainText = 'Sehr grob geschätzt: irgendwo um 0,0 ‰ herum.';
+  }
+
+  bacResult.innerHTML =
+    `<p class="tool-result-main">${mainText}</p>` +
+    '<p class="tool-result-note">Bitte nur als Näherung lesen. Schlaf, Essen, Tempo, Tagesform und Ausschankrealität machen die Lage notorisch komplizierter.</p>';
+}
+
+if (bacResult) {
+  [bacWeightInput, bacFactorInput, bacDrinkTypeInput, bacCountInput, bacHoursInput].forEach(input => {
+    if (!input) return;
+    input.addEventListener('input', updateBacCalculator);
+    input.addEventListener('change', updateBacCalculator);
+  });
+  updateBacCalculator();
+}
+
+// ═══════════════════════════════════════════════════════════
 // COUNTDOWN OVERLAY
 // ═══════════════════════════════════════════════════════════
 const EVENT_START = new Date('2026-04-24T18:00:00+02:00');
