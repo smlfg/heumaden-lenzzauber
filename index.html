@@ -52,7 +52,7 @@
         <option value="#orte">Wo?</option>
         <option value="#faq">FAQ</option>
         <option value="#reviews">Wort zum Sonntag</option>
-        <option value="#einkauf">Einkauf &amp; Notfallversorgung</option>
+        <option value="#einkauf">Einkauf &amp; Tools</option>
       </select>
     </div>
   </nav>
@@ -206,6 +206,14 @@
             <span class="slot-time">Tagsüber</span>
             <div class="slot-content">
               <span class="slot-event">Schlafen im Haus</span>
+              <span class="slot-detail">Wer muss, wird erstmal wieder Mensch und sammelt seine Einzelteile ein.</span>
+            </div>
+          </div>
+          <div class="slot">
+            <span class="slot-time">Nachmittags</span>
+            <div class="slot-content">
+              <span class="slot-event">Recovery · Essen · Regrouping</span>
+              <span class="slot-detail">Tagsüber wird gegessen, gechillt und wieder Mensch geworden. Kleine helfende Hände sind willkommen, optional kann gegrillt werden, falls ihr euer eigenes Grillgut dabeihabt.</span>
             </div>
           </div>
           <div class="slot">
@@ -536,15 +544,15 @@
           <span class="info-icon">🛏️</span>
           <h3>Schlafen</h3>
         </div>
-        <p>Schlafplätze vorhanden. Isomatte + Schlafsack mitbringen. Bitte vorher ankündigen.</p>
+        <p>Schlafplätze gibt es, aber bitte bring dein eigenes Schlafzeug mit: Decke, Schlafsack, Isomatte oder was du brauchst, um halbwegs würdevoll zu landen. Wenn du dort pennen willst, sag am besten kurz Bescheid.</p>
       </div>
 
-      <div class="info-card info-card--highlight">
+      <div class="info-card">
         <div class="info-header">
-          <span class="info-icon">🍧</span>
-          <h3>Slushy-Maschine</h3>
+          <span class="info-icon">🍽️</span>
+          <h3>Versorgung</h3>
         </div>
-        <p>Freitags gibt's eine besondere <strong>MagicWonderland Slushy</strong>-Runde für 5€ für alle, die wollen. Normaler Slush bleibt gratis. Die Maschine muss Freitag und Samstag zuverlässig betreut werden. Mehr Infos coming soon.</p>
+        <p>Getränke bitte selbst mitbringen. Essen gibt es vor Ort, aber nicht in unendlicher, individuell perfekter Ausführung. Mitgebrachte Snacks, Brot, Obst oder andere kleine Rettungsgüter sind sehr willkommen.</p>
       </div>
 
       <div class="info-card">
@@ -553,41 +561,28 @@
           <h3>Mitbringen</h3>
         </div>
         <ul>
-          <li>Isomatte &amp; Schlafsack</li>
-          <li>Getränke &amp; Grillgut</li>
-          <li>gute Laune · Tanzbereitschaft</li>
+          <li>Getränke für deinen eigenen Durst</li>
+          <li>Decken, Schlafsack oder sonstiges Schlafzeug</li>
+          <li>Snacks oder Frühstücksbeiträge, wenn du magst</li>
+          <li>Optional eigenes Grillgut für Samstag tagsüber</li>
         </ul>
       </div>
 
-      <div class="info-card">
+      <div class="info-card info-card--highlight">
         <div class="info-header">
-          <span class="info-icon">🍽️</span>
-          <h3>Versorgung &amp; Sozialverhalten</h3>
-        </div>
-        <p>Es gibt ein Grundkontingent an Essen und Getränken. Aber bei so vielen Menschen ist Selbstversorgung erwünscht — bring dir was du brauchst. Es ist nicht garantiert, dass es was gibt, was dir schmeckt. <strong>Bitte sozial sein.</strong></p>
-      </div>
-
-      <div class="info-card">
-        <div class="info-header">
-          <span class="info-icon">🚫</span>
-          <h3>Was weniger passt</h3>
+          <span class="info-icon">🤝</span>
+          <h3>Rücksicht &amp; Regeln</h3>
         </div>
         <ul>
-          <li>Drinnen rauchen</li>
-          <li>Dinge verschütten und liegenlassen</li>
-          <li>Chaos hinterlassen</li>
+          <li>Balkon bitte möglichst ruhig benutzen</li>
+          <li>Ab 12 Uhr bitte vor dem Haus rauchen statt auf der Terrasse</li>
+          <li>Wer etwas verschüttet, macht es bitte wieder weg</li>
+          <li>Respect the venue: kein unnötiges Chaos, kein drinnen rauchen</li>
         </ul>
-      </div>
-
-      <div class="info-card">
-        <div class="info-header">
-          <span class="info-icon">🌲</span>
-          <h3>Helfende Hände</h3>
-        </div>
-        <p>Bei Aufbau, Abbau und Aufräumen freuen wir uns über jede helfende Hand. <a href="#prog-helfen" class="info-link">Siehe Helfen →</a></p>
       </div>
 
     </div>
+    <p class="info-footnote">Wenn du spontan mit anpacken willst, findest du unter <a href="#prog-helfen" class="info-link">Programm → Helfen</a> die offenen Baustellen.</p>
   </section>
 
   <!-- ═══════════════════════════════════ COMMUNITY / RULES ═══════════════════════════════════ -->
@@ -653,6 +648,12 @@
 
     </div>
 
+    <p class="location-utility-link">
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Bockelstra%C3%9Fe%2C+70619+Stuttgart-Heumaden" target="_blank" rel="noopener noreferrer" class="info-link">
+        Mit Google Maps navigieren
+      </a>
+    </p>
+
     <div class="addr-gate" id="addr-gate">
       <p class="addr-gate-label">Adresse zum Wochenende</p>
       <div class="addr-gate-input-row">
@@ -682,33 +683,53 @@
       </div>
 
       <div class="faq-item">
-        <h3>Was muss ich mitbringen?</h3>
-        <p>Isomatte, Schlafsack, gute Laune. Getränke und Grillgut sind willkommen.</p>
+        <h3>Muss ich Getränke selbst mitbringen?</h3>
+        <p>Ja, bitte. Getränke sind Selbstversorgung. Wasser bleibt trotzdem eine sehr gute Idee.</p>
       </div>
 
       <div class="faq-item">
         <h3>Gibt es Essen?</h3>
-        <p>Grundversorgung vorhanden, aber Selbstversorgung ist erwünscht. Es gibt ein Grundkontingent, aber nicht alles für jeden Geschmack.</p>
+        <p>Ja, es wird vor Ort Essen geben. Trotzdem freuen sich alle über mitgebrachte Snacks, Brot, Obst oder andere kleine Rettungsgüter.</p>
       </div>
 
       <div class="faq-item">
-        <h3>Wo ist das?</h3>
-        <p>Wer Mitja kennt, weiß ungefähr wo. Das Passwort ist der volle Name des Gastgebers.</p>
+        <h3>Was brauche ich zum Schlafen?</h3>
+        <p>Bitte bring Decke, Schlafsack, Isomatte oder dein sonstiges Schlafzeug selbst mit. Schlafplätze gibt es, aber nicht den kompletten Hotelservice.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Wo soll geraucht werden?</h3>
+        <p>Ab 12 Uhr bitte vor dem Haus rauchen statt auf der Terrasse. Balkon generell eher ruhig benutzen, drinnen natürlich nicht.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Wo kann ich in der Nähe noch etwas einkaufen?</h3>
+        <p>PENNY und REWE liegen beide in Stuttgart-Heumaden. Die direkten Navigationslinks findest du unter <a href="#einkauf" class="info-link">Einkauf &amp; Tools</a>.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Muss ich spontan noch Snacks mitbringen?</h3>
+        <p>Willkommen, aber kein Muss. Wenn du noch was Feines in der Tasche hast, findet es ziemlich sicher Freunde.</p>
       </div>
 
       <div class="faq-item">
         <h3>Was ist der Waldfloor?</h3>
-        <p>Freitagnacht, 15 min Fußweg vom Haus in den Wald. Dunkel-psychedelische Klänge bis Sonnenaufgang.</p>
+        <p>Freitagnacht, ungefähr 15 Minuten Fußweg vom Haus in den Wald. Dunkel-psychedelische Klänge bis Sonnenaufgang.</p>
       </div>
 
       <div class="faq-item">
         <h3>Kann ich helfen?</h3>
-        <p>Ja! Siehe <a href="#prog-helfen" class="info-link">Helfen</a> oder komm early. Jede Hand zählt.</p>
+        <p>Ja. Siehe <a href="#prog-helfen" class="info-link">Programm → Helfen</a> oder komm einfach early und frag kurz, wo gerade Hände fehlen.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Wo ist das genau?</h3>
+        <p>Wer Mitja kennt, weiß grob die Richtung. Die genaue Freischaltung läuft über den Adressbereich weiter oben.</p>
       </div>
 
       <div class="faq-item">
         <h3>Wie lautet das Passwort?</h3>
-        <p>Der volle Name des Gastgebers — Vornamen und Nachnamen zusammengeschrieben.</p>
+        <p>Der volle Name des Gastgebers — Vor- und Nachname zusammengeschrieben.</p>
       </div>
 
     </div>
@@ -737,10 +758,10 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════ EINKAUF & NOTFALLVERSORGUNG ═══════════════════════════════════ -->
+  <!-- ═══════════════════════════════════ EINKAUF & TOOLS ═══════════════════════════════════ -->
   <section class="einkauf" id="einkauf">
-    <h2>Einkauf &amp; Notfallversorgung</h2>
-    <p class="einkauf-intro">Falls Getränkevorräte, Grillgut oder spontane Überlebensmaßnahmen nötig werden — kurze Nachschubwege in Heumaden:</p>
+    <h2>Einkauf &amp; Tools</h2>
+    <p class="einkauf-intro">Falls euch noch Getränke, Snacks oder Basics fehlen, hier sind die kurzen Nachschubwege in Heumaden.</p>
     <div class="einkauf-grid">
 
       <div class="einkauf-card">
@@ -748,8 +769,11 @@
           <span class="einkauf-name">PENNY</span>
           <span class="einkauf-tag">Supermarkt</span>
         </div>
-        <div class="einkauf-address">Bildäcker Str./Bockelstr. 29, 70619 Stuttgart</div>
-        <p class="einkauf-desc">Für Basics, Snacks, Getränke und Nachkauf.</p>
+        <div class="einkauf-address">Bockelstr. 29, 70619 Stuttgart-Heumaden</div>
+        <p class="einkauf-desc">Für Basics, Snacks, Getränke und den schnellen Nachkauf kurz vor knapp.</p>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=PENNY+Bockelstra%C3%9Fe+29%2C+70619+Stuttgart-Heumaden" target="_blank" rel="noopener noreferrer" class="info-link einkauf-link">
+          PENNY in Google Maps
+        </a>
       </div>
 
       <div class="einkauf-card">
@@ -757,29 +781,138 @@
           <span class="einkauf-name">REWE</span>
           <span class="einkauf-tag">Supermarkt</span>
         </div>
-        <div class="einkauf-address">Paprikastr. 10, 70619 Stuttgart</div>
-        <p class="einkauf-desc">Größerer Nachschubpunkt. Mo–Sa 07:00–21:00.</p>
+        <div class="einkauf-address">Paprikastr. 10, 70619 Stuttgart-Heumaden</div>
+        <p class="einkauf-desc">Etwas größerer Nachschubpunkt für Getränke, Grillgut, Obst, Brot und den geordneten Wiedereinstieg in die Zivilisation.</p>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=REWE+Paprikastra%C3%9Fe+10%2C+70619+Stuttgart-Heumaden" target="_blank" rel="noopener noreferrer" class="info-link einkauf-link">
+          REWE in Google Maps
+        </a>
       </div>
-
-      <div class="einkauf-card">
-        <div class="einkauf-header">
-          <span class="einkauf-name">Stadtbäckerei Schultheiss</span>
-          <span class="einkauf-tag">Bäckerei</span>
-        </div>
-        <div class="einkauf-address">Bockelstraße 29, 70619 Stuttgart</div>
-        <p class="einkauf-desc">Für Frühstück, Backwaren und Sonntags-Rettung am Morgen. Mo–Fr 07:00–19:00, Sa 07:00–14:00, So 08:00–11:00.</p>
-      </div>
-
-      <div class="einkauf-card einkauf-card--apotheke">
-        <div class="einkauf-header">
-          <span class="einkauf-name">Brunnen-Apotheke</span>
-          <span class="einkauf-tag">Apotheke</span>
-        </div>
-        <div class="einkauf-address">Bildäckerstr. 1, 70619 Stuttgart</div>
-        <p class="einkauf-desc">Für den kleinen medizinischen Ernstfall. Di–Fr 08:30–13:00 und 14:30–18:30, Sa 08:30–13:00.</p>
-      </div>
-
     </div>
+
+    <p class="einkauf-side-note">Falls es frühstückiger oder pharmazeutischer werden sollte: Stadtbäckerei Schultheiss und die Brunnen-Apotheke liegen ebenfalls in Laufnähe rund um die Bockelstraße.</p>
+
+    <div class="tools-suite">
+      <div class="tools-intro">
+        <h3>Kleine Tools für die Selbstversorgung</h3>
+        <p>Kein Dashboard, keine Wissenschaft, nur zwei charmante Hilfen für alle, die ihren Vorrat halbwegs elegant planen wollen.</p>
+        <p class="tools-nonalc">Auch alkoholfrei lässt sich der Lenzzauber sehr würdig bestreiten.</p>
+      </div>
+
+      <section class="tool-card tool-card--primary" aria-labelledby="drink-tool-title">
+        <div class="tool-card-head">
+          <span class="tool-icon">🥤</span>
+          <div>
+            <h3 id="drink-tool-title">Getränkerechner</h3>
+            <p class="tool-copy">Für deinen Vibe, nicht für die Excel-Tabelle. Grobe Schätzung, keine Wissenschaft.</p>
+          </div>
+        </div>
+
+        <form class="tool-form" id="drink-calculator" novalidate>
+          <label class="tool-field">
+            <span>Durststärke</span>
+            <select id="drink-thirst" name="thirst">
+              <option value="leicht">leicht</option>
+              <option value="normal" selected>normal</option>
+              <option value="stabil">stabil</option>
+              <option value="eskalativ">eskalativ</option>
+            </select>
+          </label>
+
+          <label class="tool-field">
+            <span>Lieblingsgetränk</span>
+            <select id="drink-type" name="drink-type">
+              <option value="bier" selected>Bier</option>
+              <option value="wein">Wein</option>
+              <option value="longdrink">Longdrink</option>
+              <option value="mate">Mate</option>
+              <option value="wasser">Wasser</option>
+              <option value="softdrink">Softdrink</option>
+              <option value="custom">eigener Text</option>
+            </select>
+          </label>
+
+          <label class="tool-field tool-field--full hidden" id="drink-custom-wrap">
+            <span>Dein Getränk</span>
+            <input type="text" id="drink-custom" name="drink-custom" placeholder="z. B. Apfelschorle, Kombucha, Club-Mate Zero">
+          </label>
+
+          <label class="tool-field">
+            <span>Bleibedauer</span>
+            <select id="drink-duration" name="duration">
+              <option value="friday">Freitag</option>
+              <option value="saturday">Samstag</option>
+              <option value="both" selected>beide Tage</option>
+              <option value="overnight">mit Übernachtung</option>
+            </select>
+          </label>
+
+          <label class="tool-checkbox">
+            <input type="checkbox" id="drink-share" name="share">
+            <span>Ich teile gern</span>
+          </label>
+        </form>
+
+        <div class="tool-result" id="drink-result" aria-live="polite">
+          <p class="tool-result-main">Für deinen Vibe: 6–8 Bier plus mindestens 1–2 Liter Wasser.</p>
+          <p class="tool-result-note">Charmante Näherung. Wenn der Kofferraum es hergibt, lieber einen Tick zu freundlich planen.</p>
+        </div>
+      </section>
+
+      <details class="tool-card tool-card--secondary promille-tool">
+        <summary>
+          <span>Promillerechner</span>
+          <span class="tool-summary-note">sehr grob</span>
+        </summary>
+
+        <div class="tool-secondary-body">
+          <p class="tool-copy">Kleine Näherung aus Neugier, nicht für heldenhafte Entscheidungen.</p>
+
+          <form class="tool-form tool-form--compact" id="bac-calculator" novalidate>
+            <label class="tool-field">
+              <span>Körpergewicht</span>
+              <input type="number" id="bac-weight" name="weight" min="35" max="250" step="1" value="75" inputmode="decimal">
+            </label>
+
+            <label class="tool-field">
+              <span>Biologische Kategorie / Faktor</span>
+              <select id="bac-factor" name="factor">
+                <option value="0.68" selected>eher maskulin · 0,68</option>
+                <option value="0.55">eher feminin · 0,55</option>
+                <option value="0.62">dazwischen / unklar · 0,62</option>
+              </select>
+            </label>
+
+            <label class="tool-field">
+              <span>Getränkeart</span>
+              <select id="bac-drink-type" name="bac-drink-type">
+                <option value="beer" selected>0,5 l Bier</option>
+                <option value="wine">0,2 l Wein</option>
+                <option value="longdrink">1 Longdrink</option>
+                <option value="shot">4 cl Shot</option>
+              </select>
+            </label>
+
+            <label class="tool-field">
+              <span>Anzahl</span>
+              <input type="number" id="bac-count" name="count" min="1" max="20" step="1" value="4" inputmode="numeric">
+            </label>
+
+            <label class="tool-field">
+              <span>Zeitraum in Stunden</span>
+              <input type="number" id="bac-hours" name="hours" min="0.5" max="24" step="0.5" value="4" inputmode="decimal">
+            </label>
+          </form>
+
+          <div class="tool-result tool-result--secondary" id="bac-result" aria-live="polite">
+            <p class="tool-result-main">Sehr grob geschätzt: etwa 0,5–0,7 ‰.</p>
+            <p class="tool-result-note">Bitte nur als Näherung lesen. Schlaf, Essen, Tempo und Tagesform machen die Realität notorisch komplizierter.</p>
+          </div>
+
+          <p class="tool-warning">Nicht als Grundlage fürs Fahren oder andere Risikoentscheidungen verwenden.</p>
+        </div>
+      </details>
+    </div>
+
   </section>
 
   <!-- ═══════════════════════════════════ FREUNDE & BUILDER ═══════════════════════════════════ -->

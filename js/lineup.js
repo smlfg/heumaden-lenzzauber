@@ -376,22 +376,30 @@ if (overlay && enterBtn) {
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // Default: overlay hidden (same tab-session rule — remember via sessionStorage)
-  if (!sessionStorage.getItem('lenzzauber-entert')) {
-    overlay.classList.remove('hidden');
-    overlay.removeAttribute('aria-hidden');
-    document.body.style.overflow = 'hidden';
+  // already entered this session → skip overlay entirely
+  if (sessionStorage.getItem('lenzzauber-entert')) {
+    overlay.classList.add('faded');
+    overlay.setAttribute('aria-hidden', 'true');
   } else {
-    overlay.classList.add('hidden');
-    overlay.setAttribute('aria-hidden', 'true');
-  }
+    // auto-fade: wait for page + images to load, max 3 s
+    let faded = false;
+    const doFade = () => {
+      if (faded) return;
+      faded = true;
+      overlay.classList.add('faded');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
+      sessionStorage.setItem('lenzzauber-entert', '1');
+    };
 
-  enterBtn.addEventListener('click', () => {
-    sessionStorage.setItem('lenzzauber-entert', '1');
-    overlay.classList.add('hidden');
-    overlay.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    // Scroll to hero
-    document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
-  });
+    if (document.readyState === 'complete') {
+      setTimeout(doFade, 1000);
+    } else {
+      window.addEventListener('load', () => setTimeout(doFade, 1000));
+      setTimeout(doFade, 3000); // safety max 3 s
+    }
+
+    enterBtn.addEventListener('click', () => { doFade(); });
+  }
 }
