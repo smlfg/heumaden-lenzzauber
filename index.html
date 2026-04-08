@@ -12,6 +12,7 @@
 
   <!-- ═══════════════════════════════════ HERO ═══════════════════════════════════ -->
   <section class="hero" id="hero">
+    <div class="hero-bg hero-bg--ritual" aria-hidden="true"></div>
     <div class="hero-eyebrow">24.–26. April 2026 · Heumaden</div>
     <h1>Heumaden<br>Lenzzauber</h1>
     <p class="subtitle">Abschieds-Lore von Mitja</p>
@@ -85,36 +86,32 @@
 
   <!-- ═══════════════════════════════════ SUPPORT ═══════════════════════════════════ -->
   <section class="support" id="support">
-    <div class="support-inner">
-      <div class="support-copy">
-        <h2>Support den Zauber</h2>
-        <p>Es gibt keinen Eintritt. Wenn du das Wochenende mittragen möchtest, freuen wir uns über einen freiwilligen Beitrag zur Partykasse — für Aufbau, Material, Grundversorgung und alles, was diesen kleinen Ausnahmezustand möglich macht.</p>
-        <div class="support-actions">
-          <button
-            type="button"
-            class="btn btn-amber support-cta"
-            id="paypal-copy-btn"
-            data-paypal-email="mitja.987654321@gmail.com"
-            data-default-label="PayPal-Adresse kopieren"
-            data-success-label="Adresse kopiert"
-          >
-            PayPal-Adresse kopieren
-          </button>
-          <a
-            href="#"
-            class="btn support-cta support-cta--pending"
-            id="paypal-me-placeholder"
-            aria-disabled="true"
-            tabindex="-1"
-            title="Hier kommt später der direkte paypal.me-Link rein"
-          >
-            paypal.me folgt
-          </a>
-        </div>
-        <p class="support-paypal">Aktuell per PayPal an <span>mitja.987654321@gmail.com</span></p>
-        <p class="support-note">Sobald der direkte PayPal.me-Link da ist, kann der rechte Button einfach ersetzt werden.</p>
-      </div>
+    <h2>Support den Zauber</h2>
+    <p class="support-text">Es gibt keinen Eintritt. Wenn du das Wochenende mittragen möchtest, freuen wir uns über einen freiwilligen Beitrag zur Partykasse — für Aufbau, Material, Grundversorgung und alles, was diesen kleinen Ausnahmezustand möglich macht.</p>
+    <div class="support-actions">
+      <button
+        type="button"
+        class="btn btn-amber support-cta"
+        id="paypal-copy-btn"
+        data-paypal-email="mitja.987654321@gmail.com"
+        data-default-label="PayPal-Adresse kopieren"
+        data-success-label="Adresse kopiert"
+      >
+        PayPal-Adresse kopieren
+      </button>
+      <a
+        href="#"
+        class="btn support-cta support-cta--pending"
+        id="paypal-me-placeholder"
+        aria-disabled="true"
+        tabindex="-1"
+        title="Hier kommt später der direkte paypal.me-Link rein"
+      >
+        paypal.me folgt
+      </a>
     </div>
+    <p class="support-paypal">Aktuell per PayPal an <span>mitja.987654321@gmail.com</span></p>
+    <p class="support-note">Sobald der direkte PayPal.me-Link da ist, kann der rechte Button einfach ersetzt werden.</p>
   </section>
 
   <!-- ═══════════════════════════════════ PROGRAMM ═══════════════════════════════════ -->
@@ -167,7 +164,6 @@
             <span class="slot-event">Dunkel-psychedelische Klänge</span>
           </div>
         </div>
-        <img src="assets/img/IMG_20250516_213640185.jpg" alt="Bunker Bounce" class="timeline-img">
       </div>
 
       <div class="day-card">
@@ -201,6 +197,10 @@
             <span class="slot-event">Bounce-fetzige Klänge</span>
             <span class="slot-detail">Tanz bis in die Puppen</span>
           </div>
+        </div>
+        <div class="timeline-img-grid">
+          <img src="assets/img/IMG-20250316-WA0067.jpg" alt="Gewölbe-Party im Bunker" class="timeline-img timeline-img--wide">
+          <img src="assets/img/IMG_20250516_213640185.jpg" alt="Bunker Bounce" class="timeline-img">
         </div>
       </div>
 
@@ -493,6 +493,14 @@
         <p>Schlafplätze vorhanden. Isomatte + Schlafsack mitbringen. Bitte vorher ankündigen.</p>
       </div>
 
+      <div class="info-card info-card--highlight">
+        <div class="info-header">
+          <span class="info-icon">🍧</span>
+          <h3>Slushy-Maschine</h3>
+        </div>
+        <p>Freitags gibts einmal <strong>MagicWonderland Slushy</strong> — auf Haus. Samuel bringt die Maschine mit. Mehr Infos coming soon.</p>
+      </div>
+
       <div class="info-card">
         <div class="info-header">
           <span class="info-icon">🎒</span>
@@ -749,7 +757,7 @@
   <!-- ═══════════════════════════════════ FOOTER ═══════════════════════════════════ -->
   <footer class="footer" id="footer">
     <p class="footer-closing">Kommet zu Hauf und bringt Freude mit.</p>
-    <p class="footer-credit">Diese Website wurde aus Liebe mit KI Agenten gebaut.<br>Von Samuel für Mitja &lt;3</p>
+    <p class="footer-credit">Weil Heumaden der beste Ort für Partys ist.<br>— Samuel</p>
   </footer>
 
   <script src="js/lineup.js"></script>
