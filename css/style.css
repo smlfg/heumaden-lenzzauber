@@ -1361,6 +1361,92 @@ p {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   COMMUNITY / RULES WITH PHOTO
+══════════════════════════════════════════════════════════ */
+
+.community {
+  background: transparent;
+}
+
+.community-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .community-card {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+}
+
+.community-img-wrap {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.community-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.community-img-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-md);
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+}
+
+.community-img-quote {
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  font-style: italic;
+  color: var(--text-bright);
+  text-align: center;
+  line-height: 1.6;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.community-rules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.community-rule {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-sm);
+  border-left: 2px solid var(--acid);
+}
+
+.rule-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.community-rule span:last-child {
+  font-size: 0.875rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════════
    EINKAUF & NOTFALLVERSORGUNG
 ══════════════════════════════════════════════════════════ */
 
@@ -1636,12 +1722,27 @@ section {
   animation-delay: 0.2s;
 }
 
+.workshops-intro {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-lg);
+  margin-top: calc(-1 * var(--space-md));
+}
+
 .weather-section {
   animation-delay: 0.05s;
 }
 
 .schichtplan {
   animation-delay: 0.22s;
+}
+
+.community {
+  animation-delay: 0.23s;
 }
 
 /* ─── NEW IMAGE STYLES ─── */
