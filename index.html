@@ -24,6 +24,40 @@
     <div class="scroll-indicator" aria-hidden="true">↓</div>
   </section>
 
+  <!-- ═══════════════════════════════════ WETTER WIDGET ═══════════════════════════════════ -->
+  <section class="weather-section" id="wetter">
+    <div class="weather-grid">
+      <div class="weather-card" id="weather-fri">
+        <div class="weather-day">Fr · 24. Apr</div>
+        <div class="weather-icon-wrap">
+          <span class="weather-icon" id="icon-fri">⏳</span>
+        </div>
+        <div class="weather-temp" id="temp-fri">—</div>
+        <div class="weather-desc" id="desc-fri">Lädt...</div>
+        <div class="weather-detail" id="detail-fri"></div>
+      </div>
+      <div class="weather-card" id="weather-sat">
+        <div class="weather-day">Sa · 25. Apr</div>
+        <div class="weather-icon-wrap">
+          <span class="weather-icon" id="icon-sat">⏳</span>
+        </div>
+        <div class="weather-temp" id="temp-sat">—</div>
+        <div class="weather-desc" id="desc-sat">Lädt...</div>
+        <div class="weather-detail" id="detail-sat"></div>
+      </div>
+      <div class="weather-card" id="weather-sun">
+        <div class="weather-day">So · 26. Apr</div>
+        <div class="weather-icon-wrap">
+          <span class="weather-icon" id="icon-sun">⏳</span>
+        </div>
+        <div class="weather-temp" id="temp-sun">—</div>
+        <div class="weather-desc" id="desc-sun">Lädt...</div>
+        <div class="weather-detail" id="detail-sun"></div>
+      </div>
+    </div>
+    <p class="weather-source">Wetterdaten via <a href="https://openweathermap.org/" target="_blank" rel="noopener">Open-Meteo</a> · Heumaden</p>
+  </section>
+
   <!-- ═══════════════════════════════════ WAS IST DAS? ═══════════════════════════════════ -->
   <section class="whatis" id="was-ist-das">
     <h2>Was ist das?</h2>
@@ -73,10 +107,10 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
     </div>
 
     <div class="lineup-day" id="friday">
-      <div class="lineup-slot lineup-slot--tba">
+      <div class="lineup-slot">
         <span class="slot-time">18:00 – 19:30</span>
         <div class="slot-content">
-          <span class="slot-tba">Waldfloor · Line-up folgt</span>
+          <span class="slot-act">Waldfloor · Line-up folgt</span>
         </div>
       </div>
       <div class="lineup-slot">
@@ -195,6 +229,62 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
     </div>
 
     <p class="lineup-note">(?)= Name noch nicht bestätigt · Beide Floore öffnen je nach Stimmung früher</p>
+  </section>
+
+  <!-- ═══════════════════════════════════ WORKSHOPS ═══════════════════════════════════ -->
+  <section class="workshops" id="workshops">
+    <h2>Workshops &amp; Specials</h2>
+    <div class="workshop-grid">
+
+      <div class="workshop-card">
+        <div class="workshop-icon">🔥</div>
+        <div class="workshop-info">
+          <h3>Grill-Workshop</h3>
+          <p>Freitagnachmittags. Wer mit anpacken will, ist dabei — vom Anzünden bis zum Wendemanöver.</p>
+        </div>
+      </div>
+
+      <div class="workshop-card">
+        <div class="workshop-icon">🎤</div>
+        <div class="workshop-info">
+          <h3>Karaoke</h3>
+          <p>Samstagabend im bekannten Terrain. Die Setlist ist improvisiert, die Stimmung nicht.</p>
+        </div>
+      </div>
+
+      <div class="workshop-card">
+        <div class="workshop-icon">🏕️</div>
+        <div class="workshop-info">
+          <h3>Waldfloor</h3>
+          <p>Freitagnacht geht's 15 Minuten zu Fuß in den Wald. Der Rest ergibt sich.</p>
+        </div>
+      </div>
+
+      <div class="workshop-card">
+        <div class="workshop-icon">🍧</div>
+        <div class="workshop-info">
+          <h3>Slushy Station</h3>
+          <p>Samstag zur Erholung. Slushys, Abchillen, Energie sammeln für die Nacht.</p>
+        </div>
+      </div>
+
+      <div class="workshop-card">
+        <div class="workshop-icon">🎯</div>
+        <div class="workshop-info">
+          <h3>Bierpong Turnier</h3>
+          <p>Samstagabend, sobald der Bunker läuft. Anmeldung vor Ort, Tische sind limitiert.</p>
+        </div>
+      </div>
+
+      <div class="workshop-card workshop-card--tba">
+        <div class="workshop-icon">✨</div>
+        <div class="workshop-info">
+          <h3>Mehr kommt noch</h3>
+          <p>Was genau? Zeigt sich vor Ort. Es entsteht immer mehr, als man plant.</p>
+        </div>
+      </div>
+
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════ TIMELINE / PFAD ═══════════════════════════════════ -->
@@ -336,6 +426,51 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
     </div>
   </section>
 
+  <!-- ═══════════════════════════════════ EINKAUF & NOTFALLVERSORGUNG ═══════════════════════════════════ -->
+  <section class="einkauf" id="einkauf">
+    <h2>Einkauf &amp; Notfallversorgung</h2>
+    <p class="einkauf-intro">Falls Getränkevorräte, Grillgut oder spontane Überlebensmaßnahmen nötig werden — kurze Nachschubwege in Heumaden:</p>
+    <div class="einkauf-grid">
+
+      <div class="einkauf-card">
+        <div class="einkauf-header">
+          <span class="einkauf-name">PENNY</span>
+          <span class="einkauf-tag">Supermarkt</span>
+        </div>
+        <div class="einkauf-address">Bildäcker Str./Bockelstr. 29, 70619 Stuttgart</div>
+        <p class="einkauf-desc">Für Basics, Snacks, Getränke und Nachkauf.</p>
+      </div>
+
+      <div class="einkauf-card">
+        <div class="einkauf-header">
+          <span class="einkauf-name">REWE</span>
+          <span class="einkauf-tag">Supermarkt</span>
+        </div>
+        <div class="einkauf-address">Paprikastr. 10, 70619 Stuttgart</div>
+        <p class="einkauf-desc">Größerer Nachschubpunkt. Mo–Sa 07:00–21:00.</p>
+      </div>
+
+      <div class="einkauf-card">
+        <div class="einkauf-header">
+          <span class="einkauf-name">Stadtbäckerei Schultheiss</span>
+          <span class="einkauf-tag">Bäckerei</span>
+        </div>
+        <div class="einkauf-address">Bockelstraße 29, 70619 Stuttgart</div>
+        <p class="einkauf-desc">Für Frühstück, Backwaren und Sonntags-Rettung am Morgen. Mo–Fr 07:00–19:00, Sa 07:00–14:00, So 08:00–11:00.</p>
+      </div>
+
+      <div class="einkauf-card einkauf-card--apotheke">
+        <div class="einkauf-header">
+          <span class="einkauf-name">Brunnen-Apotheke</span>
+          <span class="einkauf-tag">Apotheke</span>
+        </div>
+        <div class="einkauf-address">Bildäckerstr. 1, 70619 Stuttgart</div>
+        <p class="einkauf-desc">Für den kleinen medizinischen Ernstfall. Di–Fr 08:30–13:00 und 14:30–18:30, Sa 08:30–13:00.</p>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ═══════════════════════════════════ ORTE ═══════════════════════════════════ -->
   <section class="locations" id="orte">
     <h2>Orte</h2>
@@ -343,9 +478,15 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
 
       <div class="location-card">
         <div class="location-name">Freitag · Startpunkt</div>
-        <div class="location-address">Heumaden</div>
-        <div class="location-detail">Wald · Grillen · Waldfloor</div>
-        <a href="https://maps.app.goo.gl/UKsdSCvtEbTDEkxd8" target="_blank" rel="noopener" class="btn btn-amber">
+        <div class="location-address locked" id="addr-fri-lock">
+          <span class="addr-locked-msg">🔒 Adresse nach Login sichtbar</span>
+        </div>
+        <div class="location-address real hidden" id="addr-fri-real">
+          Heumaden · <a href="https://maps.app.goo.gl/gERZXAxDN73kbogH6" target="_blank" rel="noopener">Google Maps</a>
+        </div>
+        <div class="location-detail locked-detail" id="detail-fri-lock">Wald · Grillen · Waldfloor</div>
+        <div class="location-detail real hidden" id="detail-fri-real">Wald · Grillen · Waldfloor · Outdoor</div>
+        <a href="https://maps.app.goo.gl/gERZXAxDN73kbogH6" target="_blank" rel="noopener" class="btn btn-amber addr-reveal-btn hidden" id="btn-fri">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
           In Google Maps
         </a>
@@ -353,14 +494,37 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
 
       <div class="location-card">
         <div class="location-name">Samstag · Bunker</div>
-        <div class="location-address">Nellingerstraße 3, 70619 Stuttgart</div>
-        <div class="location-detail">Indoor · Tanzfläche · Karaoke</div>
-        <a href="https://maps.app.goo.gl/7xXZCB4mMbWiW7ek8" target="_blank" rel="noopener" class="btn btn-amber">
+        <div class="location-address locked" id="addr-sat-lock">
+          <span class="addr-locked-msg">🔒 Adresse nach Login sichtbar</span>
+        </div>
+        <div class="location-address real hidden" id="addr-sat-real">
+          Nellingerstraße 3, 70619 Stuttgart · <a href="https://maps.app.goo.gl/7xXZCB4mMbWiW7ek8" target="_blank" rel="noopener">Google Maps</a>
+        </div>
+        <div class="location-detail locked-detail" id="detail-sat-lock">Indoor · Tanzfläche · Karaoke</div>
+        <div class="location-detail real hidden" id="detail-sat-real">Indoor · Tanzfläche · Karaoke · Bunker</div>
+        <a href="https://maps.app.goo.gl/7xXZCB4mMbWiW7ek8" target="_blank" rel="noopener" class="btn btn-amber addr-reveal-btn hidden" id="btn-sat">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
           In Google Maps
         </a>
       </div>
 
+    </div>
+
+    <div class="addr-gate" id="addr-gate">
+      <p class="addr-gate-label">Adresse zum Wochenende</p>
+      <div class="addr-gate-input-row">
+        <input
+          type="password"
+          id="addr-password"
+          class="addr-password-input"
+          placeholder="Passwort eingeben..."
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button class="btn btn-amber addr-unlock-btn" id="addr-unlock-btn">Entsperren</button>
+      </div>
+      <p class="addr-gate-error hidden" id="addr-error">Falsches Passwort.</p>
+      <p class="addr-gate-hint">Die Adresse ist auf dem direkten Weg zur Party bekannt.</p>
     </div>
   </section>
 
@@ -382,5 +546,6 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
   </footer>
 
   <script src="js/lineup.js"></script>
+  <script src="js/weather.js"></script>
 </body>
 </html>

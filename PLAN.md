@@ -22,6 +22,12 @@
 - CTAs: "Pfad ins Wochenende", "Gästeinfos", "Support den Zauber"
 - Hintergrund: dunkler Verlauf, Wald-Grain, warme Akzentfarbe
 
+### Section 1.5 — Wetter Bar (Minimal)
+- Unter dem Hero, vor "Die Lore"
+- Kompakte Anzeige: `Fr · ☀️ 18°C` | `Sa · 🌤️ 15°C`
+- Non-blocking, gibt schnellen Überblick
+- Scrollt mit
+
 ### Section 2 — Die Lore
 - Poetischer Einladungstext
 - Über den Abschied, das Wochenende, das Ritual
@@ -47,7 +53,13 @@
 - PayPal-Link / Partykasse
 - Kurzer erklärender Satz
 
-### Section 7 — Footer
+### Section 7 — Wetter (Ausführlich)
+- Eigene Section vor dem Footer
+- Card pro Tag (Freitag / Samstag)
+- Details: Temperatur, Regen-Wahrscheinlichkeit, Wind, Sonnenaufgang/-untergang
+- Open-Meteo API (kostenlos, keine API Key)
+
+### Section 8 — Footer
 - WhatsApp-Gruppe
 - "Kommet zu Hauf und bringt Freude mit"
 - "made by friends"
@@ -142,6 +154,41 @@
 
 ### Community
 - WhatsApp-Gruppe vorhanden
+
+## 5.1 Wetter Integration
+
+### API
+- **Anbieter:** Open-Meteo (free, keine API Key nötig)
+- **Endpoint:** `https://api.open-meteo.com/v1/forecast`
+- **Koordinaten Heumaden:** `latitude: 48.71, longitude: 9.23`
+
+### Wetter Bar (Minimal)
+- Position: Unter Hero, vor "Die Lore"
+- Format: `Fr · ☀️ 18°C` | `Sa · 🌤️ 15°C`
+- Einfarbig, schmal, nicht ablenkend
+
+### Wetter Section (Ausführlich)
+- Position: Vor dem Footer
+- Layout: 2 Cards (Freitag / Samstag)
+- Angezeigte Daten:
+  - Wetter-Icon (Sonne, Wolken, Regen)
+  - Max/Min Temperatur
+  - Regen-Wahrscheinlichkeit (%)
+  - Windgeschwindigkeit (km/h)
+  - Sonnenaufgang / Sonnenuntergang
+- Responsive: nebeneinander auf Desktop, gestapelt auf Mobile
+
+### Weather Codes Mapping
+| Code | Icon | Bedeutung |
+|------|------|----------|
+| 0 | ☀️ | Klar |
+| 1-3 | 🌤️ | Leicht bewölkt |
+| 45-48 | 🌫️ | Nebel |
+| 51-57 | 🌧️ | Nieselregen |
+| 61-67 | 🌧️ | Regen |
+| 71-77 | ❄️ | Schnee |
+| 80-82 | 🌦️ | Schauer |
+| 95-99 | ⛈️ | Gewitter |
 
 ## 6. Noch offen /waiting on Mitja
 
