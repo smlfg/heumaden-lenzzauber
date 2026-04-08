@@ -1,21 +1,32 @@
-// Line-up tab switcher
-const tabs = document.querySelectorAll('.lineup-tab');
-const friday = document.getElementById('friday');
-const saturday = document.getElementById('saturday');
+// ═══════════════════════════════════════════════════════════
+// PROGRAMM TAB SWITCHER
+// ═══════════════════════════════════════════════════════════
+const programmTabs = document.querySelectorAll('.programm-tab');
+const progViews = document.querySelectorAll('.prog-view');
 
-tabs.forEach(tab => {
+programmTabs.forEach(tab => {
   tab.addEventListener('click', () => {
-    tabs.forEach(t => t.classList.remove('active'));
+    programmTabs.forEach(t => t.classList.remove('active'));
+    progViews.forEach(v => v.classList.remove('active-view'));
     tab.classList.add('active');
+    const view = tab.dataset.view;
+    const target = document.getElementById('prog-' + view);
+    if (target) target.classList.add('active-view');
+  });
+});
 
+// ─── Line-up sub-tabs (Fr / Sa) ───
+const lineupSubTabs = document.querySelectorAll('.lineup-sub-tab');
+const lineupDays = document.querySelectorAll('.lineup-day');
+
+lineupSubTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    lineupSubTabs.forEach(t => t.classList.remove('active'));
+    lineupDays.forEach(d => d.classList.add('hidden'));
+    tab.classList.add('active');
     const day = tab.dataset.day;
-    if (day === 'friday') {
-      friday.classList.remove('hidden');
-      saturday.classList.add('hidden');
-    } else {
-      saturday.classList.remove('hidden');
-      friday.classList.add('hidden');
-    }
+    const target = document.getElementById(day);
+    if (target) target.classList.remove('hidden');
   });
 });
 
@@ -44,7 +55,6 @@ const btnSat = document.getElementById('btn-sat');
 function unlock() {
   const val = passwordInput.value.trim().toLowerCase();
   if (val === CORRECT_PASSWORD || val === CORRECT_ALT.toLowerCase()) {
-    // Reveal all addresses
     [lockedFri, lockedSat, detailFriLock, detailSatLock].forEach(el =>
       el.classList.add('hidden')
     );
@@ -68,3 +78,40 @@ unlockBtn.addEventListener('click', unlock);
 passwordInput.addEventListener('keydown', e => {
   if (e.key === 'Enter') unlock();
 });
+
+// ═══════════════════════════════════════════════════════════
+// SOUNDCLOUD AVATARS
+// ═══════════════════════════════════════════════════════════
+async function loadSCAvatars() {
+  const acts = document.querySelectorAll('.act-card[data-sc-url]');
+  for (const act of acts) {
+    const scUrl = act.dataset.scUrl;
+    try {
+      const res = await fetch(
+        'https://soundcloud.com/oembed?url=' + encodeURIComponent(scUrl) + '&format=json&maxwidth=88&maxheight=88'
+      );
+      if (!res.ok) continue;
+      const data = await res.json();
+      const tmp = document.createElement('div');
+      tmp.innerHTML = data.html;
+      const img = tmp.querySelector('img');
+      if (img) {
+        const placeholder = act.querySelector('.act-avatar-placeholder');
+        placeholder.innerHTML = '';
+        const avatar = img.cloneNode();
+        avatar.className = 'act-avatar';
+        avatar.loading = 'lazy';
+        avatar.style.width = '100%';
+        avatar.style.height = '100%';
+        placeholder.appendChild(avatar);
+      }
+    } catch (e) {
+      // CORS blocked or network error — placeholder emoji stays
+    }
+  }
+}
+
+// Load avatars after a short delay so page renders first
+if (document.querySelector('.act-card[data-sc-url]')) {
+  setTimeout(loadSCAvatars, 800);
+}
