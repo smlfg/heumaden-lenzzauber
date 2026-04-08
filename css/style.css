@@ -784,39 +784,54 @@ p {
 }
 
 .info-card:hover {
-  border-color: rgba(255, 149, 0, 0.4);
-  box-shadow: 0 0 20px rgba(255, 149, 0, 0.12);
-  transform: translateY(-3px);
+  border-color: rgba(255, 149, 0, 0.3);
+  box-shadow: 0 0 12px rgba(255, 149, 0, 0.08);
+  transform: none;
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .info-icon {
-  font-size: 1.75rem;
-  margin-bottom: var(--space-xs);
-  filter: grayscale(0.2);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  line-height: 1;
+  margin: 0;
+  filter: none;
 }
 
 .info-card h3 {
   font-size: 0.8rem;
   color: var(--amber);
-  margin-bottom: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 .info-card p,
 .info-card li {
-  font-size: 0.875rem;
+  font-size: 0.78rem;
   color: var(--text-dim);
-  line-height: 1.65;
+  line-height: 1.5;
+  margin: 0;
 }
 
 .info-card ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 3px;
 }
 
 .info-card li {
-  padding-left: 1em;
+  padding-left: 0.8rem;
   position: relative;
 }
 
