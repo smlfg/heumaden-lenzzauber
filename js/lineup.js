@@ -414,7 +414,7 @@ function getWaterRange(duration, thirst, shares) {
   };
 
   const range = baseRanges[duration] || baseRanges.both;
-  const extra = thirstBoost[thirst] || 0.25;
+  const extra = thirstBoost[thirst] ?? 0.25;
   const shareBoost = shares ? 0.5 : 0;
 
   return [
@@ -424,7 +424,18 @@ function getWaterRange(duration, thirst, shares) {
 }
 
 function updateDrinkCalculator() {
+  console.log('[DrinkCalc] called', {
+    drinkResult: !!drinkResult,
+    drinkTypeSelect: !!drinkTypeSelect,
+    drinkThirstInput: !!drinkThirstInput,
+    drinkDurationInput: !!drinkDurationInput,
+    drinkShareInput: !!drinkShareInput,
+    drinkCustomInput: !!drinkCustomInput,
+    drinkCustomWrap: !!drinkCustomWrap
+  });
+
   if (!drinkResult || !drinkTypeSelect || !drinkThirstInput || !drinkDurationInput || !drinkShareInput) {
+    console.log('[DrinkCalc] early return — missing elements');
     return;
   }
 
@@ -465,14 +476,12 @@ function updateDrinkCalculator() {
   if (drinkType === 'wasser') {
     mainText = `Für deinen Vibe: ${waterText}. Elegant, hydriert, zukunftsfähig.`;
     noteText = 'Grobe Schätzung, keine Wissenschaft. Wer Wasser mitbringt, macht selten etwas falsch.';
+  } else if (thirst === 'alkoholiker') {
+    noteText = 'Sehr großzügig geplant. Wenn das bei dir nicht nur Selbstironie ist, schau bitte auch auf die Hilfelinks direkt über dem Rechner.';
   } else if (drinkType === 'mate' || drinkType === 'softdrink') {
     noteText = 'Grobe Schätzung, keine Wissenschaft. Für Tag zwei ist ein kleines Wasserpolster trotzdem sehr schlau.';
   } else if (drinkType === 'custom' && customText) {
     noteText = `Grobe Schätzung für ${customText}. Die genaue Wahrheit kennt wie immer nur die Nacht.`;
-  }
-
-  if (thirst === 'alkoholiker') {
-    noteText = 'Sehr großzügig geplant. Wenn das bei dir nicht nur Selbstironie ist, schau bitte auch auf die Hilfelinks direkt über dem Rechner.';
   }
 
   drinkResult.innerHTML =
@@ -480,18 +489,20 @@ function updateDrinkCalculator() {
     `<p class="tool-result-note">${noteText}</p>`;
 }
 
+function toggleCustomDrinkInput() {
+  if (drinkCustomWrap && drinkTypeSelect) {
+    drinkCustomWrap.classList.toggle('hidden', drinkTypeSelect.value !== 'custom');
+  }
+}
+
 if (drinkResult) {
-  [drinkTypeSelect, drinkThirstInput, drinkDurationInput, drinkShareInput].forEach(input => {
-    if (!input) return;
-    input.addEventListener('change', updateDrinkCalculator);
-  });
-  if (drinkCustomInput) {
-    drinkCustomInput.addEventListener('input', updateDrinkCalculator);
+  if (drinkTypeSelect) {
+    drinkTypeSelect.addEventListener('change', toggleCustomDrinkInput);
   }
   if (drinkCalcBtn) {
     drinkCalcBtn.addEventListener('click', updateDrinkCalculator);
   }
-  updateDrinkCalculator();
+  toggleCustomDrinkInput();
 }
 
 if (document.querySelector('.act-card[data-sc-url]')) {
