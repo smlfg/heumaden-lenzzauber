@@ -3029,6 +3029,77 @@ section {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   KOMMUNIKATION — Security Spectrum
+══════════════════════════════════════════════════════════ */
+
+.komm-security {
+  max-width: 720px;
+  margin: 0 auto var(--space-lg);
+  text-align: center;
+}
+
+.komm-security-track {
+  display: flex;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 8px;
+  margin-bottom: 0.4rem;
+}
+
+.komm-security-segment {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: default;
+}
+
+.komm-security-segment--red   { background: #e74c3c; }
+.komm-security-segment--orange { background: #e67e22; }
+.komm-security-segment--green  { background: #27ae60; }
+
+.komm-security-label {
+  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.85);
+  position: absolute;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.komm-security-segment:hover .komm-security-label {
+  opacity: 1;
+}
+
+.komm-security-platforms {
+  display: flex;
+  justify-content: space-around;
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 0 0.5rem;
+}
+
+.komm-security-name {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+}
+
+.komm-security-note {
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════
    KOMMUNIKATION — Contact Cards
 ══════════════════════════════════════════════════════════ */
 
