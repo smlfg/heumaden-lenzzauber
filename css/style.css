@@ -3099,6 +3099,11 @@ section {
   font-style: italic;
 }
 
+.komm-security-note strong {
+  color: var(--text-dim);
+  font-weight: normal;
+}
+
 /* ═══════════════════════════════════════════════════════════
    KOMMUNIKATION — Contact Cards
 ══════════════════════════════════════════════════════════ */
@@ -3168,16 +3173,6 @@ section {
   line-height: 1.4;
 }
 
-.komm-mail {
-  color: var(--acid);
-  text-decoration: none;
-  word-break: break-all;
-}
-
-.komm-mail:hover {
-  text-decoration: underline;
-}
-
 /* Card accent borders */
 .komm-card--wa  { border-color: rgba(191, 0, 255, 0.25); }
 .komm-card--wa:hover { border-color: rgba(191, 0, 255, 0.5); }
@@ -3187,9 +3182,6 @@ section {
 
 .komm-card--threema { border-color: rgba(76, 175, 80, 0.25); }
 .komm-card--threema:hover { border-color: rgba(76, 175, 80, 0.5); }
-
-.komm-card--mail { border-color: rgba(0, 245, 255, 0.18); }
-.komm-card--mail:hover { border-color: rgba(0, 245, 255, 0.38); }
 
 /* ═══════════════════════════════════════════════════════════
    FOOTER — updated
