@@ -4,16 +4,36 @@
 const programmTabs = document.querySelectorAll('.programm-tab');
 const progViews = document.querySelectorAll('.prog-view');
 
+function activateTab(viewName) {
+  const tab = document.querySelector('.programm-tab[data-view="' + viewName + '"]');
+  if (!tab) return;
+  programmTabs.forEach(t => t.classList.remove('active'));
+  progViews.forEach(v => v.classList.remove('active-view'));
+  tab.classList.add('active');
+  const target = document.getElementById('prog-' + viewName);
+  if (target) target.classList.add('active-view');
+}
+
 programmTabs.forEach(tab => {
   tab.addEventListener('click', () => {
-    programmTabs.forEach(t => t.classList.remove('active'));
-    progViews.forEach(v => v.classList.remove('active-view'));
-    tab.classList.add('active');
-    const view = tab.dataset.view;
-    const target = document.getElementById('prog-' + view);
-    if (target) target.classList.add('active-view');
+    activateTab(tab.dataset.view);
   });
 });
+
+// Activate correct tab when navigating via hash (e.g. #prog-helfen)
+function handleHash() {
+  const hash = window.location.hash; // e.g. "#prog-helfen"
+  if (!hash) return;
+  const match = hash.match(/^#prog-(.+)$/);
+  if (match) {
+    activateTab(match[1]);
+    // Scroll to top of programme section
+    const progSection = document.getElementById('programm');
+    if (progSection) progSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+window.addEventListener('hashchange', handleHash);
+handleHash(); // Run on page load in case hash is already set
 
 // ─── Weather bar (Friday only, Open-Meteo) ───
 const HEUMADEN_LAT = 48.74;
