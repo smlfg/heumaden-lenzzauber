@@ -1961,11 +1961,27 @@ p {
   border-bottom: none;
 }
 
+.shift-row--blank {
+  margin-top: 0.2rem;
+  padding: 0.38rem 0.45rem;
+  border: 1px dashed rgba(255, 149, 0, 0.22);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 149, 0, 0.035);
+}
+
 .shift-time {
   font-family: var(--font-mono);
   font-size: 0.64rem;
   color: var(--amber);
   padding-top: 0.1rem;
+}
+
+.shift-row--blank .shift-time {
+  color: var(--cyan);
+}
+
+.shift-row--blank .shift-task {
+  color: var(--text-body);
 }
 
 .shift-task {
