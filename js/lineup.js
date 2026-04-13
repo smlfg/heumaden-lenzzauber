@@ -183,7 +183,7 @@ function unlock() {
       el.classList.remove('hidden')
     );
     gate.classList.add('unlocked');
-    gate.querySelector('.addr-gate-label').textContent = '✓ Adresse freigeschaltet';
+    gate.querySelector('.addr-gate-label').textContent = '✓ Orte freigeschaltet';
     gate.querySelector('.addr-gate-hint').textContent = 'Viel Spaß am Wochenende!';
     errorMsg.classList.add('hidden');
     passwordInput.value = '';
