@@ -120,8 +120,10 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
   support: {
     title: "Support den Zauber",
     text: "Es gibt keinen Eintritt. Wenn du das Wochenende mittragen möchtest, freuen wir uns über einen freiwilligen Beitrag zur Partykasse — für Aufbau, Material, Grundversorgung und alles, was diesen kleinen Ausnahmezustand möglich macht.",
-    paypalLink: "mitja.987654321@gmail.com",
-    ctaLabel: "PayPal: mitja.987654321@gmail.com"
+    paypalLink: "https://www.paypal.com/pools/c/9oic8tzSrB",
+    ctaLabel: "Zur Partykasse",
+    directPayPalEmail: "mitja.987654321@gmail.com",
+    directCtaLabel: "Mitja direkt: PayPal-Adresse kopieren"
   },
 
   footer: {

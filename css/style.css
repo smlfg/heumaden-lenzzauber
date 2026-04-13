@@ -178,7 +178,7 @@ section {
   position: relative;
   z-index: 1;
   padding: var(--space-lg) var(--space-md);
-  max-width: 960px;
+  max-width: 1120px;
   margin: 0 auto;
   scroll-margin-top: 5.5rem;
 }
@@ -243,13 +243,13 @@ p {
 ══════════════════════════════════════════════════════════ */
 
 .hero {
-  min-height: 100svh;
+  min-height: min(100svh, 46rem);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
-  padding: var(--space-lg);
+  padding: clamp(2rem, 10svh, 5rem) var(--space-lg) var(--space-lg);
   position: relative;
   overflow: hidden;
   background: var(--bg-void);
@@ -311,7 +311,8 @@ p {
   background-image:
     linear-gradient(180deg, rgba(3, 5, 7, 0.26), rgba(3, 5, 7, 0.62)),
     url('../assets/img/IMG-20250316-WA0020.jpg');
-  background-position: center 38%;
+  background-size: auto 154%;
+  background-position: center 46%;
   opacity: 0.35;
   filter: brightness(0.55) saturate(0.9) contrast(1.05);
 }
@@ -320,7 +321,9 @@ p {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, var(--bg-void) 85%);
+  background:
+    radial-gradient(circle at center, transparent 0%, rgba(3, 5, 7, 0.35) 72%, var(--bg-void) 92%),
+    linear-gradient(180deg, transparent 0%, transparent 58%, rgba(3, 5, 7, 0.72) 82%, var(--bg-void) 100%);
 }
 
 .hero-eyebrow {
@@ -337,7 +340,9 @@ p {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, var(--bg-void) 90%);
+  background:
+    radial-gradient(circle at center, transparent 0%, rgba(3, 5, 7, 0.35) 72%, var(--bg-void) 92%),
+    linear-gradient(180deg, transparent 0%, transparent 58%, rgba(3, 5, 7, 0.72) 82%, var(--bg-void) 100%);
 }
 
 .hero-eyebrow {
@@ -512,7 +517,7 @@ p {
 }
 
 .quick-nav-inner {
-  max-width: 960px;
+  max-width: 1120px;
   margin: 0 auto;
   display: grid;
   gap: 0.45rem;
@@ -637,6 +642,12 @@ p {
   .whatis-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-md);
+  }
+}
+
+@media (min-width: 980px) {
+  .whatis-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -1027,6 +1038,12 @@ p {
 @media (min-width: 860px) {
   .info-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 980px) {
+  .info-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -2695,6 +2712,12 @@ section {
   }
 }
 
+@media (min-width: 980px) {
+  .faq-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .faq-item {
   background: var(--bg-card);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -2828,6 +2851,7 @@ section {
 .support-actions {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.75rem;
   margin-top: var(--space-md);
 }
@@ -2880,6 +2904,7 @@ section {
   .support-actions {
     flex-direction: row;
     align-items: stretch;
+    justify-content: center;
   }
 
   .support-cta {
@@ -3199,7 +3224,7 @@ section {
 
 .komm {
   padding: var(--space-xl) var(--space-md);
-  max-width: 960px;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
