@@ -64,13 +64,13 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
       { title: "Line Dance für Faule", host: "Judy", detail: "Niedrigschwelliger Freitagsslot." }
     ],
     timetable: [
-      { time: "15:00–16:30", event: "Spiele & Challenges", host: "Raffi" },
-      { time: "15:00–18:30", event: "Bastelwerkstatt offen", host: "Raffi + Franzi" },
-      { time: "16:00–17:00", event: "Wikingerschach", host: "Franzi" },
-      { time: "16:30–17:30", event: "Musicproducing", host: "Quirin" },
-      { time: "17:30–18:15", event: "How to Demo für linke Querulant:innen", host: "Michi" },
-      { time: "18:15–18:45", event: "Line Dance für Faule", host: "Judy" },
-      { time: "laufend", event: "Tombola · freie Ideen", host: "Raffi / Helping Hands" }
+      { time: "Zeit folgt", event: "Spiele & Challenges", host: "Raffi" },
+      { time: "Zeit folgt", event: "Bastelwerkstatt offen", host: "Raffi + Franzi" },
+      { time: "Zeit folgt", event: "Wikingerschach", host: "Franzi" },
+      { time: "Zeit folgt", event: "Musicproducing", host: "Quirin" },
+      { time: "Zeit folgt", event: "How to Demo für linke Querulant:innen", host: "Michi" },
+      { time: "Zeit folgt", event: "Line Dance für Faule", host: "Judy" },
+      { time: "Zeit folgt", event: "Tombola · freie Ideen", host: "Raffi / Helping Hands" }
     ]
   },
 
