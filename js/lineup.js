@@ -44,47 +44,75 @@ const weatherBar = document.getElementById('weather-bar');
 
 async function loadFridayWeather() {
   if (!weatherBar) return;
+  weatherBar.classList.add('hidden');
+  weatherBar.replaceChildren();
+
   try {
     const url =
       'https://api.open-meteo.com/v1/forecast' +
       '?latitude=' + HEUMADEN_LAT +
       '&longitude=' + HEUMADEN_LON +
       '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum' +
-      '&timezone=Europe%2FBerlin&forecast_days=16';
+      '&timezone=Europe%2FBerlin' +
+      '&start_date=' + EVENT_FRIDAY +
+      '&end_date=' + EVENT_FRIDAY;
     const res = await fetch(url);
     if (!res.ok) throw new Error('Weather API error');
     const data = await res.json();
 
-    const idx = data.daily.time.indexOf(EVENT_FRIDAY);
+    const idx = data.daily?.time?.indexOf(EVENT_FRIDAY) ?? -1;
     if (idx === -1) return; // event date not in forecast range
 
-    const code = data.daily.weather_code[idx];
-    const max = Math.round(data.daily.temperature_2m_max[idx]);
-    const min = Math.round(data.daily.temperature_2m_min[idx]);
-    const precip = data.daily.precipitation_sum[idx];
+    const code = data.daily.weather_code?.[idx];
+    const maxRaw = data.daily.temperature_2m_max?.[idx];
+    const minRaw = data.daily.temperature_2m_min?.[idx];
+    const precip = data.daily.precipitation_sum?.[idx];
 
-    const icons = { clear: '☀️', partly: '⛅', cloudy: '☁️', fog: '🌫️', drizzle: '🌦️', rain: '🌧️', snow: '❄️', thunder: '⛈️', unknown: '?' };
+    if (!Number.isFinite(maxRaw) || !Number.isFinite(minRaw)) return;
+
+    const max = Math.round(maxRaw);
+    const min = Math.round(minRaw);
+
+    const icons = { clear: '☀️', partly: '⛅', cloudy: '☁️', fog: '🌫️', drizzle: '🌦️', rain: '🌧️', snow: '❄️', thunder: '⛈️', unknown: '🌤️' };
     const descs = {
       0: ['Klar', 'clear'], 1: ['Leicht bewölkt', 'partly'], 2: ['Bewölkt', 'cloudy'],
-      3: ['Bedeckt', 'cloudly'], 45: ['Nebel', 'fog'], 48: ['Reifnebel', 'fog'],
+      3: ['Bedeckt', 'cloudy'], 45: ['Nebel', 'fog'], 48: ['Reifnebel', 'fog'],
       51: ['Leichter Niesel', 'drizzle'], 53: ['Niesel', 'drizzle'], 55: ['Starker Niesel', 'drizzle'],
       61: ['Leichter Regen', 'rain'], 63: ['Regen', 'rain'], 65: ['Starker Regen', 'rain'],
       71: ['Leichter Schnee', 'snow'], 73: ['Schnee', 'snow'], 75: ['Starker Schnee', 'snow'],
+      80: ['Leichte Schauer', 'rain'], 81: ['Schauer', 'rain'], 82: ['Starke Schauer', 'rain'],
       95: ['Gewitter', 'thunder'], 96: ['Gewitter + Hagel', 'thunder'], 99: ['Gewitter + Hagel', 'thunder']
     };
-    const [desc, key] = (descs[code] || ['???', 'unknown']);
-    const icon = icons[key] || '?';
-    const precipLine = precip > 0 ? ` · ${precip}mm Regen` : ' · kein Regen';
+    const [desc, key] = (descs[code] || ['Wetter noch offen', 'unknown']);
+    const icon = icons[key] || icons.unknown;
+    const precipLine = Number.isFinite(precip)
+      ? (precip > 0 ? ` · ${precip.toLocaleString('de-DE', { maximumFractionDigits: 1 })} mm Regen` : ' · kein Regen')
+      : '';
 
-    weatherBar.innerHTML =
-      '<span class="weather-bar-day">Fr · 24. Apr</span>' +
-      '<span class="weather-bar-icon">' + icon + '</span>' +
-      '<span class="weather-bar-temp">' + min + '–' + max + '°C</span>' +
-      '<span class="weather-bar-sep">·</span>' +
-      '<span class="weather-bar-desc">' + desc + precipLine + '</span>';
+    const day = document.createElement('span');
+    day.className = 'weather-bar-day';
+    day.textContent = 'Fr · 24. Apr';
+
+    const iconEl = document.createElement('span');
+    iconEl.className = 'weather-bar-icon';
+    iconEl.textContent = icon;
+
+    const temp = document.createElement('span');
+    temp.className = 'weather-bar-temp';
+    temp.textContent = `${min}–${max}°C`;
+
+    const sep = document.createElement('span');
+    sep.className = 'weather-bar-sep';
+    sep.textContent = '·';
+
+    const descEl = document.createElement('span');
+    descEl.className = 'weather-bar-desc';
+    descEl.textContent = desc + precipLine;
+
+    weatherBar.replaceChildren(day, iconEl, temp, sep, descEl);
     weatherBar.classList.remove('hidden');
   } catch (e) {
-    // API failed — stay hidden
+    // API failed or forecast is unavailable: stay hidden.
   }
 }
 
