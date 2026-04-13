@@ -2523,6 +2523,13 @@ section {
   }
 }
 
+@media (min-width: 980px) {
+  .workshop-material-grid,
+  .wm-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .wm-card {
   display: flex;
   align-items: flex-start;
@@ -2588,6 +2595,57 @@ section {
   line-height: 1.4;
 }
 
+.workshop-timeline {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.workshop-time-row {
+  display: grid;
+  grid-template-columns: 7.2rem 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.85rem;
+  border: 1px solid rgba(255, 149, 0, 0.12);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+.workshop-time-row--open {
+  border-style: dashed;
+  background: rgba(255, 149, 0, 0.035);
+}
+
+.workshop-time {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--amber);
+  padding-top: 0.12rem;
+}
+
+.workshop-time-copy {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.workshop-time-copy strong {
+  font-size: 0.85rem;
+  color: var(--text-bright);
+}
+
+.workshop-time-copy span {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+@media (max-width: 560px) {
+  .workshop-time-row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════
    WHATSAPP CARD (Helfen)
 ══════════════════════════════════════════════════════════ */
@@ -2601,6 +2659,28 @@ section {
   border-radius: var(--radius-md);
   padding: var(--space-md);
   margin-bottom: var(--space-md);
+}
+
+.help-section-title {
+  margin: 0.9rem 0 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.help-open-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.95rem;
+}
+
+@media (min-width: 760px) {
+  .help-open-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .help-callout {

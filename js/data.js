@@ -51,6 +51,29 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
     }
   },
 
+  workshops: {
+    title: "Workshops",
+    note: "Alle Workshops sind Freitag im Fenster nach dem Aufbau und vor der Opening Zeremonie geplant.",
+    items: [
+      { title: "Spiele & Challenges", host: "Raffi", detail: "Ca. 90 Minuten mit Preisen." },
+      { title: "Bastelwerkstatt", host: "Raffi + Franzi", detail: "Papierflieger, Armbandknüpfen, Material und Anleitung." },
+      { title: "Wikingerschach", host: "Franzi", detail: "Franzi organisiert, wenn Wetter und Fläche passen." },
+      { title: "Tombola", host: "Raffi", detail: "Preishilfe gesucht." },
+      { title: "How to Demo für linke Querulant:innen", host: "Michi", detail: "Workshop-Angebot steht." },
+      { title: "Musicproducing", host: "Quirin", detail: "Freitag im Workshopfenster." },
+      { title: "Line Dance für Faule", host: "Judy", detail: "Niedrigschwelliger Freitagsslot." }
+    ],
+    timetable: [
+      { time: "15:00–16:30", event: "Spiele & Challenges", host: "Raffi" },
+      { time: "15:00–18:30", event: "Bastelwerkstatt offen", host: "Raffi + Franzi" },
+      { time: "16:00–17:00", event: "Wikingerschach", host: "Franzi" },
+      { time: "16:30–17:30", event: "Musicproducing", host: "Quirin" },
+      { time: "17:30–18:15", event: "How to Demo für linke Querulant:innen", host: "Michi" },
+      { time: "18:15–18:45", event: "Line Dance für Faule", host: "Judy" },
+      { time: "laufend", event: "Tombola · freie Ideen", host: "Raffi / Helping Hands" }
+    ]
+  },
+
   infos: {
     title: "Was du wissen musst",
     cards: [
