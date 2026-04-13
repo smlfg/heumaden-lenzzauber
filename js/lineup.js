@@ -510,6 +510,49 @@ if (document.querySelector('.act-card[data-sc-url]')) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// HERO BACKGROUND DAMPED FADE
+// ═══════════════════════════════════════════════════════════
+function animateHeroBackgroundFade() {
+  const heroBg = document.querySelector('.hero-bg--ritual');
+  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+  if (!heroBg || reduceMotion || !window.requestAnimationFrame) return;
+
+  const duration = 10000;
+  const target = 0.35;
+  const amplitude = 0.65;
+  const decay = 2.85;
+  const frequency = 7.75 * Math.PI;
+  const minOpacity = 0.3;
+  const maxOpacity = 1;
+  const start = performance.now();
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const damping = Math.exp(-decay * progress);
+    const wave = Math.cos(frequency * progress);
+    const opacity = clamp(target + amplitude * damping * wave, minOpacity, maxOpacity);
+
+    heroBg.style.opacity = opacity.toFixed(3);
+
+    if (progress < 1) {
+      window.requestAnimationFrame(tick);
+      return;
+    }
+
+    heroBg.style.opacity = String(target);
+  }
+
+  window.requestAnimationFrame(tick);
+}
+
+animateHeroBackgroundFade();
+
+// ═══════════════════════════════════════════════════════════
 // HERO COUNTDOWN
 // ═══════════════════════════════════════════════════════════
 const EVENT_START = new Date('2026-04-24T18:00:00+02:00');

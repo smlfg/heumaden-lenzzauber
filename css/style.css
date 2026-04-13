@@ -312,9 +312,8 @@ p {
     linear-gradient(180deg, rgba(3, 5, 7, 0.26), rgba(3, 5, 7, 0.62)),
     url('../assets/img/IMG-20250316-WA0020.jpg');
   background-position: center 38%;
-  opacity: 0.36;
+  opacity: 0.35;
   filter: brightness(0.55) saturate(0.9) contrast(1.05);
-  animation: hero-image-fade 1.5s var(--ease) both;
 }
 
 .hero-bg::after {
@@ -322,11 +321,6 @@ p {
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at center, transparent 0%, var(--bg-void) 85%);
-}
-
-@keyframes hero-image-fade {
-  from { opacity: 1; }
-  to   { opacity: 0.36; }
 }
 
 .hero-eyebrow {
