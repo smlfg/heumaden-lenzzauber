@@ -50,7 +50,7 @@ async function loadFridayWeather() {
       '?latitude=' + HEUMADEN_LAT +
       '&longitude=' + HEUMADEN_LON +
       '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum' +
-      '&timezone=Europe%2FBerlin&forecast_days=17';
+      '&timezone=Europe%2FBerlin&forecast_days=16';
     const res = await fetch(url);
     if (!res.ok) throw new Error('Weather API error');
     const data = await res.json();
