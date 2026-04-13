@@ -292,9 +292,9 @@ p {
   100% { transform: translate(30px, 30px) scale(1.05); }
 }
 
-.hero > * {
+.hero > :not(.hero-bg) {
   position: relative;
-  z-index: 2;
+  z-index: 4;
 }
 
 .hero-bg {
@@ -304,7 +304,7 @@ p {
   background-position: center;
   opacity: 0.35;
   filter: brightness(0.5) contrast(1.1);
-  z-index: 1;
+  z-index: 0;
 }
 
 .hero-bg--ritual {
@@ -314,7 +314,7 @@ p {
   background-position: center 38%;
   opacity: 0.36;
   filter: brightness(0.55) saturate(0.9) contrast(1.05);
-  animation: hero-image-fade 1s var(--ease) both;
+  animation: hero-image-fade 1.5s var(--ease) both;
 }
 
 .hero-bg::after {
@@ -2035,7 +2035,7 @@ section {
 }
 
 .hero {
-  animation-delay: 0s;
+  animation: none;
 }
 
 .lore {
@@ -3694,9 +3694,7 @@ section {
 
 /* ── Hero h1: glimmer effect ── */
 .hero h1 {
-  animation:
-    drop-shadow(0 0 30px var(--acid-glow)),
-    glimmer 4s ease-in-out infinite;
+  animation: none;
 }
 
 @keyframes glimmer {
