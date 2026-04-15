@@ -35,7 +35,7 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
         { time: "Mittags", event: "Ankunft", detail: "" },
         { time: "Nachmittags", event: "Grillen · Workshops · Spiele", detail: "" },
         { time: "Gegen Abend", event: "Floor öffnet", detail: "" },
-        { time: "Nacht", event: "Der Wald ruft", detail: "15 min Fußweg vom Haus" },
+        { time: "Nacht", event: "Der Wald ruft", detail: "Details kommen über die Gruppe" },
         { time: "Bis Sonnenaufgang", event: "Dunkel-psychedelische Klänge", detail: "" }
       ]
     },
@@ -45,7 +45,7 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
       slots: [
         { time: "Morgen", event: "Erholungspause", detail: "Slushys, Essen, Abchillen" },
         { time: "Tagsüber", event: "Slafen im Haus", detail: "" },
-        { time: "Abends", event: "Weiter im bekannten Terrain", detail: "Nellingerstraße 3, 70619" },
+        { time: "Abends", event: "Weiter im bekannten Terrain", detail: "Karaoke · Bierpong · Bunker" },
         { time: "Nacht", event: "Karaoke · Bierpong · Bunker", detail: "Bouncig-fetzige Klänge" }
       ]
     }
@@ -118,24 +118,6 @@ mit Grillen, Workshops, Spielen, Waldfloor, Erholungspausen, Karaoke, Bierpong, 
           "Dinge verschütten und nicht wegmachen",
           "Chaos hinterlassen"
         ]
-      }
-    ]
-  },
-
-  locations: {
-    title: "Orte",
-    places: [
-      {
-        name: "Startpunkt Freitag",
-        address: "Heumaden",
-        detail: "Wald / Start am Haus",
-        mapsLink: "https://maps.google.com/?q=Heumaden+Stuttgart"
-      },
-      {
-        name: "Samstagabend",
-        address: "Nellingerstraße 3, 70619 Stuttgart",
-        detail: "Indoor · Bunker · Tanzfläche",
-        mapsLink: "https://maps.google.com/?q=Nellingerstraße+3+70619+Stuttgart"
       }
     ]
   },
