@@ -631,7 +631,7 @@ function updateSmokeCalculator() {
     warningText = 'Keine Stummelbox markiert. Bitte irgendeine Dose, Glas oder Tasche dafür einplanen.';
   }
 
-  setToolResult(smokeResult, mainText, noteText, details, ['Schnorrpuffer', type === 'roll' ? 'Drehtabak' : 'Schachteln', hasVape ? 'Vape-Backup' : 'Feuerzeug', 'Leaf no trace'], warningText);
+  setToolResult(smokeResult, mainText, noteText, details, ['Schnorrpuffer', type === 'roll' ? 'Drehtabak' : 'Schachteln', hasVape ? 'Vape-Backup' : 'Feuerzeug', 'Leave No Trace'], warningText);
 }
 
 function updateJointCalculator() {

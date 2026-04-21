@@ -3707,20 +3707,32 @@ section {
 
 .vending-sticker-marker {
   flex-basis: min(100%, 24rem);
-  margin-top: 0.18rem;
-  border-color: rgba(57, 255, 20, 0.34) !important;
+  margin: 0.25rem 0 0.08rem;
+  border-color: rgba(255, 45, 45, 0.68) !important;
+  border-radius: 0.18rem !important;
   background:
-    linear-gradient(180deg, rgba(246, 255, 112, 0.18), rgba(3, 5, 7, 0.72)) !important;
-  color: var(--acid) !important;
+    linear-gradient(100deg, transparent 0 8%, rgba(255, 0, 0, 0.14) 8% 92%, transparent 92%),
+    rgba(18, 2, 2, 0.62) !important;
+  color: #ff3b30 !important;
   font-family: var(--font-display) !important;
-  font-size: 0.68rem !important;
-  letter-spacing: 0.02em !important;
-  text-transform: none !important;
-  transform: rotate(-5deg) translateX(0.18rem) !important;
+  font-size: 0.86rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1.12 !important;
+  text-transform: uppercase !important;
+  transform: rotate(-8deg) translateX(0.35rem) skewX(-7deg) !important;
+  text-shadow:
+    0.04em 0.03em 0 rgba(0, 0, 0, 0.9),
+    -0.03em 0.02em 0 rgba(255, 255, 255, 0.08),
+    0 0 12px rgba(255, 0, 0, 0.36);
   text-decoration: underline;
-  text-decoration-thickness: 0.18rem;
-  text-decoration-color: rgba(57, 255, 20, 0.32);
-  box-shadow: 0 0 20px rgba(57, 255, 20, 0.08);
+  text-decoration-thickness: 0.16rem;
+  text-decoration-color: rgba(255, 45, 45, 0.78);
+  text-underline-offset: 0.1rem;
+  box-shadow:
+    0 0 0 1px rgba(255, 45, 45, 0.18),
+    0 0 20px rgba(255, 0, 0, 0.16);
+  filter: saturate(1.25);
 }
 
 .vending-window {
