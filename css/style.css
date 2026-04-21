@@ -4500,16 +4500,6 @@ fieldset.tool-field {
     -webkit-overflow-scrolling: touch;
   }
 
-  .vending-track::before,
-  .vending-track::after {
-    content: '';
-    position: sticky;
-    z-index: 4;
-    flex: 0 0 0;
-    width: 0;
-    pointer-events: none;
-  }
-
   .vending-track::-webkit-scrollbar {
     display: none;
   }
@@ -4580,6 +4570,11 @@ fieldset.tool-field {
 
   .vending-track.is-carousel-ready > .vending-machine:not(.is-carousel-active) .tool-copy {
     display: none;
+  }
+
+  .vending-track.is-carousel-ready > .vending-machine:not(.is-carousel-active) .vending-stickers span:not(:first-child),
+  .vending-track.is-carousel-ready > .vending-machine:not(.is-carousel-active) .vending-sticker-marker {
+    display: none !important;
   }
 
   .vending-track > .vending-machine:hover,

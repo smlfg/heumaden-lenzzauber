@@ -904,14 +904,18 @@ function initVendingCarousel() {
   track.addEventListener('scroll', scheduleCarouselUpdate, { passive: true });
   window.addEventListener('resize', scheduleCarouselUpdate);
 
-  if (mobileQuery.addEventListener) {
-    mobileQuery.addEventListener('change', () => {
-      setActivePanel(activeIndex);
-      window.requestAnimationFrame(() => {
-        if (mobileQuery.matches) scrollToPanel(activeIndex, 'auto');
-        updateCarouselDepth();
-      });
+  function handleCarouselModeChange() {
+    setActivePanel(activeIndex);
+    window.requestAnimationFrame(() => {
+      if (mobileQuery.matches) scrollToPanel(activeIndex, 'auto');
+      updateCarouselDepth();
     });
+  }
+
+  if (mobileQuery.addEventListener) {
+    mobileQuery.addEventListener('change', handleCarouselModeChange);
+  } else if (mobileQuery.addListener) {
+    mobileQuery.addListener(handleCarouselModeChange);
   }
 
   setActivePanel(0);
