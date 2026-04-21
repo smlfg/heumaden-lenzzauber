@@ -1,0 +1,104 @@
+/* Time-aware state for finite party slots. */
+
+.slot,
+.act-card {
+  position: relative;
+}
+
+.memento-state {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 1.35rem;
+  margin-top: 0.25rem;
+  padding: 0.16rem 0.42rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.act-card .memento-state {
+  grid-column: 2 / -1;
+  margin-top: 0.1rem;
+}
+
+.slot .memento-state {
+  grid-column: 2 / -1;
+}
+
+.is-memento-past {
+  opacity: 0.44;
+  filter: grayscale(0.78) saturate(0.52);
+}
+
+.is-memento-past:hover {
+  opacity: 0.62;
+  filter: grayscale(0.55) saturate(0.68);
+}
+
+.is-memento-past .slot-event,
+.is-memento-past .slot-time,
+.is-memento-past .act-name,
+.is-memento-past .act-time {
+  text-decoration-line: line-through;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(240, 255, 240, 0.46);
+  text-decoration-skip-ink: none;
+}
+
+.is-memento-past .slot-detail,
+.is-memento-past .act-note {
+  color: var(--text-muted);
+}
+
+.is-memento-past .memento-state {
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(200, 230, 200, 0.56);
+}
+
+.is-memento-now {
+  border-color: rgba(255, 149, 0, 0.48) !important;
+  background:
+    linear-gradient(135deg, rgba(255, 149, 0, 0.12), rgba(57, 255, 20, 0.055)),
+    var(--bg-card);
+  box-shadow: 0 0 22px rgba(255, 149, 0, 0.12);
+}
+
+.slot.is-memento-now {
+  margin: 0.12rem 0;
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--amber);
+}
+
+.is-memento-now .slot-time,
+.is-memento-now .act-time,
+.is-memento-now .memento-state {
+  color: var(--amber);
+}
+
+.is-memento-now .memento-state {
+  border-color: rgba(255, 149, 0, 0.42);
+  box-shadow: 0 0 14px rgba(255, 149, 0, 0.12);
+}
+
+.is-memento-upcoming .memento-state {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .act-card .memento-state {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-memento-past,
+  .is-memento-past:hover {
+    transition: none;
+  }
+}

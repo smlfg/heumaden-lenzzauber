@@ -1,0 +1,269 @@
+.dj-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  mix-blend-mode: screen;
+  contain: layout paint style;
+}
+
+.dj-transition-overlay::before,
+.dj-transition-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.dj-transition-overlay::before {
+  background:
+    linear-gradient(transparent 0 48%, rgba(255, 255, 255, 0.34) 49.4% 50.6%, transparent 52% 100%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.075) 0 1px,
+      transparent 1px 8px
+    );
+  transform: translateY(-110%);
+}
+
+.dj-transition-overlay::after {
+  background:
+    radial-gradient(circle at 18% 50%, rgba(57, 255, 20, 0.14), transparent 16rem),
+    radial-gradient(circle at 82% 48%, rgba(0, 229, 255, 0.13), transparent 15rem),
+    linear-gradient(90deg, rgba(255, 0, 132, 0.18), transparent 36%, rgba(0, 229, 255, 0.16));
+  filter: saturate(1.16) contrast(1.05);
+  transform: translateX(-0.8%);
+}
+
+.dj-transition-overlay__pulse,
+.dj-transition-overlay__glitch,
+.dj-transition-overlay__fader {
+  position: absolute;
+  pointer-events: none;
+}
+
+.dj-transition-overlay__pulse {
+  width: 28vmin;
+  height: 28vmin;
+  left: 50%;
+  top: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 0 rgba(255, 149, 0, 0.12),
+    0 0 2rem rgba(0, 229, 255, 0.12),
+    inset 0 0 1.2rem rgba(191, 0, 255, 0.11);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.28);
+}
+
+.dj-transition-overlay__glitch {
+  inset: 0;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, transparent 0 11%, rgba(255, 0, 132, 0.16) 11% 12%, transparent 12% 42%, rgba(0, 229, 255, 0.14) 42% 43%, transparent 43%),
+    linear-gradient(180deg, transparent 0 56%, rgba(255, 255, 255, 0.12) 56% 57%, transparent 57%);
+  clip-path: polygon(0 14%, 100% 12%, 100% 23%, 0 26%);
+  transform: translate3d(-1.2%, 0, 0);
+}
+
+.dj-transition-overlay__fader {
+  left: 50%;
+  bottom: 8vh;
+  width: min(34rem, 58vw);
+  height: 0.28rem;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent),
+    linear-gradient(90deg, rgba(255, 149, 0, 0.42), rgba(57, 255, 20, 0.42), rgba(0, 229, 255, 0.42));
+  box-shadow: 0 0 1.1rem rgba(255, 255, 255, 0.14);
+  opacity: 0;
+  transform: translateX(-50%) scaleX(0.18);
+  transform-origin: center;
+}
+
+:root.is-dj-transition .dj-transition-overlay {
+  animation: dj-overlay-pop 520ms ease-out both;
+}
+
+:root.is-dj-transition .dj-transition-overlay::before {
+  animation: dj-scanline-wipe 430ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+:root.is-dj-transition .dj-transition-overlay::after {
+  animation: dj-strobe-glow 500ms steps(3, end) both;
+}
+
+:root.is-dj-transition .dj-transition-overlay__pulse {
+  animation: dj-bass-pulse 500ms cubic-bezier(0.12, 0.88, 0.24, 1) both;
+}
+
+:root.is-dj-transition .dj-transition-overlay__glitch {
+  animation: dj-glitch-slice 460ms steps(2, end) both;
+}
+
+:root.is-dj-transition .dj-transition-overlay__fader {
+  animation: dj-crossfader 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+:root.is-dj-transition .act-card:focus-visible,
+:root.is-dj-transition .act-card:hover {
+  filter: saturate(1.14) brightness(1.06);
+}
+
+@keyframes dj-overlay-pop {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  8%,
+  72% {
+    opacity: 0.56;
+  }
+}
+
+@keyframes dj-scanline-wipe {
+  0% {
+    opacity: 0;
+    transform: translateY(-110%);
+  }
+
+  12%,
+  54% {
+    opacity: 0.38;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+}
+
+@keyframes dj-strobe-glow {
+  0% {
+    opacity: 0;
+    transform: translateX(-2%);
+  }
+
+  12% {
+    opacity: 0.34;
+    transform: translateX(0.8%);
+  }
+
+  26% {
+    opacity: 0.08;
+    transform: translateX(-0.5%);
+  }
+
+  42% {
+    opacity: 0.28;
+    transform: translateX(0.9%);
+  }
+
+  68% {
+    opacity: 0.1;
+    transform: translateX(-0.3%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+@keyframes dj-bass-pulse {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.28);
+  }
+
+  18% {
+    opacity: 0.38;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.35);
+  }
+}
+
+@keyframes dj-glitch-slice {
+  0% {
+    opacity: 0;
+    clip-path: polygon(0 8%, 100% 4%, 100% 28%, 0 34%);
+    transform: translate3d(-3%, 0, 0);
+  }
+
+  14% {
+    opacity: 0.32;
+    clip-path: polygon(0 48%, 100% 45%, 100% 54%, 0 57%);
+    transform: translate3d(0.9%, 0, 0);
+  }
+
+  34% {
+    opacity: 0.2;
+    clip-path: polygon(0 18%, 100% 21%, 100% 29%, 0 27%);
+    transform: translate3d(-0.8%, 0, 0);
+  }
+
+  62% {
+    opacity: 0.24;
+    clip-path: polygon(0 72%, 100% 69%, 100% 78%, 0 81%);
+    transform: translate3d(0.6%, 0, 0);
+  }
+
+  100% {
+    opacity: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes dj-crossfader {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(0.18);
+  }
+
+  18%,
+  60% {
+    opacity: 0.42;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dj-transition-overlay,
+  .dj-transition-overlay::before,
+  .dj-transition-overlay::after,
+  .dj-transition-overlay__pulse,
+  .dj-transition-overlay__glitch,
+  .dj-transition-overlay__fader {
+    animation-duration: 180ms !important;
+    animation-timing-function: ease-out !important;
+  }
+
+  .dj-transition-overlay__pulse,
+  .dj-transition-overlay__glitch,
+  .dj-transition-overlay__fader {
+    display: none;
+  }
+
+  .dj-transition-overlay::before {
+    background: rgba(255, 255, 255, 0.24);
+    transform: none;
+  }
+
+  .dj-transition-overlay::after {
+    background: linear-gradient(90deg, rgba(255, 149, 0, 0.16), rgba(0, 229, 255, 0.14));
+    filter: none;
+    transform: none;
+  }
+}

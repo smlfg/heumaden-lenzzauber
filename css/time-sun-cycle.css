@@ -1,0 +1,217 @@
+/* Heumaden time sun cycle effect.
+   Public hooks are set by js/time-sun-cycle.js on <html>. */
+
+:root {
+  --sun-cycle-accent: transparent;
+  --sun-cycle-accent-strong: transparent;
+  --sun-cycle-glow: transparent;
+  --sun-cycle-haze: transparent;
+  --sun-cycle-sky: transparent;
+  --sun-cycle-horizon: transparent;
+  --sun-cycle-ray: transparent;
+}
+
+html.is-sunrise-window {
+  --sun-cycle-accent: #ffd38a;
+  --sun-cycle-accent-strong: #ff8e42;
+  --sun-cycle-glow: rgba(255, 177, 82, 0.34);
+  --sun-cycle-haze: rgba(255, 210, 136, 0.16);
+  --sun-cycle-sky: rgba(255, 148, 72, 0.12);
+  --sun-cycle-horizon: rgba(255, 198, 105, 0.24);
+  --sun-cycle-ray: rgba(255, 224, 151, 0.16);
+}
+
+html.is-sunset-window {
+  --sun-cycle-accent: #ff8fbd;
+  --sun-cycle-accent-strong: #ff6a3d;
+  --sun-cycle-glow: rgba(255, 105, 76, 0.32);
+  --sun-cycle-haze: rgba(255, 113, 156, 0.13);
+  --sun-cycle-sky: rgba(191, 0, 255, 0.11);
+  --sun-cycle-horizon: rgba(255, 116, 67, 0.25);
+  --sun-cycle-ray: rgba(255, 174, 91, 0.14);
+}
+
+.sun-cycle-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  contain: layout style paint;
+  transition: opacity 900ms var(--ease, ease);
+}
+
+html.is-sunrise-window .sun-cycle-overlay,
+html.is-sunset-window .sun-cycle-overlay {
+  opacity: 1;
+}
+
+.sun-cycle-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+.sun-cycle-layer--sky {
+  background:
+    linear-gradient(180deg, var(--sun-cycle-sky) 0%, transparent 46%),
+    radial-gradient(ellipse 120% 62% at 50% 112%, var(--sun-cycle-horizon) 0%, transparent 62%);
+  mix-blend-mode: screen;
+  opacity: 0.86;
+}
+
+.sun-cycle-layer--horizon {
+  inset: auto -12vw -18vh;
+  height: min(48vh, 34rem);
+  background:
+    radial-gradient(ellipse 58% 42% at 50% 64%, var(--sun-cycle-accent) 0%, transparent 66%),
+    radial-gradient(ellipse 96% 56% at 50% 82%, var(--sun-cycle-glow) 0%, transparent 72%);
+  filter: blur(18px);
+  opacity: 0.72;
+  animation: sun-cycle-breathe 8s ease-in-out infinite alternate;
+}
+
+.sun-cycle-layer--rays {
+  background:
+    conic-gradient(
+      from 248deg at 50% 100%,
+      transparent 0deg,
+      var(--sun-cycle-ray) 13deg,
+      transparent 28deg,
+      transparent 42deg,
+      var(--sun-cycle-ray) 56deg,
+      transparent 73deg,
+      transparent 100deg
+    );
+  clip-path: polygon(0 28%, 100% 28%, 100% 100%, 0 100%);
+  filter: blur(16px);
+  mix-blend-mode: screen;
+  opacity: 0.44;
+  animation: sun-cycle-rays 14s ease-in-out infinite alternate;
+}
+
+html.is-sunrise-window .hero,
+html.is-sunset-window .hero {
+  background:
+    radial-gradient(ellipse 90% 48% at 50% 100%, var(--sun-cycle-haze) 0%, transparent 68%),
+    var(--bg-void);
+}
+
+html.is-sunrise-window .hero-bg::before,
+html.is-sunset-window .hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 0%, transparent 48%, var(--sun-cycle-haze) 76%, transparent 100%),
+    radial-gradient(ellipse 78% 24% at 50% 86%, var(--sun-cycle-horizon) 0%, transparent 70%);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  z-index: 1;
+  animation: sun-cycle-hero-haze 9s ease-in-out infinite alternate;
+}
+
+html.is-sunrise-window .hero-bg,
+html.is-sunset-window .hero-bg {
+  filter: brightness(0.7) saturate(1.12) contrast(1.03);
+}
+
+html.is-sunrise-window .hero h1,
+html.is-sunset-window .hero h1 {
+  background:
+    linear-gradient(135deg, var(--text-bright) 0%, var(--sun-cycle-accent) 34%, var(--acid) 68%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 32px var(--sun-cycle-glow));
+}
+
+html.is-sunrise-window .hero-eyebrow,
+html.is-sunset-window .hero-eyebrow,
+html.is-sunrise-window .hero-motto,
+html.is-sunset-window .hero-motto {
+  color: var(--sun-cycle-accent);
+  text-shadow: 0 0 18px var(--sun-cycle-glow), 0 0 36px var(--sun-cycle-haze);
+}
+
+html.is-sunrise-window .hero .subtitle,
+html.is-sunset-window .hero .subtitle,
+html.is-sunrise-window .hero-guidance,
+html.is-sunset-window .hero-guidance {
+  color: color-mix(in srgb, var(--text-body) 70%, var(--sun-cycle-accent) 30%);
+}
+
+html.is-sunrise-window .btn,
+html.is-sunset-window .btn {
+  border-color: var(--sun-cycle-accent);
+  color: var(--sun-cycle-accent);
+  box-shadow: 0 0 0 transparent;
+}
+
+html.is-sunrise-window .btn::before,
+html.is-sunset-window .btn::before {
+  background: linear-gradient(135deg, var(--sun-cycle-accent), var(--sun-cycle-accent-strong));
+}
+
+html.is-sunrise-window .btn:hover,
+html.is-sunset-window .btn:hover {
+  border-color: var(--sun-cycle-accent);
+  box-shadow: 0 0 20px var(--sun-cycle-glow), 0 0 42px var(--sun-cycle-haze);
+  color: var(--bg-void);
+}
+
+@keyframes sun-cycle-breathe {
+  from {
+    transform: translate3d(0, 1.5vh, 0) scale(0.98);
+    opacity: 0.56;
+  }
+  to {
+    transform: translate3d(0, -1vh, 0) scale(1.04);
+    opacity: 0.82;
+  }
+}
+
+@keyframes sun-cycle-rays {
+  from {
+    transform: translateY(2vh) scaleX(0.96);
+    opacity: 0.28;
+  }
+  to {
+    transform: translateY(-1vh) scaleX(1.05);
+    opacity: 0.48;
+  }
+}
+
+@keyframes sun-cycle-hero-haze {
+  from {
+    opacity: 0.66;
+  }
+  to {
+    opacity: 0.92;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun-cycle-overlay,
+  .sun-cycle-layer,
+  html.is-sunrise-window .hero-bg::before,
+  html.is-sunset-window .hero-bg::before {
+    animation: none;
+    transition: none;
+  }
+
+  html.is-sunrise-window .sun-cycle-overlay,
+  html.is-sunset-window .sun-cycle-overlay {
+    opacity: 0.62;
+  }
+
+  .sun-cycle-layer--horizon {
+    opacity: 0.48;
+  }
+
+  .sun-cycle-layer--rays {
+    opacity: 0.22;
+  }
+}

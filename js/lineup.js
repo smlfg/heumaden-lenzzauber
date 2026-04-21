@@ -334,24 +334,100 @@ if (document.querySelector('.act-card[data-sc-url]')) {
 const drinkTypeSelect = document.getElementById('drink-type');
 const drinkCustomWrap = document.getElementById('drink-custom-wrap');
 const drinkCustomInput = document.getElementById('drink-custom');
+const drinkCrewInput = document.getElementById('drink-crew');
 const drinkThirstInput = document.getElementById('drink-thirst');
 const drinkDurationInput = document.getElementById('drink-duration');
+const drinkStockInput = document.getElementById('drink-stock');
 const drinkShareInput = document.getElementById('drink-share');
 const drinkCalcBtn = document.getElementById('drink-calc-btn');
 const drinkResult = document.getElementById('drink-result');
+const smokeCrewInput = document.getElementById('smoke-crew');
+const smokeModeSelect = document.getElementById('smoke-mode');
+const smokeTypeSelect = document.getElementById('smoke-type');
+const smokePouchWrap = document.getElementById('smoke-pouch-wrap');
+const smokePouchSelect = document.getElementById('smoke-pouch');
+const smokeDurationSelect = document.getElementById('smoke-duration');
+const smokeStockInput = document.getElementById('smoke-stock');
+const smokeShareInput = document.getElementById('smoke-share');
+const smokeVapeInput = document.getElementById('smoke-vape');
+const smokeAshInput = document.getElementById('smoke-ash');
+const smokeCalcBtn = document.getElementById('smoke-calc-btn');
+const smokeResult = document.getElementById('smoke-result');
+const jointCrewInput = document.getElementById('joint-crew');
+const jointModeSelect = document.getElementById('joint-mode');
+const jointDurationSelect = document.getElementById('joint-duration');
+const jointPauseSelect = document.getElementById('joint-pause');
+const jointPreparedInput = document.getElementById('joint-prepared');
+const jointShareInput = document.getElementById('joint-share');
+const jointReserveInput = document.getElementById('joint-reserve');
+const jointAvoidMixInput = document.getElementById('joint-avoid-mix');
+const jointCalcBtn = document.getElementById('joint-calc-btn');
+const jointResult = document.getElementById('joint-result');
 
 function formatNumberRange(value) {
   return value.toFixed(value >= 10 ? 0 : 1).replace('.', ',');
 }
 
-function formatIntegerRange(value) {
-  return Math.max(1, Math.round(value));
+function clampIntegerInput(input, fallback, min, max) {
+  const value = Number.parseInt(input?.value, 10);
+  if (!Number.isFinite(value)) return fallback;
+  return Math.min(max, Math.max(min, value));
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function resultList(items) {
+  return `<ul class="tool-result-list">${items
+    .map(([label, value]) => `<li><span>${label}</span><strong>${value}</strong></li>`)
+    .join('')}</ul>`;
+}
+
+function resultChips(items) {
+  return `<div class="tool-result-chips">${items.map(item => `<span>${item}</span>`).join('')}</div>`;
+}
+
+function setToolResult(target, mainText, noteText, details = [], chips = [], warningText = '') {
+  if (!target) return;
+  target.classList.remove('vending-display--standby');
+  target.closest('.vending-machine')?.classList.add('vending-machine--awake');
+  target.innerHTML =
+    `<p class="tool-result-main">${mainText}</p>` +
+    (details.length ? resultList(details) : '') +
+    (noteText ? `<p class="tool-result-note">${noteText}</p>` : '') +
+    (warningText ? `<p class="tool-result-warning">${warningText}</p>` : '') +
+    (chips.length ? resultChips(chips) : '');
+}
+
+function setToolPrompt(target, text) {
+  if (!target) return;
+  target.classList.add('vending-display--standby');
+  target.closest('.vending-machine')?.classList.remove('vending-machine--awake');
+  target.innerHTML = `<p class="tool-result-empty">${text}</p>`;
+}
+
+function isBlankInput(input) {
+  return !input || input.value.trim() === '';
+}
+
+function formatPackRange(low, high, packSize = 20) {
+  const lowPacks = Math.max(0, Math.ceil(low / packSize));
+  const highPacks = Math.max(lowPacks, Math.ceil(high / packSize));
+  return `${lowPacks}–${highPacks}`;
 }
 
 function describeDrinkRange(type, low, high, customText) {
   switch (type) {
     case 'bier':
-      return `${low}–${high} Bier`;
+      return high >= 20
+        ? `${low}–${high} Bier, also grob ${formatPackRange(low, high)} Kisten/Trays`
+        : `${low}–${high} Bier`;
     case 'wein': {
       const lowBottles = Math.max(1, Math.round(low / 3));
       const highBottles = Math.max(lowBottles, Math.round(high / 3));
@@ -369,7 +445,7 @@ function describeDrinkRange(type, low, high, customText) {
     case 'softdrink':
       return high >= 12 ? 'eine halbe bis ganze Kiste Softdrinks' : `${low}–${high} Softdrinks`;
     case 'custom': {
-      const label = (customText || 'deines Lieblingsgetränks').trim();
+      const label = escapeHtml((customText || 'deines Lieblingsgetränks').trim());
       return `${low}–${high} Einheiten ${label}`;
     }
     default:
@@ -377,7 +453,7 @@ function describeDrinkRange(type, low, high, customText) {
   }
 }
 
-function getWaterRange(duration, thirst, shares) {
+function getWaterRange(duration, thirst, shares, crew) {
   const baseRanges = {
     friday: [2.2, 3.1],
     saturday: [2, 2.9],
@@ -397,30 +473,25 @@ function getWaterRange(duration, thirst, shares) {
   const shareBoost = shares ? 0.5 : 0;
 
   return [
-    Math.max(1, range[0] + extra + shareBoost),
-    Math.max(1.5, range[1] + extra + shareBoost)
+    Math.max(1, (range[0] + extra + shareBoost) * crew),
+    Math.max(1.5, (range[1] + extra + shareBoost) * crew)
   ];
 }
 
 function updateDrinkCalculator() {
-  console.log('[DrinkCalc] called', {
-    drinkResult: !!drinkResult,
-    drinkTypeSelect: !!drinkTypeSelect,
-    drinkThirstInput: !!drinkThirstInput,
-    drinkDurationInput: !!drinkDurationInput,
-    drinkShareInput: !!drinkShareInput,
-    drinkCustomInput: !!drinkCustomInput,
-    drinkCustomWrap: !!drinkCustomWrap
-  });
-
   if (!drinkResult || !drinkTypeSelect || !drinkThirstInput || !drinkDurationInput || !drinkShareInput) {
-    console.log('[DrinkCalc] early return — missing elements');
+    return;
+  }
+  if (isBlankInput(drinkCrewInput)) {
+    setToolPrompt(drinkResult, 'Standby. Trag 1 ein, wenn du nur für dich packst.');
     return;
   }
 
+  const crew = clampIntegerInput(drinkCrewInput, 1, 1, 8);
   const thirst = drinkThirstInput.value;
   const drinkType = drinkTypeSelect.value;
   const duration = drinkDurationInput.value;
+  const stock = clampIntegerInput(drinkStockInput, 0, 0, 300);
   const shares = drinkShareInput.checked;
   const customText = drinkCustomInput?.value.trim();
 
@@ -442,30 +513,38 @@ function updateDrinkCalculator() {
     overnight: 2.45
   };
 
-  const shareMultiplier = shares ? 1.28 : 1;
-  const base = (thirstBase[thirst] || 5) * (durationMultiplier[duration] || 1.8) * shareMultiplier;
-  const low = formatIntegerRange(base);
-  const high = Math.max(low + 1, formatIntegerRange(base * 1.25));
-  const [waterLow, waterHigh] = getWaterRange(duration, thirst, shares);
+  const shareMultiplier = shares ? 1.18 : 1;
+  const base = (thirstBase[thirst] || 5) * (durationMultiplier[duration] || 1.8) * crew * shareMultiplier;
+  const low = Math.max(0, Math.round(base - stock));
+  const high = Math.max(low, Math.round(base * 1.25 - stock));
+  const [waterLow, waterHigh] = getWaterRange(duration, thirst, shares, crew);
   const waterText = `${formatNumberRange(waterLow)}–${formatNumberRange(waterHigh)} Liter Wasser`;
 
-  let mainText = `Für deinen Vibe: ${describeDrinkRange(drinkType, low, high, customText)} plus mindestens ${waterText}.`;
-  let noteText = 'Charmante Näherung. Wenn der Kofferraum es hergibt, lieber einen Tick zu freundlich planen.';
+  let mainText = `Automat sagt für deinen Besuch: ${describeDrinkRange(drinkType, low, high, customText)} plus mindestens ${waterText}.`;
+  let noteText = 'Charmante Näherung. Wenn dein Rucksack es hergibt, lieber einen Tick zu freundlich planen.';
+  let warningText = '';
 
   if (drinkType === 'wasser') {
-    mainText = `Für deinen Vibe: ${waterText}. Elegant, hydriert, zukunftsfähig.`;
+    mainText = `Automat sagt für deinen Besuch: ${waterText}. Elegant, hydriert, zukunftsfähig.`;
     noteText = 'Grobe Schätzung, keine Wissenschaft. Wer Wasser mitbringt, macht selten etwas falsch.';
+  } else if (high <= 0) {
+    mainText = `Automat sagt: Dein Vorrat reicht für dieses Getränk schon. Wasser trotzdem nicht vergessen: ${waterText}.`;
+    noteText = 'Der Automat zieht deinen vorhandenen Vorrat ab und zeigt keine negativen Einkaufslisten.';
   } else if (thirst === 'alkoholiker') {
-    noteText = 'Sehr großzügig geplant. Wenn das bei dir nicht nur Selbstironie ist, schau bitte auch auf die Hilfelinks direkt über dem Rechner.';
+    warningText = 'Sehr großzügig geplant. Wenn das bei dir nicht nur Selbstironie ist, schau bitte auch auf die Hilfelinks direkt darunter.';
   } else if (drinkType === 'mate' || drinkType === 'softdrink') {
     noteText = 'Grobe Schätzung, keine Wissenschaft. Für Tag zwei ist ein kleines Wasserpolster trotzdem sehr schlau.';
   } else if (drinkType === 'custom' && customText) {
-    noteText = `Grobe Schätzung für ${customText}. Die genaue Wahrheit kennt wie immer nur die Nacht.`;
+    noteText = `Grobe Schätzung für ${escapeHtml(customText)}. Die genaue Wahrheit kennt wie immer nur die Nacht.`;
   }
 
-  drinkResult.innerHTML =
-    `<p class="tool-result-main">${mainText}</p>` +
-    `<p class="tool-result-note">${noteText}</p>`;
+  const details = [
+    ['Packziel', crew === 1 ? 'nur du' : `du + ${crew - 1} Extra`],
+    ['Schon da', `${stock} Einheiten`],
+    ['Wasserquote', waterLow / crew >= 2.5 ? 'stabil' : 'lieber mehr']
+  ];
+  const chips = ['Browser-only', shares ? 'Teilpuffer' : 'Solo', drinkType === 'wasser' ? 'Hydro-Held' : 'Durst-Level'];
+  setToolResult(drinkResult, mainText, noteText, details, chips, warningText);
 }
 
 function toggleCustomDrinkInput() {
@@ -474,15 +553,251 @@ function toggleCustomDrinkInput() {
   }
 }
 
+function toggleSmokeTypeFields() {
+  if (!smokePouchWrap || !smokeTypeSelect) return;
+  smokePouchWrap.classList.toggle('hidden', smokeTypeSelect.value !== 'roll');
+}
+
+function updateSmokeCalculator() {
+  if (!smokeResult || !smokeCrewInput || !smokeModeSelect || !smokeDurationSelect || !smokeTypeSelect) {
+    return;
+  }
+  if (isBlankInput(smokeCrewInput)) {
+    setToolPrompt(smokeResult, 'Standby. Trag 1 ein, wenn du nur deinen eigenen Vorrat planst.');
+    return;
+  }
+
+  const people = clampIntegerInput(smokeCrewInput, 1, 1, 8);
+  const mode = smokeModeSelect.value;
+  const type = smokeTypeSelect.value;
+  const duration = smokeDurationSelect.value;
+  const stock = clampIntegerInput(smokeStockInput, 0, 0, 600);
+  const shares = !!smokeShareInput?.checked;
+  const hasVape = !!smokeVapeInput?.checked;
+  const hasAsh = !!smokeAshInput?.checked;
+  const pouchSize = clampIntegerInput(smokePouchSelect, 40, 30, 50);
+
+  const perDay = {
+    casual: 3,
+    social: 5,
+    steady: 8,
+    heavy: 14
+  };
+  const durationFactor = {
+    friday: 1.15,
+    saturday: 1.05,
+    both: 2.1,
+    overnight: 2.45
+  };
+
+  const raw = people * (perDay[mode] || 5) * (durationFactor[duration] || 2) * (shares ? 1.25 : 1) * 1.1 * (hasVape ? 0.72 : 1);
+  const target = Math.max(0, Math.ceil(raw - stock));
+  const low = Math.max(0, Math.floor(target * 0.85));
+  const high = Math.max(low, Math.ceil(target * 1.15));
+  const lighters = Math.max(1, Math.ceil(people / 3) + 1);
+  const ashStations = Math.max(1, Math.ceil(people / (hasAsh ? 5 : 4)));
+
+  let mainText = '';
+  const details = [
+    ['Packziel', people === 1 ? 'nur du' : `du + ${people - 1} Extra`],
+    ['Schon da', `${stock} Kippen`],
+    ['Feuerzeuge', `${lighters}`],
+    ['Vape', hasVape ? 'Pod/Liquid + Akku checken' : 'nicht eingeplant'],
+    ['Stummelstationen', `${ashStations}${hasAsh ? ' reichen wahrscheinlich' : ' einplanen'}`]
+  ];
+  let noteText = 'Stummel sichtbar sammeln, Pausen machen, Wasser daneben stellen. Kippenstummel gehören nicht auf den Boden.';
+  let warningText = '';
+
+  if (target <= 0) {
+    mainText = 'Automat sagt: Du bist versorgt. Kein Nachkauf nötig.';
+  } else if (type === 'roll') {
+    const tobaccoGram = Math.ceil(high * 0.75 * 1.1);
+    const pouches = Math.max(1, Math.ceil(tobaccoGram / pouchSize));
+    const papers = Math.max(1, Math.ceil(high / 50));
+    const filters = Math.max(1, Math.ceil(high / 120));
+    mainText = `Automat sagt: ${low}–${high} Drehkippen einplanen. Pack ${pouches} Pouch${pouches > 1 ? 'es' : ''} à ${pouchSize} g, ${papers} Paper-Pack und ${filters} Filter-Pack ein.`;
+    details.push(['Drehzeug', `${tobaccoGram} g grob`]);
+  } else {
+    const packsLow = Math.max(1, Math.ceil(low / 20));
+    const packsHigh = Math.max(packsLow, Math.ceil(high / 20));
+    const cartons = packsHigh >= 10 ? `${Math.floor(packsHigh / 10)} Stange(n) + ${packsHigh % 10} Schachteln` : `${packsHigh} Schachteln`;
+    mainText = `Automat sagt: ${packsLow}–${packsHigh} Schachteln à 20. Pack ${cartons} ein, wenn du nicht verhandeln willst.`;
+    details.push(['Kippen', `${low}–${high}`]);
+  }
+
+  if (mode === 'heavy') {
+    warningText = 'Dauerfeuer erkannt: mehr Pausen und eine sichtbare Stummelbox machen den Abend deutlich weniger chaotisch.';
+  } else if (!hasAsh) {
+    warningText = 'Keine Stummelbox markiert. Bitte irgendeine Dose, Glas oder Tasche dafür einplanen.';
+  }
+
+  setToolResult(smokeResult, mainText, noteText, details, ['Schnorrpuffer', type === 'roll' ? 'Drehtabak' : 'Schachteln', hasVape ? 'Vape-Backup' : 'Feuerzeug', 'Leaf no trace'], warningText);
+}
+
+function updateJointCalculator() {
+  if (!jointResult || !jointCrewInput || !jointModeSelect || !jointDurationSelect || !jointPauseSelect) {
+    return;
+  }
+  if (isBlankInput(jointCrewInput)) {
+    setToolPrompt(jointResult, 'Standby. Trag ein, mit wie vielen du voraussichtlich teilst; der Automat plant Material und Pausen, nicht Wirkstoff.');
+    return;
+  }
+
+  const people = clampIntegerInput(jointCrewInput, 3, 1, 10);
+  const mode = jointModeSelect.value;
+  const duration = jointDurationSelect.value;
+  const pause = jointPauseSelect.value;
+  const prepared = clampIntegerInput(jointPreparedInput, 0, 0, 80);
+  const shares = !!jointShareInput?.checked;
+  const reserve = !!jointReserveInput?.checked;
+  const avoidMix = jointAvoidMixInput?.checked !== false;
+
+  const durationBlocks = {
+    friday: 2,
+    saturday: 2,
+    both: 4,
+    overnight: 5
+  };
+  const vibeFactor = {
+    mini: 0.45,
+    cozy: 0.7,
+    steady: 1,
+    slow: 0.55
+  };
+  const pauseFactor = {
+    short: 1.15,
+    normal: 1,
+    long: 0.75
+  };
+
+  const groupFactor = shares ? (people >= 6 ? 0.85 : 1) : Math.min(1.8, 1 + (people - 1) * 0.12);
+  const reserveFactor = reserve && mode !== 'steady' ? 1.2 : 1;
+  const rawRounds = (durationBlocks[duration] || 4) *
+    (vibeFactor[mode] || 0.7) *
+    (pauseFactor[pause] || 1) *
+    (shares ? 0.72 : 1) *
+    groupFactor *
+    reserveFactor;
+
+  const plannedRounds = Math.max(1, Math.ceil(rawRounds));
+  const neededRounds = Math.max(0, plannedRounds - prepared);
+  const papers = Math.ceil(neededRounds * 1.25);
+  const filters = Math.ceil(neededRounds * 1.25);
+  const lighters = Math.max(1, Math.ceil(people / 4));
+  const waterBreaks = Math.max(1, Math.ceil(people / 3));
+
+  let mainText = neededRounds <= 0
+    ? `Automat sagt: ${plannedRounds} gemeinsame Runde(n) wären realistisch, vorbereitet ist genug.`
+    : `Automat sagt: ${plannedRounds} gemeinsame Runde(n) einplanen, davon fehlen ${neededRounds}. Pack grob ${papers} Papers und ${filters} Filter als Materialpuffer ein.`;
+  let noteText = 'Langsam starten, teilen statt nachlegen, Wasser sichtbar hinstellen, Pausen ernst nehmen.';
+  let warningText = '';
+
+  if (mode === 'steady' && pause === 'short') {
+    warningText = 'Tempo wirkt zu wild. Lieber größere Pausen einplanen. Weniger ist mehr.';
+  } else if (!avoidMix) {
+    warningText = 'Mischkonsum ist schwer planbar. Besser klar trennen oder auslassen.';
+  } else if (people > 12) {
+    warningText = 'Große Runde erkannt: lieber aufteilen statt alles in eine Rotation zu pressen.';
+  } else if (reserve && mode === 'steady') {
+    warningText = 'Reserve heißt nicht Pflichtprogramm. Der Automat erhöht bei stabilem Modus bewusst nicht weiter.';
+  }
+
+  const tempo = warningText ? 'Tempo: checken' : (mode === 'slow' || pause === 'long' ? 'Tempo: sanft' : 'Tempo: ok');
+  const details = [
+    ['Deine Runde', people === 1 ? 'solo / nicht teilen' : `${people} Leute inkl. dir`],
+    ['Vorbereitet', `${prepared} Runde(n)`],
+    ['Feuerzeuge', `${lighters}`],
+    ['Wasserbreaks', `${waterBreaks}+ sichtbar`]
+  ];
+  const chips = [tempo, shares ? 'teilen' : 'nicht teilen', avoidMix ? 'kein Mix' : 'Mix-Warnung', 'keine Gramm'];
+
+  setToolResult(jointResult, mainText, noteText, details, chips, warningText);
+}
+
+function bindToolCalculator(formId, button, updateFn) {
+  const form = document.getElementById(formId);
+  if (!form || !button) return;
+  button.addEventListener('click', updateFn);
+  form.querySelectorAll('input, select').forEach(control => {
+    control.addEventListener('change', updateFn);
+    control.addEventListener('change', syncVendingChoices);
+    control.addEventListener('input', updateFn);
+  });
+}
+
+function emitControlChange(control) {
+  control.dispatchEvent(new Event('input', { bubbles: true }));
+  control.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+function syncVendingChoices() {
+  document.querySelectorAll('.vending-choice[data-select-target]').forEach(choice => {
+    const target = document.getElementById(choice.dataset.selectTarget);
+    choice.classList.toggle('is-active', !!target && target.value === choice.dataset.selectValue);
+  });
+  document.querySelectorAll('.vending-choice[data-check-target]').forEach(choice => {
+    const target = document.getElementById(choice.dataset.checkTarget);
+    choice.classList.toggle('is-active', !!target?.checked);
+  });
+}
+
+document.querySelectorAll('.vending-choice[data-select-target]').forEach(choice => {
+  choice.addEventListener('click', () => {
+    const target = document.getElementById(choice.dataset.selectTarget);
+    if (!target) return;
+    target.value = choice.dataset.selectValue;
+    emitControlChange(target);
+    syncVendingChoices();
+  });
+});
+
+document.querySelectorAll('.vending-choice[data-check-target]').forEach(choice => {
+  choice.addEventListener('click', () => {
+    const target = document.getElementById(choice.dataset.checkTarget);
+    if (!target) return;
+    target.checked = !target.checked;
+    emitControlChange(target);
+    syncVendingChoices();
+  });
+});
+
+document.querySelectorAll('.step-btn[data-step-target]').forEach(button => {
+  button.addEventListener('click', () => {
+    const target = document.getElementById(button.dataset.stepTarget);
+    if (!target) return;
+    const step = Number.parseInt(button.dataset.step, 10) || 1;
+    const min = Number.parseInt(target.min, 10);
+    const max = Number.parseInt(target.max, 10);
+    const current = target.value.trim() === '' ? (Number.isFinite(min) ? min - step : 0) : Number.parseInt(target.value, 10);
+    const nextRaw = Number.isFinite(current) ? current + step : step;
+    const nextMin = Number.isFinite(min) ? Math.max(min, nextRaw) : nextRaw;
+    const next = Number.isFinite(max) ? Math.min(max, nextMin) : nextMin;
+    target.value = String(next);
+    emitControlChange(target);
+  });
+});
+
 if (drinkResult) {
   if (drinkTypeSelect) {
     drinkTypeSelect.addEventListener('change', toggleCustomDrinkInput);
   }
-  if (drinkCalcBtn) {
-    drinkCalcBtn.addEventListener('click', updateDrinkCalculator);
-  }
   toggleCustomDrinkInput();
+  bindToolCalculator('drink-calculator', drinkCalcBtn, updateDrinkCalculator);
 }
+
+if (smokeResult) {
+  if (smokeTypeSelect) {
+    smokeTypeSelect.addEventListener('change', toggleSmokeTypeFields);
+  }
+  toggleSmokeTypeFields();
+  bindToolCalculator('smoke-calculator', smokeCalcBtn, updateSmokeCalculator);
+}
+
+if (jointResult) {
+  bindToolCalculator('joint-calculator', jointCalcBtn, updateJointCalculator);
+}
+
+syncVendingChoices();
 
 if (document.querySelector('.act-card[data-sc-url]')) {
   window.setTimeout(loadSoundCloudArtists, 500);
@@ -534,8 +849,9 @@ animateHeroBackgroundFade();
 // ═══════════════════════════════════════════════════════════
 // HERO COUNTDOWN
 // ═══════════════════════════════════════════════════════════
-const EVENT_START = new Date('2026-04-24T18:00:00+02:00');
+const EVENT_START = new Date('2026-04-24T12:00:00+02:00');
 const hcDigits = document.getElementById('hc-digits');
+const COUNTDOWN_COMPLETE_MESSAGE = 'Der Lenzzauber ist los.';
 
 function pad(n) { return String(n).padStart(2, '0'); }
 
@@ -545,8 +861,13 @@ function updateHeroCountdown() {
 
   if (!hcDigits) return;
 
+  if (document.documentElement.classList.contains('is-countdown-complete')) {
+    hcDigits.textContent = COUNTDOWN_COMPLETE_MESSAGE;
+    return;
+  }
+
   if (diff <= 0) {
-    hcDigits.textContent = '00 Tage 00 Std 00 Min';
+    hcDigits.textContent = COUNTDOWN_COMPLETE_MESSAGE;
     return;
   }
 
