@@ -42,12 +42,19 @@
     fn();
   }
 
+  function parseForcedDate(value) {
+    var normalized = String(value || '').trim().replace(/ (\d{2}:\d{2})$/, '+$1');
+    var date = new Date(normalized);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
   function getNow() {
     try {
-      var forced = new URLSearchParams(window.location.search).get('mementoNow');
+      var params = new URLSearchParams(window.location.search);
+      var forced = params.get('partyNow') || params.get('mementoNow');
       if (forced) {
-        var forcedDate = new Date(forced);
-        if (!Number.isNaN(forcedDate.getTime())) return forcedDate;
+        var forcedDate = parseForcedDate(forced);
+        if (forcedDate) return forcedDate;
       }
     } catch (error) {
       // Bad URLSearchParams support should fall back to real browser time.

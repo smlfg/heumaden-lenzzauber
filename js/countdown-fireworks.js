@@ -33,6 +33,22 @@
     }
   }
 
+  function parseForcedDate(value) {
+    var normalized = String(value || '').trim().replace(/ (\d{2}:\d{2})$/, '+$1');
+    var date = new Date(normalized);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function getForcedNow() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var forced = params.get('partyNow') || params.get('mementoNow');
+      return forced ? parseForcedDate(forced) : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
   function hasReducedMotion() {
     return window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -195,7 +211,8 @@
   }
 
   function checkCountdown(testMode) {
-    var isComplete = Date.now() >= EVENT_START.getTime();
+    var forcedNow = getForcedNow();
+    var isComplete = (forcedNow || new Date()).getTime() >= EVENT_START.getTime();
 
     if (!isComplete) return;
 
@@ -206,6 +223,7 @@
       completionTimer = null;
     }
 
+    if (forcedNow && !testMode) return;
     if (!testMode && hasStoredCompletion()) return;
 
     launchFireworks({ testMode: testMode });
@@ -225,7 +243,7 @@
 
     checkCountdown(false);
 
-    if (!completionTimer && Date.now() < EVENT_START.getTime()) {
+    if (!completionTimer && !getForcedNow() && Date.now() < EVENT_START.getTime()) {
       completionTimer = window.setInterval(function () {
         checkCountdown(false);
       }, CHECK_INTERVAL_MS);

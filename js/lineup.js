@@ -334,35 +334,33 @@ if (document.querySelector('.act-card[data-sc-url]')) {
 const drinkTypeSelect = document.getElementById('drink-type');
 const drinkCustomWrap = document.getElementById('drink-custom-wrap');
 const drinkCustomInput = document.getElementById('drink-custom');
-const drinkCrewInput = document.getElementById('drink-crew');
 const drinkThirstInput = document.getElementById('drink-thirst');
 const drinkDurationInput = document.getElementById('drink-duration');
 const drinkStockInput = document.getElementById('drink-stock');
 const drinkShareInput = document.getElementById('drink-share');
 const drinkCalcBtn = document.getElementById('drink-calc-btn');
 const drinkResult = document.getElementById('drink-result');
-const smokeCrewInput = document.getElementById('smoke-crew');
 const smokeModeSelect = document.getElementById('smoke-mode');
 const smokeTypeSelect = document.getElementById('smoke-type');
 const smokePouchWrap = document.getElementById('smoke-pouch-wrap');
 const smokePouchSelect = document.getElementById('smoke-pouch');
 const smokeDurationSelect = document.getElementById('smoke-duration');
 const smokeStockInput = document.getElementById('smoke-stock');
-const smokeShareInput = document.getElementById('smoke-share');
 const smokeVapeInput = document.getElementById('smoke-vape');
 const smokeAshInput = document.getElementById('smoke-ash');
 const smokeCalcBtn = document.getElementById('smoke-calc-btn');
 const smokeResult = document.getElementById('smoke-result');
-const jointCrewInput = document.getElementById('joint-crew');
 const jointModeSelect = document.getElementById('joint-mode');
+const jointLengthInput = document.getElementById('joint-length');
 const jointDurationSelect = document.getElementById('joint-duration');
 const jointPauseSelect = document.getElementById('joint-pause');
 const jointPreparedInput = document.getElementById('joint-prepared');
-const jointShareInput = document.getElementById('joint-share');
 const jointReserveInput = document.getElementById('joint-reserve');
 const jointAvoidMixInput = document.getElementById('joint-avoid-mix');
 const jointCalcBtn = document.getElementById('joint-calc-btn');
 const jointResult = document.getElementById('joint-result');
+const vendingPrintTimers = new WeakMap();
+const vendingFeedbackTimers = new WeakMap();
 
 function formatNumberRange(value) {
   return value.toFixed(value >= 10 ? 0 : 1).replace('.', ',');
@@ -395,20 +393,49 @@ function resultChips(items) {
 
 function setToolResult(target, mainText, noteText, details = [], chips = [], warningText = '') {
   if (!target) return;
+  const machine = target.closest('.vending-machine');
   target.classList.remove('vending-display--standby');
-  target.closest('.vending-machine')?.classList.add('vending-machine--awake');
+  machine?.classList.add('vending-machine--awake');
   target.innerHTML =
     `<p class="tool-result-main">${mainText}</p>` +
     (details.length ? resultList(details) : '') +
     (noteText ? `<p class="tool-result-note">${noteText}</p>` : '') +
     (warningText ? `<p class="tool-result-warning">${warningText}</p>` : '') +
     (chips.length ? resultChips(chips) : '');
+
+  if (!machine) return;
+
+  const existingTimer = vendingPrintTimers.get(machine);
+  if (existingTimer) {
+    window.clearTimeout(existingTimer);
+  }
+
+  machine.classList.remove('vending-machine--printing');
+  target.classList.remove('vending-display--printing');
+  void machine.offsetWidth;
+  machine.classList.add('vending-machine--printing');
+  target.classList.add('vending-display--printing');
+
+  const timer = window.setTimeout(() => {
+    machine.classList.remove('vending-machine--printing');
+    target.classList.remove('vending-display--printing');
+    vendingPrintTimers.delete(machine);
+  }, 900);
+
+  vendingPrintTimers.set(machine, timer);
 }
 
 function setToolPrompt(target, text) {
   if (!target) return;
+  const machine = target.closest('.vending-machine');
+  const existingTimer = machine ? vendingPrintTimers.get(machine) : null;
+  if (existingTimer) {
+    window.clearTimeout(existingTimer);
+    vendingPrintTimers.delete(machine);
+  }
   target.classList.add('vending-display--standby');
-  target.closest('.vending-machine')?.classList.remove('vending-machine--awake');
+  target.classList.remove('vending-display--printing', 'vending-display--receipt');
+  machine?.classList.remove('vending-machine--awake', 'vending-machine--printing');
   target.innerHTML = `<p class="tool-result-empty">${text}</p>`;
 }
 
@@ -482,12 +509,7 @@ function updateDrinkCalculator() {
   if (!drinkResult || !drinkTypeSelect || !drinkThirstInput || !drinkDurationInput || !drinkShareInput) {
     return;
   }
-  if (isBlankInput(drinkCrewInput)) {
-    setToolPrompt(drinkResult, 'Standby. Trag 1 ein, wenn du nur für dich packst.');
-    return;
-  }
-
-  const crew = clampIntegerInput(drinkCrewInput, 1, 1, 8);
+  const crew = 1;
   const thirst = drinkThirstInput.value;
   const drinkType = drinkTypeSelect.value;
   const duration = drinkDurationInput.value;
@@ -520,12 +542,12 @@ function updateDrinkCalculator() {
   const [waterLow, waterHigh] = getWaterRange(duration, thirst, shares, crew);
   const waterText = `${formatNumberRange(waterLow)}–${formatNumberRange(waterHigh)} Liter Wasser`;
 
-  let mainText = `Automat sagt für deinen Besuch: ${describeDrinkRange(drinkType, low, high, customText)} plus mindestens ${waterText}.`;
+  let mainText = `Automat sagt für dich: ${describeDrinkRange(drinkType, low, high, customText)} plus mindestens ${waterText}.`;
   let noteText = 'Charmante Näherung. Wenn dein Rucksack es hergibt, lieber einen Tick zu freundlich planen.';
   let warningText = '';
 
   if (drinkType === 'wasser') {
-    mainText = `Automat sagt für deinen Besuch: ${waterText}. Elegant, hydriert, zukunftsfähig.`;
+    mainText = `Automat sagt für dich: ${waterText}. Elegant, hydriert, zukunftsfähig.`;
     noteText = 'Grobe Schätzung, keine Wissenschaft. Wer Wasser mitbringt, macht selten etwas falsch.';
   } else if (high <= 0) {
     mainText = `Automat sagt: Dein Vorrat reicht für dieses Getränk schon. Wasser trotzdem nicht vergessen: ${waterText}.`;
@@ -539,8 +561,8 @@ function updateDrinkCalculator() {
   }
 
   const details = [
-    ['Packziel', crew === 1 ? 'nur du' : `du + ${crew - 1} Extra`],
-    ['Schon da', `${stock} Einheiten`],
+    ['Packziel', 'nur du'],
+    ['Schon im Lager', `${stock} Einheiten`],
     ['Wasserquote', waterLow / crew >= 2.5 ? 'stabil' : 'lieber mehr']
   ];
   const chips = ['Browser-only', shares ? 'Teilpuffer' : 'Solo', drinkType === 'wasser' ? 'Hydro-Held' : 'Durst-Level'];
@@ -559,20 +581,16 @@ function toggleSmokeTypeFields() {
 }
 
 function updateSmokeCalculator() {
-  if (!smokeResult || !smokeCrewInput || !smokeModeSelect || !smokeDurationSelect || !smokeTypeSelect) {
+  if (!smokeResult || !smokeModeSelect || !smokeDurationSelect || !smokeTypeSelect) {
     return;
   }
-  if (isBlankInput(smokeCrewInput)) {
-    setToolPrompt(smokeResult, 'Standby. Trag 1 ein, wenn du nur deinen eigenen Vorrat planst.');
-    return;
-  }
-
-  const people = clampIntegerInput(smokeCrewInput, 1, 1, 8);
+  const people = 1;
   const mode = smokeModeSelect.value;
   const type = smokeTypeSelect.value;
   const duration = smokeDurationSelect.value;
   const stock = clampIntegerInput(smokeStockInput, 0, 0, 600);
-  const shares = !!smokeShareInput?.checked;
+  const shareSelection = document.querySelector('input[name="smoke-share"]:checked');
+  const shares = shareSelection?.value === 'share';
   const hasVape = !!smokeVapeInput?.checked;
   const hasAsh = !!smokeAshInput?.checked;
   const pouchSize = clampIntegerInput(smokePouchSelect, 40, 30, 50);
@@ -581,7 +599,8 @@ function updateSmokeCalculator() {
     casual: 3,
     social: 5,
     steady: 8,
-    heavy: 14
+    heavy: 14,
+    chain: 20
   };
   const durationFactor = {
     friday: 1.15,
@@ -599,8 +618,8 @@ function updateSmokeCalculator() {
 
   let mainText = '';
   const details = [
-    ['Packziel', people === 1 ? 'nur du' : `du + ${people - 1} Extra`],
-    ['Schon da', `${stock} Kippen`],
+    ['Packziel', 'nur du'],
+    ['Schon im Lager', `${stock} Kippen`],
     ['Feuerzeuge', `${lighters}`],
     ['Vape', hasVape ? 'Pod/Liquid + Akku checken' : 'nicht eingeplant'],
     ['Stummelstationen', `${ashStations}${hasAsh ? ' reichen wahrscheinlich' : ' einplanen'}`]
@@ -627,6 +646,8 @@ function updateSmokeCalculator() {
 
   if (mode === 'heavy') {
     warningText = 'Dauerfeuer erkannt: mehr Pausen und eine sichtbare Stummelbox machen den Abend deutlich weniger chaotisch.';
+  } else if (mode === 'chain') {
+    warningText = 'Kettenraucher-Modus: der Automat rechnet extra großzügig und bittet dich um noch mehr Pause.';
   } else if (!hasAsh) {
     warningText = 'Keine Stummelbox markiert. Bitte irgendeine Dose, Glas oder Tasche dafür einplanen.';
   }
@@ -635,22 +656,18 @@ function updateSmokeCalculator() {
 }
 
 function updateJointCalculator() {
-  if (!jointResult || !jointCrewInput || !jointModeSelect || !jointDurationSelect || !jointPauseSelect) {
+  if (!jointResult || !jointModeSelect || !jointDurationSelect || !jointPauseSelect || !jointLengthInput) {
     return;
   }
-  if (isBlankInput(jointCrewInput)) {
-    setToolPrompt(jointResult, 'Standby. Trag ein, mit wie vielen du voraussichtlich teilst; der Automat plant Material und Pausen, nicht Wirkstoff.');
-    return;
-  }
-
-  const people = clampIntegerInput(jointCrewInput, 3, 1, 10);
+  const people = 1;
   const mode = jointModeSelect.value;
   const duration = jointDurationSelect.value;
   const pause = jointPauseSelect.value;
   const prepared = clampIntegerInput(jointPreparedInput, 0, 0, 80);
-  const shares = !!jointShareInput?.checked;
+  const jointLength = clampIntegerInput(jointLengthInput, 6, 3, 14);
   const reserve = !!jointReserveInput?.checked;
   const avoidMix = jointAvoidMixInput?.checked !== false;
+  const lengthFactor = jointLength / 6;
 
   const durationBlocks = {
     friday: 2,
@@ -670,26 +687,24 @@ function updateJointCalculator() {
     long: 0.75
   };
 
-  const groupFactor = shares ? (people >= 6 ? 0.85 : 1) : Math.min(1.8, 1 + (people - 1) * 0.12);
   const reserveFactor = reserve && mode !== 'steady' ? 1.2 : 1;
   const rawRounds = (durationBlocks[duration] || 4) *
     (vibeFactor[mode] || 0.7) *
     (pauseFactor[pause] || 1) *
-    (shares ? 0.72 : 1) *
-    groupFactor *
-    reserveFactor;
+    reserveFactor *
+    lengthFactor;
 
   const plannedRounds = Math.max(1, Math.ceil(rawRounds));
   const neededRounds = Math.max(0, plannedRounds - prepared);
-  const papers = Math.ceil(neededRounds * 1.25);
-  const filters = Math.ceil(neededRounds * 1.25);
+  const papers = Math.ceil(neededRounds * 1.25 * lengthFactor);
+  const filters = Math.ceil(neededRounds * 1.25 * lengthFactor);
   const lighters = Math.max(1, Math.ceil(people / 4));
   const waterBreaks = Math.max(1, Math.ceil(people / 3));
 
   let mainText = neededRounds <= 0
-    ? `Automat sagt: ${plannedRounds} gemeinsame Runde(n) wären realistisch, vorbereitet ist genug.`
-    : `Automat sagt: ${plannedRounds} gemeinsame Runde(n) einplanen, davon fehlen ${neededRounds}. Pack grob ${papers} Papers und ${filters} Filter als Materialpuffer ein.`;
-  let noteText = 'Langsam starten, teilen statt nachlegen, Wasser sichtbar hinstellen, Pausen ernst nehmen.';
+    ? `Automat sagt: ${plannedRounds} Solo-Runde(n) wären realistisch, Jointlänge ${jointLength} cm eingeplant.`
+    : `Automat sagt: ${plannedRounds} Solo-Runde(n) einplanen, davon fehlen ${neededRounds}. Jointlänge ${jointLength} cm macht den Puffer etwas größer: grob ${papers} Papers und ${filters} Filter.`;
+  let noteText = 'Langsam starten, Wasser sichtbar hinstellen, Pausen ernst nehmen.';
   let warningText = '';
 
   if (mode === 'steady' && pause === 'short') {
@@ -704,20 +719,57 @@ function updateJointCalculator() {
 
   const tempo = warningText ? 'Tempo: checken' : (mode === 'slow' || pause === 'long' ? 'Tempo: sanft' : 'Tempo: ok');
   const details = [
-    ['Deine Runde', people === 1 ? 'solo / nicht teilen' : `${people} Leute inkl. dir`],
+    ['Deine Runde', 'solo / nur du'],
+    ['Jointlänge', `${jointLength} cm`],
     ['Vorbereitet', `${prepared} Runde(n)`],
     ['Feuerzeuge', `${lighters}`],
     ['Wasserbreaks', `${waterBreaks}+ sichtbar`]
   ];
-  const chips = [tempo, shares ? 'teilen' : 'nicht teilen', avoidMix ? 'kein Mix' : 'Mix-Warnung', 'keine Gramm'];
+  const chips = [tempo, avoidMix ? 'kein Mix' : 'Mix-Warnung', lengthFactor > 1 ? 'länger' : 'kompakt', 'keine Gramm'];
 
   setToolResult(jointResult, mainText, noteText, details, chips, warningText);
+}
+
+function playVendingFeedback(button, updateFn) {
+  const machine = button.closest('.vending-machine');
+  const display = machine?.querySelector('.vending-display');
+  if (!machine || !display) {
+    updateFn();
+    return;
+  }
+
+  const existingTimers = vendingFeedbackTimers.get(machine);
+  if (existingTimers) {
+    existingTimers.forEach(timer => window.clearTimeout(timer));
+  }
+
+  machine.classList.remove('vending-machine--clack', 'vending-machine--dispensing');
+  display.classList.remove('vending-display--receipt');
+  button.classList.remove('tool-submit--pressed');
+  void machine.offsetWidth;
+
+  button.classList.add('tool-submit--pressed');
+  machine.classList.add('vending-machine--clack');
+
+  const printTimer = window.setTimeout(() => {
+    updateFn();
+    machine.classList.add('vending-machine--dispensing');
+    display.classList.add('vending-display--receipt');
+  }, 90);
+
+  const cleanupTimer = window.setTimeout(() => {
+    button.classList.remove('tool-submit--pressed');
+    machine.classList.remove('vending-machine--clack', 'vending-machine--dispensing');
+    vendingFeedbackTimers.delete(machine);
+  }, 620);
+
+  vendingFeedbackTimers.set(machine, [printTimer, cleanupTimer]);
 }
 
 function bindToolCalculator(formId, button, updateFn) {
   const form = document.getElementById(formId);
   if (!form || !button) return;
-  button.addEventListener('click', updateFn);
+  button.addEventListener('click', () => playVendingFeedback(button, updateFn));
   form.querySelectorAll('input, select').forEach(control => {
     control.addEventListener('change', updateFn);
     control.addEventListener('change', syncVendingChoices);
@@ -739,6 +791,134 @@ function syncVendingChoices() {
     const target = document.getElementById(choice.dataset.checkTarget);
     choice.classList.toggle('is-active', !!target?.checked);
   });
+  document.querySelectorAll('.tool-segmented-option').forEach(option => {
+    const input = option.querySelector('input[type="radio"]');
+    option.classList.toggle('is-active', !!input?.checked);
+  });
+}
+
+function initVendingCarousel() {
+  const track = document.querySelector('[data-vending-carousel]');
+  if (!track) return;
+
+  const panels = Array.from(track.querySelectorAll('[data-vending-panel]'));
+  if (!panels.length) return;
+
+  const pills = Array.from(document.querySelectorAll('.vending-carousel-pill[data-vending-target]'));
+  const mobileQuery = window.matchMedia('(max-width: 699px)');
+  let activeIndex = 0;
+  let frame = 0;
+
+  function clampIndex(index) {
+    return Math.min(panels.length - 1, Math.max(0, index));
+  }
+
+  function scrollToPanel(index, behavior = 'smooth') {
+    const panel = panels[clampIndex(index)];
+    const left = panel.offsetLeft - (track.clientWidth - panel.offsetWidth) / 2;
+    track.scrollTo({ left: Math.max(0, left), behavior });
+  }
+
+  function setActivePanel(index, shouldScroll = false) {
+    activeIndex = clampIndex(index);
+    panels.forEach((panel, panelIndex) => {
+      const isActive = panelIndex === activeIndex;
+      panel.classList.toggle('is-carousel-active', isActive);
+      panel.setAttribute('aria-current', isActive ? 'true' : 'false');
+    });
+    pills.forEach(pill => {
+      const isActive = Number.parseInt(pill.dataset.vendingTarget, 10) === activeIndex;
+      pill.classList.toggle('is-active', isActive);
+      pill.setAttribute('aria-current', isActive ? 'true' : 'false');
+    });
+
+    if (shouldScroll && mobileQuery.matches) {
+      scrollToPanel(activeIndex);
+    }
+  }
+
+  function updateCarouselDepth() {
+    if (!mobileQuery.matches) {
+      track.classList.remove('is-carousel-ready');
+      panels.forEach(panel => {
+        panel.style.removeProperty('--carousel-rotate');
+        panel.style.removeProperty('--carousel-scale');
+        panel.style.removeProperty('--carousel-opacity');
+        panel.style.removeProperty('--carousel-lift');
+        panel.style.removeProperty('--carousel-blur');
+      });
+      return;
+    }
+
+    track.classList.add('is-carousel-ready');
+    const trackCenter = track.scrollLeft + track.clientWidth / 2;
+    let closestIndex = activeIndex;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    panels.forEach((panel, panelIndex) => {
+      const panelCenter = panel.offsetLeft + panel.offsetWidth / 2;
+      const rawDistance = (panelCenter - trackCenter) / panel.offsetWidth;
+      const distance = Math.min(1.2, Math.max(-1.2, rawDistance));
+      const absolute = Math.min(1, Math.abs(distance));
+
+      panel.style.setProperty('--carousel-rotate', `${(-distance * 18).toFixed(2)}deg`);
+      panel.style.setProperty('--carousel-scale', (1 - absolute * 0.16).toFixed(3));
+      panel.style.setProperty('--carousel-opacity', (1 - absolute * 0.42).toFixed(3));
+      panel.style.setProperty('--carousel-lift', `${(absolute * 0.48).toFixed(3)}rem`);
+      panel.style.setProperty('--carousel-blur', `${(absolute * 0.85).toFixed(3)}px`);
+
+      if (absolute < closestDistance) {
+        closestDistance = absolute;
+        closestIndex = panelIndex;
+      }
+    });
+
+    if (closestIndex !== activeIndex) {
+      setActivePanel(closestIndex);
+    }
+  }
+
+  function scheduleCarouselUpdate() {
+    if (frame) return;
+    frame = window.requestAnimationFrame(() => {
+      frame = 0;
+      updateCarouselDepth();
+    });
+  }
+
+  panels.forEach((panel, panelIndex) => {
+    panel.addEventListener('click', event => {
+      if (!mobileQuery.matches || panel.classList.contains('is-carousel-active')) return;
+      event.preventDefault();
+      setActivePanel(panelIndex, true);
+    });
+  });
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const index = Number.parseInt(pill.dataset.vendingTarget, 10);
+      setActivePanel(index, true);
+    });
+  });
+
+  track.addEventListener('scroll', scheduleCarouselUpdate, { passive: true });
+  window.addEventListener('resize', scheduleCarouselUpdate);
+
+  if (mobileQuery.addEventListener) {
+    mobileQuery.addEventListener('change', () => {
+      setActivePanel(activeIndex);
+      window.requestAnimationFrame(() => {
+        if (mobileQuery.matches) scrollToPanel(activeIndex, 'auto');
+        updateCarouselDepth();
+      });
+    });
+  }
+
+  setActivePanel(0);
+  window.requestAnimationFrame(() => {
+    if (mobileQuery.matches) scrollToPanel(0, 'auto');
+    updateCarouselDepth();
+  });
 }
 
 document.querySelectorAll('.vending-choice[data-select-target]').forEach(choice => {
@@ -758,22 +938,6 @@ document.querySelectorAll('.vending-choice[data-check-target]').forEach(choice =
     target.checked = !target.checked;
     emitControlChange(target);
     syncVendingChoices();
-  });
-});
-
-document.querySelectorAll('.step-btn[data-step-target]').forEach(button => {
-  button.addEventListener('click', () => {
-    const target = document.getElementById(button.dataset.stepTarget);
-    if (!target) return;
-    const step = Number.parseInt(button.dataset.step, 10) || 1;
-    const min = Number.parseInt(target.min, 10);
-    const max = Number.parseInt(target.max, 10);
-    const current = target.value.trim() === '' ? (Number.isFinite(min) ? min - step : 0) : Number.parseInt(target.value, 10);
-    const nextRaw = Number.isFinite(current) ? current + step : step;
-    const nextMin = Number.isFinite(min) ? Math.max(min, nextRaw) : nextRaw;
-    const next = Number.isFinite(max) ? Math.min(max, nextMin) : nextMin;
-    target.value = String(next);
-    emitControlChange(target);
   });
 });
 
@@ -798,6 +962,7 @@ if (jointResult) {
 }
 
 syncVendingChoices();
+initVendingCarousel();
 
 if (document.querySelector('.act-card[data-sc-url]')) {
   window.setTimeout(loadSoundCloudArtists, 500);
@@ -855,8 +1020,29 @@ const COUNTDOWN_COMPLETE_MESSAGE = 'Der Lenzzauber ist los.';
 
 function pad(n) { return String(n).padStart(2, '0'); }
 
+function parseForcedCountdownDate(value) {
+  const normalized = String(value || '').trim().replace(/ (\d{2}:\d{2})$/, '+$1');
+  const date = new Date(normalized);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function getCountdownNow() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const forced = params.get('partyNow') || params.get('mementoNow');
+    if (forced) {
+      const forcedDate = parseForcedCountdownDate(forced);
+      if (forcedDate) return forcedDate;
+    }
+  } catch (error) {
+    // Invalid query parsing falls back to real browser time.
+  }
+
+  return new Date();
+}
+
 function updateHeroCountdown() {
-  const now = new Date();
+  const now = getCountdownNow();
   const diff = EVENT_START - now;
 
   if (!hcDigits) return;

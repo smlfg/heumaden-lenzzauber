@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/dj-transition.css">
   <link rel="stylesheet" href="css/countdown-fireworks.css">
   <link rel="stylesheet" href="css/memento-timeline.css">
+  <link rel="stylesheet" href="css/party-state.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 </head>
 <body>
@@ -59,6 +60,8 @@
         <option value="#faq">FAQ</option>
         <option value="#reviews">Wort zum Sonntag</option>
         <option value="#einkauf">Einkauf &amp; Tools</option>
+        <option value="#freunde">Freunde &amp; Builder</option>
+        <option value="#komm">Kontakt</option>
       </select>
     </div>
   </nav>
@@ -1039,12 +1042,11 @@
     <div class="tools-suite vending-suite">
       <div class="tools-intro">
         <h3>Automaten für die Selbstversorgung</h3>
-        <p>Drei kleine Party-Maschinen für deinen eigenen Packzettel: Getränke, Kippen und Joint-Material. Alles läuft nur in deinem Browser, nichts wird gespeichert.</p>
-        <p class="tools-nonalc">Auch alkoholfrei lässt sich der Lenzzauber sehr würdig bestreiten.</p>
-        <p>Ich stehe bei Fragen rund um safer use auch wieder gerne zur Verfügung.</p>
+        <p>Drei kleine Party-Maschinen für dich: Getränke, Kippen und Joint-Material. Alles läuft nur in deinem Browser, nichts wird gespeichert.</p>
       </div>
 
-      <section class="tool-card tool-card--primary vending-machine vending-machine--drink" aria-labelledby="drink-tool-title">
+      <div class="vending-track" aria-label="Automaten" data-vending-carousel>
+      <section class="tool-card tool-card--primary vending-machine vending-machine--drink" aria-labelledby="drink-tool-title" data-vending-panel data-vending-label="Getränke">
         <div class="vending-stickers" aria-hidden="true">
           <span>Wasser nicht vergessen</span>
           <span>Durst-Level</span>
@@ -1053,7 +1055,7 @@
           <span class="tool-icon">🥤</span>
           <div>
             <h3 id="drink-tool-title">Durst-Automat</h3>
-            <p class="tool-copy">Dein Besuch rein, Packzettel raus. Grobe Einkaufshilfe, keine Wissenschaft.</p>
+            <p class="tool-copy">Du rein, Packzettel raus. Grobe Einkaufshilfe, keine Wissenschaft.</p>
           </div>
         </div>
 
@@ -1071,15 +1073,6 @@
         </div>
 
         <form class="tool-form" id="drink-calculator" novalidate>
-          <label class="tool-field">
-            <span>Ich packe für</span>
-            <div class="tool-stepper">
-              <button type="button" class="step-btn" data-step-target="drink-crew" data-step="-1">-</button>
-              <input type="number" id="drink-crew" name="drink-crew" min="1" max="8" step="1" placeholder="1" inputmode="numeric">
-              <button type="button" class="step-btn" data-step-target="drink-crew" data-step="1">+</button>
-            </div>
-          </label>
-
           <label class="tool-field">
             <span>Durststärke</span>
             <select id="drink-thirst" name="thirst">
@@ -1120,12 +1113,8 @@
           </label>
 
           <label class="tool-field">
-            <span>Schon da</span>
-            <div class="tool-stepper">
-              <button type="button" class="step-btn" data-step-target="drink-stock" data-step="-1">-</button>
-              <input type="number" id="drink-stock" name="drink-stock" min="0" max="300" step="1" placeholder="0" inputmode="numeric">
-              <button type="button" class="step-btn" data-step-target="drink-stock" data-step="1">+</button>
-            </div>
+            <span>Schon im Lager</span>
+            <input type="number" id="drink-stock" name="drink-stock" min="0" max="300" step="1" placeholder="0" inputmode="numeric">
           </label>
 
           <label class="tool-checkbox">
@@ -1139,17 +1128,20 @@
         </form>
 
         <div class="tool-result vending-display vending-display--standby" id="drink-result" aria-live="polite">
-          <p class="tool-result-empty">Standby. Trag 1 ein, wenn du nur für dich packst.</p>
+          <p class="tool-result-empty">Standby. Der Automat spuckt dir gleich den Solo-Plan aus.</p>
         </div>
 
         <p class="tools-help-note">Falls das Thema Alkohol bei dir oder deinen Leuten nicht nur als Witz auftaucht: Hilfe findest du bei <a href="https://www.kenn-dein-limit.de/alkoholberatung/" target="_blank" rel="noopener noreferrer" class="info-link">Alkohol? Kenn dein Limit</a> und bei der <a href="https://www.dhs.de/suchthilfe/suchtberatung" target="_blank" rel="noopener noreferrer" class="info-link">DHS-Suchtberatung</a>.</p>
       </section>
 
-      <section class="tool-card vending-machine vending-machine--smoke" aria-labelledby="smoke-tool-title">
+      <section class="tool-card vending-machine vending-machine--smoke" aria-labelledby="smoke-tool-title" data-vending-panel data-vending-label="Kippen">
         <div class="vending-stickers" aria-hidden="true">
           <span>Stummelbox</span>
           <span>Feuer?</span>
-          <span class="vending-sticker-marker">Kippenstummel gehören nicht auf den Boden · LEAVE NO TRACE</span>
+          <span class="vending-sticker-marker" data-tag="Kippenstummel gehören nicht auf den Boden">
+            <span>Kippenstummel gehören nicht auf den Boden</span>
+            <span>LEAVE NO TRACE</span>
+          </span>
         </div>
         <div class="tool-card-head">
           <span class="tool-icon">🚬</span>
@@ -1176,26 +1168,18 @@
 
         <form class="tool-form" id="smoke-calculator" novalidate>
           <label class="tool-field">
-            <span>Ich packe für</span>
-            <div class="tool-stepper">
-              <button type="button" class="step-btn" data-step-target="smoke-crew" data-step="-1">-</button>
-              <input type="number" id="smoke-crew" name="smoke-crew" min="1" max="8" step="1" placeholder="1" inputmode="numeric">
-              <button type="button" class="step-btn" data-step-target="smoke-crew" data-step="1">+</button>
-            </div>
-          </label>
-
-          <label class="tool-field">
             <span>Rauchmodus</span>
             <select id="smoke-mode" name="smoke-mode">
               <option value="casual">gelegentlich</option>
               <option value="social" selected>sozial</option>
               <option value="steady">stabil</option>
               <option value="heavy">dauerfeuer</option>
+              <option value="chain">Kettenraucher</option>
             </select>
           </label>
 
           <label class="tool-field">
-            <span>Vorratstyp</span>
+            <span>Lagerform</span>
             <select id="smoke-type" name="smoke-type">
               <option value="packs" selected>Schachteln</option>
               <option value="roll">Drehtabak</option>
@@ -1222,18 +1206,23 @@
           </label>
 
           <label class="tool-field">
-            <span>Schon da</span>
-            <div class="tool-stepper">
-              <button type="button" class="step-btn" data-step-target="smoke-stock" data-step="-1">-</button>
-              <input type="number" id="smoke-stock" name="smoke-stock" min="0" max="600" step="1" placeholder="0" inputmode="numeric">
-              <button type="button" class="step-btn" data-step-target="smoke-stock" data-step="1">+</button>
-            </div>
+            <span>Schon im Lager</span>
+            <input type="number" id="smoke-stock" name="smoke-stock" min="0" max="600" step="1" placeholder="0" inputmode="numeric">
           </label>
 
-          <label class="tool-checkbox">
-            <input type="checkbox" id="smoke-share" name="smoke-share">
-            <span>Ich schnorre nicht, ich teile</span>
-          </label>
+          <fieldset class="tool-field tool-field--full tool-segmented">
+            <legend>Schnorrmodus</legend>
+            <div class="tool-segmented-control">
+              <label class="tool-segmented-option">
+                <input type="radio" id="smoke-share-schnorre" name="smoke-share" value="snore" checked>
+                <span>ich schnorre</span>
+              </label>
+              <label class="tool-segmented-option">
+                <input type="radio" id="smoke-share-teilen" name="smoke-share" value="share">
+                <span>ich schnorre nicht, ich teile</span>
+              </label>
+            </div>
+          </fieldset>
 
           <label class="tool-checkbox">
             <input type="checkbox" id="smoke-vape" name="smoke-vape">
@@ -1251,11 +1240,11 @@
         </form>
 
         <div class="tool-result vending-display vending-display--standby" id="smoke-result" aria-live="polite">
-          <p class="tool-result-empty">Standby. Trag 1 ein, wenn du nur deinen eigenen Vorrat planst.</p>
+          <p class="tool-result-empty">Standby. Der Automat sortiert gleich deinen Solo-Vorrat.</p>
         </div>
       </section>
 
-      <section class="tool-card vending-machine vending-machine--joint" aria-labelledby="joint-tool-title">
+      <section class="tool-card vending-machine vending-machine--joint" aria-labelledby="joint-tool-title" data-vending-panel data-vending-label="Joint">
         <div class="vending-stickers" aria-hidden="true">
           <span>Less is more</span>
           <span>Pausen</span>
@@ -1264,27 +1253,17 @@
           <span class="tool-icon">🌿</span>
           <div>
             <h3 id="joint-tool-title">Joint-Automat</h3>
-            <p class="tool-copy">Runden, Papers, Filter und Tempo. Keine Grammangaben, kein Leistungsauftrag.</p>
+            <p class="tool-copy">Runden, Papers, Filter, Tempo und Länge. Kein Leistungsauftrag, nur ein trockener Plan.</p>
           </div>
         </div>
 
         <div class="vending-window vending-window--joint">
           <button type="button" class="vending-choice" data-check-target="joint-avoid-mix">kein Mix</button>
           <button type="button" class="vending-choice" data-select-target="joint-pause" data-select-value="long">Pausen zählen</button>
-          <button type="button" class="vending-choice" data-select-target="joint-mode" data-select-value="mini">Mini</button>
           <button type="button" class="vending-choice" data-select-target="joint-mode" data-select-value="slow">Tempo runter</button>
         </div>
 
         <form class="tool-form" id="joint-calculator" novalidate>
-          <label class="tool-field">
-            <span>Teilen mit</span>
-            <div class="tool-stepper">
-              <button type="button" class="step-btn" data-step-target="joint-crew" data-step="-1">-</button>
-              <input type="number" id="joint-crew" name="joint-crew" min="1" max="10" step="1" placeholder="z. B. 3" inputmode="numeric">
-              <button type="button" class="step-btn" data-step-target="joint-crew" data-step="1">+</button>
-            </div>
-          </label>
-
           <label class="tool-field">
             <span>Vibe-Modus</span>
             <select id="joint-mode" name="joint-mode">
@@ -1293,6 +1272,11 @@
               <option value="steady">stabil</option>
               <option value="slow">besser langsam</option>
             </select>
+          </label>
+
+          <label class="tool-field">
+            <span>Jointlänge</span>
+            <input type="number" id="joint-length" name="joint-length" min="3" max="14" step="1" value="6" inputmode="numeric">
           </label>
 
           <label class="tool-field">
@@ -1316,16 +1300,7 @@
 
           <label class="tool-field">
             <span>Schon vorbereitet</span>
-            <div class="tool-stepper">
-              <button type="button" class="step-btn" data-step-target="joint-prepared" data-step="-1">-</button>
-              <input type="number" id="joint-prepared" name="joint-prepared" min="0" max="80" step="1" placeholder="0" inputmode="numeric">
-              <button type="button" class="step-btn" data-step-target="joint-prepared" data-step="1">+</button>
-            </div>
-          </label>
-
-          <label class="tool-checkbox">
-            <input type="checkbox" id="joint-share" name="joint-share" checked>
-            <span>wird geteilt</span>
+            <input type="number" id="joint-prepared" name="joint-prepared" min="0" max="80" step="1" placeholder="0" inputmode="numeric">
           </label>
 
           <label class="tool-checkbox">
@@ -1344,9 +1319,21 @@
         </form>
 
         <div class="tool-result vending-display vending-display--standby" id="joint-result" aria-live="polite">
-          <p class="tool-result-empty">Standby. Trag ein, mit wie vielen du voraussichtlich teilst; der Automat plant Material und Pausen, nicht Wirkstoff.</p>
+          <p class="tool-result-empty">Standby. Der Automat plant dir gleich einen Solo-Joint mit Stil.</p>
         </div>
       </section>
+      </div>
+
+      <div class="vending-carousel-nav" aria-label="Automat auswählen">
+        <button type="button" class="vending-carousel-pill is-active" data-vending-target="0">Getränke</button>
+        <button type="button" class="vending-carousel-pill" data-vending-target="1">Kippen</button>
+        <button type="button" class="vending-carousel-pill" data-vending-target="2">Joint</button>
+      </div>
+
+      <div class="tools-afterword">
+        <p class="tools-nonalc">Auch alkoholfrei lässt sich der Lenzzauber sehr würdig bestreiten.</p>
+        <p>Ich stehe bei Fragen rund um safer use auch wieder gerne zur Verfügung.</p>
+      </div>
     </div>
 
   </section>
@@ -1433,6 +1420,7 @@
   <script src="js/dj-transition.js"></script>
   <script src="js/countdown-fireworks.js"></script>
   <script src="js/memento-timeline.js"></script>
+  <script src="js/party-state.js"></script>
   <script>
     // Laufband "Was ist das?" Mobile
     const wg = document.querySelector('.whatis-grid');

@@ -3560,6 +3560,18 @@ section {
   color: var(--cyan) !important;
 }
 
+.tools-afterword {
+  grid-column: 1 / -1;
+  max-width: 42rem;
+}
+
+.tools-afterword p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
 .tools-help-note {
   margin: 0.65rem 0 0 !important;
   padding-top: 0.6rem;
@@ -3587,6 +3599,44 @@ section {
 
 .vending-suite .tools-intro {
   grid-column: 1 / -1;
+}
+
+.vending-track {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.vending-carousel-nav {
+  display: none;
+}
+
+.vending-carousel-pill {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(3, 5, 7, 0.62);
+  color: var(--text-dim);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  min-height: 2.3rem;
+  padding: 0.48rem 0.78rem;
+  text-transform: uppercase;
+  transition: border-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+
+.vending-carousel-pill.is-active {
+  border-color: rgba(0, 245, 255, 0.38);
+  color: var(--text-bright);
+  box-shadow: inset 0 0 14px rgba(0, 245, 255, 0.08), 0 0 18px rgba(0, 245, 255, 0.1);
+}
+
+.vending-carousel-pill:focus-visible {
+  outline: none;
+  border-color: rgba(57, 255, 20, 0.48);
+  box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.14);
 }
 
 .vending-machine {
@@ -3706,33 +3756,103 @@ section {
 }
 
 .vending-sticker-marker {
-  flex-basis: min(100%, 24rem);
-  margin: 0.25rem 0 0.08rem;
-  border-color: rgba(255, 45, 45, 0.68) !important;
-  border-radius: 0.18rem !important;
-  background:
-    linear-gradient(100deg, transparent 0 8%, rgba(255, 0, 0, 0.14) 8% 92%, transparent 92%),
-    rgba(18, 2, 2, 0.62) !important;
-  color: #ff3b30 !important;
+  position: relative;
+  display: inline-grid !important;
+  flex-basis: min(100%, 25rem);
+  gap: 0.08rem;
+  margin: 0.28rem 0 0.1rem;
+  padding: 0.14rem 0.18rem 0.06rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #ff2a1f !important;
   font-family: var(--font-display) !important;
-  font-size: 0.86rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.04em !important;
-  line-height: 1.12 !important;
+  font-size: 0.9rem !important;
+  font-weight: 900 !important;
+  line-height: 0.95 !important;
+  letter-spacing: 0.025em !important;
   text-transform: uppercase !important;
-  transform: rotate(-8deg) translateX(0.35rem) skewX(-7deg) !important;
+  transform: rotate(-8deg) translateX(0.3rem) skewX(-8deg) !important;
   text-shadow:
-    0.04em 0.03em 0 rgba(0, 0, 0, 0.9),
-    -0.03em 0.02em 0 rgba(255, 255, 255, 0.08),
-    0 0 12px rgba(255, 0, 0, 0.36);
-  text-decoration: underline;
-  text-decoration-thickness: 0.16rem;
-  text-decoration-color: rgba(255, 45, 45, 0.78);
-  text-underline-offset: 0.1rem;
-  box-shadow:
-    0 0 0 1px rgba(255, 45, 45, 0.18),
-    0 0 20px rgba(255, 0, 0, 0.16);
-  filter: saturate(1.25);
+    0.055em 0.03em 0 rgba(20, 0, 0, 0.96),
+    -0.035em 0.015em 0 rgba(255, 110, 100, 0.24),
+    0.12em -0.04em 0 rgba(255, 0, 0, 0.2),
+    0 0 9px rgba(255, 0, 0, 0.3);
+  box-shadow: none !important;
+  filter: saturate(1.45) contrast(1.08);
+  isolation: isolate;
+}
+
+.vending-sticker-marker::before,
+.vending-sticker-marker::after {
+  content: attr(data-tag);
+  position: absolute;
+  left: 0.2rem;
+  top: 0.08rem;
+  z-index: -1;
+  max-width: 21rem;
+  color: rgba(255, 0, 0, 0.28);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  transform: translate(0.06rem, 0.05rem) rotate(1deg);
+  clip-path: polygon(0 8%, 97% 0, 100% 34%, 7% 42%, 4% 54%, 98% 58%, 96% 100%, 0 92%);
+  pointer-events: none;
+}
+
+.vending-sticker-marker::after {
+  left: 0.04rem;
+  top: 0.24rem;
+  color: rgba(255, 35, 24, 0.18);
+  transform: translate(-0.08rem, 0.08rem) rotate(-2deg);
+  clip-path: polygon(5% 0, 100% 7%, 94% 30%, 0 34%, 7% 51%, 96% 48%, 100% 80%, 3% 100%);
+}
+
+.vending-stickers .vending-sticker-marker span {
+  display: block !important;
+  min-height: 0;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: inherit !important;
+  font: inherit !important;
+  line-height: inherit !important;
+  letter-spacing: inherit !important;
+  text-transform: inherit !important;
+  transform: none !important;
+}
+
+.vending-sticker-marker span:first-child {
+  position: relative;
+  max-width: 22rem;
+}
+
+.vending-sticker-marker span:first-child::after {
+  content: '';
+  position: absolute;
+  left: -0.08rem;
+  right: 0.1rem;
+  bottom: -0.11rem;
+  height: 0.22rem;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.85) 8% 36%, transparent 37% 43%, rgba(255, 0, 0, 0.7) 45% 82%, transparent),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.42), transparent 18% 22%, rgba(255, 0, 0, 0.8) 28% 76%, transparent);
+  transform: rotate(-1.8deg) skewX(-11deg);
+  filter: blur(0.2px);
+}
+
+.vending-sticker-marker span:last-child {
+  width: max-content;
+  max-width: 100%;
+  margin-top: 0.18rem;
+  font-size: 1.12em !important;
+  letter-spacing: 0.065em !important;
+  transform: translateX(1.05rem) rotate(2deg) !important;
+  text-shadow:
+    0.045em 0.035em 0 rgba(24, 0, 0, 0.95),
+    -0.035em -0.02em 0 rgba(255, 88, 82, 0.24),
+    0.13em 0.02em 0 rgba(255, 0, 0, 0.18);
 }
 
 .vending-window {
@@ -3862,6 +3982,8 @@ section {
 }
 
 .vending-display {
+  overflow: hidden;
+  isolation: isolate;
   min-height: 7.25rem;
   border: 1px solid rgba(0, 245, 255, 0.14);
   border-radius: var(--radius-sm);
@@ -3875,6 +3997,10 @@ section {
   animation: vending-standby 1.65s steps(2, end) infinite;
 }
 
+.vending-display--printing {
+  animation: vending-output-blink 0.9s steps(2, end) 1;
+}
+
 @keyframes vending-standby {
   0%, 100% {
     box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.35), 0 0 0 rgba(0, 245, 255, 0);
@@ -3884,8 +4010,98 @@ section {
   }
 }
 
+@keyframes vending-output-blink {
+  0%, 100% {
+    filter: saturate(1);
+    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.35), 0 0 0 rgba(57, 255, 20, 0);
+  }
+  50% {
+    filter: saturate(1.15);
+    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.35), 0 0 18px rgba(57, 255, 20, 0.14);
+  }
+}
+
+.vending-machine--clack {
+  animation: vending-clack 180ms cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+
+@keyframes vending-clack {
+  0%, 100% {
+    transform: perspective(1100px) rotateX(1.2deg) rotateY(-1.1deg);
+  }
+  38% {
+    transform: perspective(1100px) rotateX(2.4deg) rotateY(-2.7deg) translateY(2px);
+  }
+  68% {
+    transform: perspective(1100px) rotateX(0.2deg) rotateY(0.8deg) translateY(-1px);
+  }
+}
+
+.vending-machine--dispensing .vending-display {
+  animation: vending-display-flash 520ms steps(2, end);
+}
+
+@keyframes vending-display-flash {
+  0%, 100% {
+    border-color: rgba(0, 245, 255, 0.14);
+    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.35);
+  }
+  25% {
+    border-color: rgba(57, 255, 20, 0.58);
+    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.28), 0 0 22px rgba(57, 255, 20, 0.2);
+  }
+  55% {
+    border-color: rgba(255, 149, 0, 0.52);
+    box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.34), 0 0 18px rgba(255, 149, 0, 0.18);
+  }
+}
+
+.vending-display--receipt {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 34%),
+    radial-gradient(circle at 10% 0%, rgba(0, 245, 255, 0.1), transparent 35%),
+    rgba(3, 5, 7, 0.7);
+}
+
+.vending-display--receipt > * {
+  animation: vending-receipt-in 360ms cubic-bezier(0.2, 0.78, 0.22, 1);
+}
+
+.vending-display--receipt::after {
+  content: '';
+  position: absolute;
+  left: 0.72rem;
+  right: 0.72rem;
+  top: 0.96rem;
+  height: 0.2rem;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.38) 0 0.18rem, transparent 0.18rem 0.42rem);
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+@keyframes vending-receipt-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.7rem) scaleY(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .vending-display--standby {
+  .vending-display--standby,
+  .vending-display--printing {
+    animation: none;
+  }
+
+  .vending-machine--clack,
+  .vending-machine--dispensing .vending-display,
+  .vending-display--receipt > * {
     animation: none;
   }
 
@@ -4046,11 +4262,20 @@ section {
   gap: 0.28rem;
 }
 
+.tool-field,
+fieldset.tool-field {
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
 .tool-field--full {
   grid-column: 1 / -1;
 }
 
 .tool-field span,
+.tool-field legend,
 .tool-checkbox span {
   font-family: var(--font-mono);
   font-size: 0.66rem;
@@ -4072,36 +4297,81 @@ section {
   font-family: var(--font-head);
 }
 
-.tool-stepper {
+.vending-machine input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.vending-machine input[type="number"]::-webkit-outer-spin-button,
+.vending-machine input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.tool-segmented {
+  gap: 0.4rem;
+}
+
+.tool-segmented legend {
+  margin-bottom: -0.02rem;
+}
+
+.tool-segmented-control {
   display: grid;
-  grid-template-columns: 2.35rem minmax(0, 1fr) 2.35rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.38rem;
-  align-items: stretch;
 }
 
-.step-btn {
-  min-width: 0;
-  border: 1px solid rgba(255, 149, 0, 0.28);
-  border-radius: var(--radius-sm);
+.tool-segmented-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.65rem;
+  padding: 0.52rem 0.72rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.7rem;
   background:
-    linear-gradient(180deg, rgba(255, 149, 0, 0.2), rgba(5, 10, 15, 0.92));
-  color: var(--amber);
-  font-family: var(--font-mono);
-  font-size: 1rem;
+    radial-gradient(circle at 35% 15%, rgba(255, 255, 255, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(20, 38, 45, 0.9), rgba(5, 12, 17, 0.92));
+  color: var(--text-bright);
   cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 0 rgba(0, 0, 0, 0.25);
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), border-color 0.15s var(--ease);
+  text-align: center;
+  transition: transform 0.18s var(--ease), border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
 }
 
-.step-btn:hover,
-.step-btn:focus-visible {
-  border-color: rgba(255, 149, 0, 0.55);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 0 14px rgba(255, 149, 0, 0.12);
+.tool-segmented-option input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
 }
 
-.step-btn:active {
-  transform: translateY(2px);
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.35);
+.tool-segmented-option span {
+  position: relative;
+  z-index: 1;
+  font-size: 0.62rem;
+  line-height: 1.25;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tool-segmented-option.is-active {
+  border-color: rgba(57, 255, 20, 0.52);
+  box-shadow: inset 0 0 14px rgba(57, 255, 20, 0.08), 0 0 20px rgba(57, 255, 20, 0.1);
+}
+
+.tool-segmented-option.is-active span {
+  color: var(--acid);
+}
+
+.tool-segmented-option:hover,
+.tool-segmented-option:focus-within {
+  border-color: rgba(57, 255, 20, 0.36);
+  box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.08), 0 0 18px rgba(57, 255, 20, 0.08);
+  transform: translateY(-1px);
 }
 
 .tool-field input:focus,
@@ -4151,6 +4421,15 @@ section {
 
 .tool-submit {
   min-width: 11.5rem;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), filter 0.15s var(--ease);
+}
+
+.tool-submit--pressed {
+  transform: translateY(2px) scale(0.985);
+  filter: brightness(1.15);
+  box-shadow:
+    inset 0 2px 12px rgba(0, 0, 0, 0.32),
+    0 0 18px rgba(255, 149, 0, 0.24);
 }
 
 .tool-result {
@@ -4193,11 +4472,195 @@ section {
   .tool-form {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .vending-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 960px) {
-  .vending-suite {
+  .vending-track {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 699px) {
+  .vending-track {
+    display: flex;
+    gap: 0.2rem;
+    margin-inline: calc(-1 * var(--space-md));
+    padding: 0.35rem calc(var(--space-md) + 8vw) 0.82rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    perspective: 960px;
+    scroll-padding-inline: calc(var(--space-md) + 8vw);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vending-track::before,
+  .vending-track::after {
+    content: '';
+    position: sticky;
+    z-index: 4;
+    flex: 0 0 0;
+    width: 0;
+    pointer-events: none;
+  }
+
+  .vending-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vending-track > .vending-machine {
+    --carousel-rotate: 0deg;
+    --carousel-scale: 0.86;
+    --carousel-opacity: 0.64;
+    --carousel-lift: 0.35rem;
+    --carousel-blur: 0.7px;
+    flex: 0 0 min(82vw, 25rem);
+    min-height: auto;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transform:
+      perspective(900px)
+      rotateY(var(--carousel-rotate))
+      translateY(var(--carousel-lift))
+      scale(var(--carousel-scale));
+    transform-origin: center center;
+    opacity: var(--carousel-opacity);
+    filter: saturate(0.82) blur(var(--carousel-blur));
+    z-index: 1;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+      inset 0 -22px 34px rgba(0, 0, 0, 0.2),
+      0 14px 34px rgba(0, 0, 0, 0.32);
+    transition:
+      transform 0.18s var(--ease),
+      opacity 0.18s var(--ease),
+      filter 0.18s var(--ease),
+      box-shadow 0.18s var(--ease);
+  }
+
+  .vending-track > .vending-machine.is-carousel-active {
+    --carousel-rotate: 0deg;
+    --carousel-scale: 1;
+    --carousel-opacity: 1;
+    --carousel-lift: 0;
+    --carousel-blur: 0px;
+    z-index: 3;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+      inset 0 -24px 36px rgba(0, 0, 0, 0.22),
+      0 18px 44px rgba(0, 0, 0, 0.42);
+  }
+
+  .vending-track.is-carousel-ready > .vending-machine:not(.is-carousel-active) {
+    cursor: pointer;
+  }
+
+  .vending-track.is-carousel-ready > .vending-machine:not(.is-carousel-active) .tool-form,
+  .vending-track.is-carousel-ready > .vending-machine:not(.is-carousel-active) .vending-display,
+  .vending-track.is-carousel-ready > .vending-machine:not(.is-carousel-active) .tools-help-note {
+    display: none;
+  }
+
+  .vending-track.is-carousel-ready > .vending-machine:not(.is-carousel-active) .vending-window {
+    opacity: 0.58;
+    pointer-events: none;
+  }
+
+  .vending-track.is-carousel-ready > .vending-machine:not(.is-carousel-active) .tool-card-head {
+    min-height: 4.55rem;
+  }
+
+  .vending-track.is-carousel-ready > .vending-machine:not(.is-carousel-active) .tool-copy {
+    display: none;
+  }
+
+  .vending-track > .vending-machine:hover,
+  .vending-track > .vending-machine:focus-within {
+    transform:
+      perspective(900px)
+      rotateY(var(--carousel-rotate))
+      translateY(var(--carousel-lift))
+      scale(var(--carousel-scale));
+  }
+
+  .vending-track > .vending-machine::after,
+  .vending-machine .tool-form::before,
+  .vending-machine .tool-actions::before {
+    display: none;
+  }
+
+  .vending-track > .vending-machine > * {
+    transform: none;
+  }
+
+  .vending-carousel-nav {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    gap: 0.42rem;
+    margin: -0.1rem 0 0.72rem;
+    padding-inline: 0.2rem;
+  }
+
+  .vending-carousel-pill {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .vending-carousel-pill.is-active {
+    transform: translateY(-1px);
+  }
+
+  .vending-choice,
+  .tool-field input,
+  .tool-field select,
+  .tool-submit {
+    min-height: 2.75rem;
+  }
+
+  .tool-submit {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .tool-actions {
+    justify-content: stretch;
+  }
+
+  .tool-checkbox {
+    align-items: flex-start;
+    line-height: 1.35;
+  }
+
+  .tool-checkbox input {
+    flex: 0 0 auto;
+    margin-top: 0.08rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .vending-sticker-marker {
+    flex-basis: 100%;
+    margin-top: 0.18rem;
+    font-size: 0.76rem !important;
+    transform: rotate(-6deg) skewX(-6deg) !important;
+  }
+
+  .vending-sticker-marker::before,
+  .vending-sticker-marker::after {
+    max-width: 17.5rem;
+  }
+
+  .vending-sticker-marker span:last-child {
+    transform: translateX(0.62rem) rotate(1.4deg) !important;
   }
 }
 
